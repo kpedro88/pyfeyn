@@ -1,11 +1,7 @@
 #! /usr/bin/env python
 
-## Get setuptools
-import ez_setup
-ez_setup.use_setuptools()
-from setuptools import setup
-
-from pyfeyn import __version__
+from distutils.core import setup
+from pyfeyn import __version__ as pyfeyn_version
 
 longdesc = """PyFeyn is a package which makes drawing Feynman diagrams simple and programmatic.
 Feynman diagrams are important constructs in perturbative field theory, so being able to draw them
@@ -16,12 +12,12 @@ is based around."""
 
 ## Setup definition
 setup(name = 'pyfeyn',
-      version = __version__,
+      version = pyfeyn_version,
       packages = ['pyfeyn'],
       include_package_data = True,
       install_requires = ['PyX >= 0.9'],
       scripts = ['mkfeyndiag'],
-      author = ['Andy Buckley', 'Georg von Hippel'],
+      author = 'Andy Buckley, Georg von Hippel',
       author_email = 'pyfeyn@projects.hepforge.org',
       url = 'http://projects.hepforge.org/pyfeyn/',
       description = 'An easy-to-use Python library to help physicists draw Feynman diagrams.',
