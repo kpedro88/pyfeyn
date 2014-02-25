@@ -1,3 +1,16 @@
+2014-01-27  Georg von Hippel <gmv22@cantab.net>
+
+	* Implemented bugfix contributed by George S. Williams
+	(<physicist@websterling.com>); arrowheads are now drawn in a way
+	that works both for older and newer PyX versions.
+
+	* Now uses subprocess module to call kpsewhich for hepnicenames.sty
+	instead of broken pykpathsea.
+
+	* Phantom constructor now calls DecoratedLine constructor, ensuring
+	that Phantom lines can actually be used to define fractional points
+	to position stuff.
+
 2013-10-03  Andy Buckley  <andy.buckley@cern.ch>
 
 	* Tagging version 0.3.3.

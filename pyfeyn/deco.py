@@ -3,7 +3,25 @@
 import pyx, math
 from pyfeyn.diagrams import FeynDiagram
 from pyfeyn.utils import Visible
-from pyfeyn import config
+from pyfeyn import config,pyxversion
+
+###########################################################################################
+## Added by George S. Williams to allow PyFeyn to work with PyX versions 0.12.x and 0.11.x
+## Also see changes in class Arrow and class ParallelArrow
+from distutils.version import StrictVersion as Version
+
+def getarrowpath(arrowtopath, selfpos, var1, selfsize, var2, constrictionlen):
+        if pyxversion >= Version("0.12"):
+            arrowpath = pyx.deco._arrowhead(arrowtopath, selfpos,
+                                        1, selfsize, 45, self.constriction,
+                                        constrictionlen)
+        else:
+            arrowpath = pyx.deco._arrowhead(arrowtopath, selfpos,
+                                        1, selfsize, 45, constrictionlen)
+        return arrowpath
+
+###########################################################################################
+
 
 
 ## Arrow decorator class
@@ -24,7 +42,7 @@ class Arrow(pyx.deco.deco, pyx.attr.attr):
                           math.cos(self.angle*math.pi/360.0)
         arrowtopos = self.pos * dp.path.arclen()+0.5*self.size
         arrowtopath = dp.path.split(arrowtopos)[0]
-        arrowpath = pyx.deco._arrowhead(arrowtopath, self.pos*dp.path.arclen(),
+        arrowpath = getarrowpath(arrowtopath, self.pos*dp.path.arclen(),
                                         1, self.size, 45, constrictionlen)
         dp.ornaments.fill(arrowpath)
         return dp
@@ -137,7 +155,7 @@ class ParallelArrow(Visible):
                 arrowtopath = linepath.split(0.8*linepath.arclen())[0]
                 constrictionlen = self.size * self.constriction * \
                                   math.cos(self.angle*math.pi/360.0)
-                arrowpath = pyx.deco._arrowhead(arrowtopath,
+                arrowpath = getarrowpath(arrowtopath,
                                                 linepath.arclen(),
                                                 1, self.size, 45,
                                                 constrictionlen)

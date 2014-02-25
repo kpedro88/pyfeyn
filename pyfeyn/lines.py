@@ -441,7 +441,7 @@ class Gluon(DecoratedLine):
         self.parity3D = 0
         self.arrows = []
         self.labels = []
-        self.arcradius = pyx.unit.length(0.25)
+        self.arcradius = pyx.unit.length(0.15)
         self.frequency = 1.3
         self.extras = 0
         self.inverted = False
@@ -1083,8 +1083,7 @@ class Phantom(DecoratedLine):
     """An invisible line."""
     def __init__(self,  point1, point2):
         """Constructor."""
-        self.p1 = point1
-        self.p2 = point2
+        DecoratedLine.__init__(self, point1, point2)
         self.linetype = "phantom"
 
     def draw(self, canvas):
