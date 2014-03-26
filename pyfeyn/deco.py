@@ -10,14 +10,15 @@ from pyfeyn import config,pyxversion
 ## Also see changes in class Arrow and class ParallelArrow
 from distutils.version import StrictVersion as Version
 
-def getarrowpath(arrowtopath, selfpos, var1, selfsize, var2, constrictionlen):
+def getarrowpath(arrowtopath, selfpos, var1, selfsize, var2, selfconstriction,
+                 constrictionlen):
         if pyxversion >= Version("0.12"):
             arrowpath = pyx.deco._arrowhead(arrowtopath, selfpos,
-                                        1, selfsize, 45, self.constriction,
+                                        var1, selfsize, var2, selfconstriction,
                                         constrictionlen)
         else:
             arrowpath = pyx.deco._arrowhead(arrowtopath, selfpos,
-                                        1, selfsize, 45, constrictionlen)
+                                        var1, selfsize, var2, constrictionlen)
         return arrowpath
 
 ###########################################################################################
@@ -43,7 +44,8 @@ class Arrow(pyx.deco.deco, pyx.attr.attr):
         arrowtopos = self.pos * dp.path.arclen()+0.5*self.size
         arrowtopath = dp.path.split(arrowtopos)[0]
         arrowpath = getarrowpath(arrowtopath, self.pos*dp.path.arclen(),
-                                        1, self.size, 45, constrictionlen)
+                                        1, self.size, 45, self.constriction,
+                                        constrictionlen)
         dp.ornaments.fill(arrowpath)
         return dp
 
@@ -158,6 +160,7 @@ class ParallelArrow(Visible):
                 arrowpath = getarrowpath(arrowtopath,
                                                 linepath.arclen(),
                                                 1, self.size, 45,
+                                                self.constriction,
                                                 constrictionlen)
                 canvas.fill(arrowpath)
                 path = pyx.deformer.parallel(-(n+1)/2. * dist).deform(arrowtopath)
