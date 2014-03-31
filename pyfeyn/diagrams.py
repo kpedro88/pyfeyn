@@ -1,7 +1,8 @@
 """Classes for the actual diagram containers."""
 
 import pyx
-from pyfeyn import config
+from pyfeyn import config, pyxversion
+from distutils.version import StrictVersion as Version
 
 
 ## Diagram class
@@ -63,10 +64,13 @@ class FeynDiagram:
         return self.currentCanvas
 
 
-    def draw(self, outfile):
+    def draw(self, outfile, enlargement=0):
         """Draw the diagram to a file, with the filetype (EPS or PDF)
         derived from the file extension."""
         c = self.drawToCanvas()
         if c is not None and outfile is not None:
-            c.writetofile(outfile)
+            if pyxversion >= Version("0.12"):
+                c.writetofile(outfile, page_bbox=c.bbox().enlarged(enlargement))
+            else:
+                c.writetofile(outfile, bbox=c.bbox().enlarged(enlargement))
 

@@ -340,11 +340,29 @@ class StarshapeMark(Mark):
                       for i in range(2*self.n)]).path()
         return None
 
+class CrossMark(Mark):
+    def __init__(self,
+                 size=0.075):
+        """A cross marker, e.g. to show neutrino oscillations."""
+        self.size = size
+        self.point = None
+
+    def getPath(self):
+        """Return the path for this marker."""
+        if self.point is not None:
+            x, y = self.point.getXY()
+            return pyx.path.path(pyx.path.moveto(x - self.size, y - self.size),
+                                 pyx.path.lineto(x + self.size, y + self.size),
+                                 pyx.path.moveto(x - self.size, y + self.size),
+                                 pyx.path.lineto(x + self.size, y - self.size)
+                                 ).path()
+        return None
 
 
 ## Convenience constants
 CIRCLE = CircleMark()
 SQUARE = SquareMark()
+CROSS = CrossMark()
 
 TRIANGLE = PolygonalMark(corners=3)
 DIAMOND = PolygonalMark(corners=4)

@@ -33,7 +33,7 @@ pyx.unit.set(defaultunit = "cm")
 pyx.text.defaulttexrunner.set(mode="latex")
 import subprocess
 try:
-  subprocess.check_output(["kpsewhich","hepnicenames.sty"])
+  subprocess.Popen(["kpsewhich","hepnicenames.sty"])
   pyx.text.defaulttexrunner.preamble(r"\usepackage{hepnicenames}")
 except:
   print "Warning: hepnicenames package not found!"

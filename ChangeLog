@@ -1,3 +1,14 @@
+2014-03-31 George S. Williams <pysiscist@websterling.com>
+
+	* Changed subprocess.check_output to subprocess.Popen in call to
+	kpsewhich to allow it to work with Python 2.6
+
+	* Added the CrossMark class contributed by Jeremi Piotrowski
+	(<jeremi.piotrowski@gmail.com>)
+
+	* Modified draw in Class FeynmanDiagram to allow adding padding
+	around generated image
+
 2014-03-26  Georg von Hippel <gmv22@cantab.net>
 
 	* Fixed bug in getarrowpath reported by Alejandro Gomez Espinosa
