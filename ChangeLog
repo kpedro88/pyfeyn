@@ -1,4 +1,4 @@
-2014-03-31 George S. Williams <pysiscist@websterling.com>
+2014-03-31 George S. Williams <physicist@websterling.com>
 
 	* Changed subprocess.check_output to subprocess.Popen in call to
 	kpsewhich to allow it to work with Python 2.6
