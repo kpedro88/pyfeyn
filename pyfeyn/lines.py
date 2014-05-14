@@ -116,10 +116,14 @@ class Line(Visible):
     def straighten(self):
         """Make this line a straight line between start and end."""
         self.arcthrupoint = None
+        return self
 
 
     def bend(self, amount):
         """Bend the line to the right by a given distance."""
+        if amount==0:
+           self.arcthrupoint = None
+           return self
         middle = self.p1.midpoint(self.p2)
         nx = (middle.y() - self.p1.y()) / abs(self.p1.distance(middle))
         ny = (self.p1.x() - middle.x()) / abs(self.p1.distance(middle))

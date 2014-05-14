@@ -1,3 +1,11 @@
+2014-05-14 Georg von Hippel <gmv22@cantab.net>
+
+	* Fixed bug when calling line.bend with zero bend amount
+	reported by Andrey G. Grozin <A.G.Grozin@inp.nsk.su>
+
+	* Added George S. Williams <physicist@websterling.com>
+	to AUTHORS file
+
 2014-03-31 George S. Williams <physicist@websterling.com>
 
 	* Changed subprocess.check_output to subprocess.Popen in call to
