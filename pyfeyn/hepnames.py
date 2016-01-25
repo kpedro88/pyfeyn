@@ -748,15 +748,15 @@ hepnames_dict.update(SUSYparticles_dict)
 
 def is_photon(name):
     """Check if the given name refers to the photon."""
-    return Photon_dict.has_key(name)
+    return name in Photon_dict
 
 def is_gluon(name):
     """Check if the given name refers to the gluon."""
-    return Gluon_dict.has_key(name)
+    return name in Gluon_dict
 
 def is_weakboson(name):
     """Check if the given name refers to a weak vector boson."""
-    return VectorBosons_dict.has_key(name)
+    return name in VectorBosons_dict
 
 def is_gauge(name):
     """Check if the given name refers to a gauge boson."""
@@ -766,17 +766,17 @@ def is_gauge(name):
 
 def is_higgs(name):
     """Check if the given name refers to a Higgs boson."""
-    return Higgses_dict.has_key(name)
+    return name in Higgses_dict
 
 ## Fermion type testing
 
 def is_quark(name):
     """Check if the given name refers to a quark."""
-    return Quarks_dict.has_key(name)
+    return name in Quarks_dict
 
 def is_lepton(name):
     """Check if the given name refers to a lepton."""
-    return Leptons_dict.has_key(name)
+    return name in Leptons_dict
 
 def is_quark_lepton(name):
     """Check if the given name refers to a quark or lepton."""
@@ -786,21 +786,21 @@ def is_quark_lepton(name):
 
 def is_meson(name):
     """Check if the given name refers to a meson."""
-    return mesons_dict.has_key(name)
+    return name in mesons_dict
 
 def is_baryon(name):
     """Check if the given name refers to a baryon."""
-    return Baryons_dict.has_key(name)
+    return name in Baryons_dict
 
 def is_hadron(name):
     """Check if the given name refers to a hadron."""
-    return Hadrons_dict.has_key(name)
+    return name in Hadrons_dict
 
 ## Other type tests
 
 def is_ghost(name):
     """Check if the given name refers to a ghost particle."""
-    return Ghost_dict.has_key(name)
+    return name in Ghost_dict
 
 ## Classify particle according to its coarse physical type
 

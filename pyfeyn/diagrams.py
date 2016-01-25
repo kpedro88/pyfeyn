@@ -27,26 +27,26 @@ class FeynDiagram:
         """Add an object to the diagram."""
         for obj in objs:
             if config.getOptions().DEBUG:
-                print "#objs = %d" % len(self.__objs)
+                print("#objs = %d" % len(self.__objs))
             offset = 0
-            if obj.__dict__.has_key("layeroffset"):
+            if "layeroffset" in obj.__dict__:
                 #print "offset =", obj.layeroffset
                 offset = obj.layeroffset
             self.highestautolayer += 1
             obj.setDepth(self.highestautolayer + offset)
             if config.getOptions().DEBUG:
-                print "Object %s layer = %d + %d = %d" % \
+                print("Object %s layer = %d + %d = %d" % \
                       (obj.__class__, self.highestautolayer, offset,
-                       self.highestautolayer + offset)
+                       self.highestautolayer + offset))
             self.__objs.append(obj)
 
 
     def drawToCanvas(self):
         """Draw the components of this diagram in a well-defined order."""
         if config.getOptions().DEBUG:
-            print "Final #objs = %d" % len(self.__objs)
+            print("Final #objs = %d" % len(self.__objs))
         if config.getOptions().VDEBUG:
-            print "Running in visual debug mode"
+            print("Running in visual debug mode")
 
         ## Sort drawing objects by layer
         drawingobjs = self.__objs
@@ -58,7 +58,7 @@ class FeynDiagram:
         ## Draw each object
         for obj in drawingobjs:
             if config.getOptions().DEBUG:
-                print "Depth = ", obj.getDepth()
+                print("Depth = ", obj.getDepth())
             obj.draw(self.currentCanvas)
 
         return self.currentCanvas

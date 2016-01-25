@@ -1,3 +1,10 @@
+2016-01-24 George S. Williams <physicist@websterling.com>
+
+	* Transitioned code to Python 3
+
+	* Modified __init.py__ for compatability with PyX versions
+	>= 0.13.0
+
 2014-05-14 Georg von Hippel <gmv22@cantab.net>
 
 	* Tagging version 0.3.5.

@@ -67,7 +67,7 @@ class FeynMLWriter:
             elif isinstance(obj,Label):
                 root.append(self.labelToXML(obj))
             else:
-                print "Can't convert object to XML!"
+                print("Can't convert object to XML!")
         # Combine single vertices/props into legs
         self.legcount = 0
         if convertlegs:
@@ -75,16 +75,16 @@ class FeynMLWriter:
              for tag in root.getchildren():
                 if tag.attrib["id"]==point:
                    for tag2 in root.getchildren():
-                       if ((tag2.attrib.has_key("source") and
+                       if (("source" in tag2.attrib and
                             tag2.attrib["source"]==point) or
-                           (tag2.attrib.has_key("target") and
+                           ("target" in tag2.attrib and
                             tag2.attrib["target"]==point)):
                           attribs = tag2.attrib
-                          if (tag2.attrib.has_key("source") and
+                          if ("source" in tag2.attrib and
                               tag2.attrib["source"]==point):
                              del attribs["source"]
                              attribs["sense"] = "incoming"
-                          if (tag2.attrib.has_key("target") and
+                          if ("target" in tag2.attrib and
                               tag2.attrib["target"]==point):
                              attribs["sense"] = "outgoing"
                              attribs["target"] = attribs["source"]
@@ -320,7 +320,7 @@ class FeynMLReader:
             p1 = thedict[element.attrib["source"]]
             p2 = thedict[element.attrib["target"]]
         except:
-            raise "FeynML Error: invalid attributes for <propagator> element"
+            raise Exception("FeynML Error: invalid attributes for <propagator> element")
         l = NamedLine[thetype](p1, p2)
         if "bend" in element.attrib:
             try:
@@ -378,13 +378,13 @@ class FeynMLReader:
                xradius = float(element.attrib["radius"][:split])
                yradius = float(element.attrib["radius"][split:])
         except:
-            raise "FeynML Error: invalid attribute for <blob> element"
+            raise Exception("FeynML Error: invalid attribute for <blob> element")
         if shape=="circle":
             b = Circle(x=x, y=y, radius=radius)
         elif shape=="ellipse":
             b = Ellipse(x=x, y=y, xradius=xradius, yradius=yradius)
         else:
-            raise "FeynML Error: invalid shape attribute for <blob> element"
+            raise Exception("FeynML Error: invalid shape attribute for <blob> element")
         if "style" in element.attrib:
             b = self.apply_layout(element.attrib["style"], b)
         if "label" in element.attrib:
@@ -392,7 +392,7 @@ class FeynMLReader:
         try:
             thedict[element.attrib["id"]] = b
         except:
-            raise "FeynML Error: missing id attribute in <blob> element"
+            raise Exception("FeynML Error: missing id attribute in <blob> element")
         return b
 
 
@@ -471,10 +471,10 @@ class FeynMLReader:
                break
             s = styling.split(":")
             styledict[s[0].lstrip().rstrip()] = s[1]
-        if (styledict.has_key("fill-style")):
+        if ("fill-style" in styledict):
            filltype = styledict["fill-style"].split()
            if filltype[0]=="solid":
-              R,G,B = map(lambda x:eval("0x%s"%x)/255.,[filltype[1][n:n+2] for n in (1,3,5)])
+              R,G,B = [eval("0x%s"%x)/255. for x in [filltype[1][n:n+2] for n in (1,3,5)]]
               obj.fillstyles = [pyx.color.rgb(R,G,B)]
            elif filltype[0]=="hatched":
               D,A = float(filltype[1]), int(filltype[2])
@@ -482,7 +482,7 @@ class FeynMLReader:
            elif filltype[0]=="crosshatched":
               D,A = float(filltype[1]), int(filltype[2])
               obj.fillstyles = [pyx.pattern.crosshatched(D,A)]
-        if (styledict.has_key("mark-shape") or styledict.has_key("mark-size"))\
+        if ("mark-shape" in styledict or "mark-size" in styledict)\
             and isinstance(obj, DecoratedPoint):
            try:
                 marktype = NamedMark[styledict["mark-shape"]]
@@ -493,9 +493,9 @@ class FeynMLReader:
            except:
                 marksize = 0.075
            obj.setMark(marktype(size=marksize))
-        if (styledict.has_key("arrow-size") or styledict.has_key("arrow-angle")
-            or styledict.has_key("arrow-constrict")
-            or styledict.has_key("arrow-pos")) and isinstance(obj, Line):
+        if ("arrow-size" in styledict or "arrow-angle" in styledict
+            or "arrow-constrict" in styledict
+            or "arrow-pos" in styledict) and isinstance(obj, Line):
            try:
               arrsize = pyx.unit.length(float(styledict["arrow-size"]),unit="cm")
            except:
@@ -513,13 +513,13 @@ class FeynMLReader:
            except:
               arrpos = 0.5
            obj.addArrow(arrow=Arrow(arrpos,arrsize,arrangle,arrconstrict))
-        if (styledict.has_key("parallel-arrow-size")
-            or styledict.has_key("parallel-arrow-angle")
-            or styledict.has_key("parallel-arrow-constrict")
-            or styledict.has_key("parallel-arrow-pos")
-            or styledict.has_key("parallel-arrow-length")
-            or styledict.has_key("parallel-arrow-displace")
-            or styledict.has_key("parallel-arrow-sense")) \
+        if ("parallel-arrow-size" in styledict
+            or "parallel-arrow-angle" in styledict
+            or "parallel-arrow-constrict" in styledict
+            or "parallel-arrow-pos" in styledict
+            or "parallel-arrow-length" in styledict
+            or "parallel-arrow-displace" in styledict
+            or "parallel-arrow-sense" in styledict) \
            and isinstance(obj, Line):
            try:
               arrsize = pyx.unit.length(float(styledict["parallel-arrow-size"]),unit="cm")
@@ -551,7 +551,7 @@ class FeynMLReader:
               arrsense = +1
            obj.addParallelArrow(arrpos, arrdisp, arrlen, arrsize, arrangle,
                                 arrconstrict, arrsense)
-        if styledict.has_key("is3d") and isinstance(obj, Line):
+        if "is3d" in styledict and isinstance(obj, Line):
            fwords = ["0", "no", "false", "f", "off"]
            twords = ["1", "yes", "true", "t", "on"]
            if styledict["is3d"].lstrip().lower() in fwords:

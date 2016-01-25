@@ -15,7 +15,7 @@ __all__ = ["diagrams", "points", "blobs", "lines", "deco", "utils", "config"]
 try:
     import pyx
 except:
-    print "You don't have PyX - that's a problem unless you're just running the setup script."
+    print("You don't have PyX - that's a problem unless you're just running the setup script.")
     import sys
     sys.exit()
 
@@ -23,18 +23,25 @@ except:
 from distutils.version import StrictVersion as Version
 pyxversion = Version(pyx.version.version)
 if pyxversion < Version("0.9.0"):
-    print "Warning: PyFeyn may not work with PyX versions older than 0.9!"
+    print("Warning: PyFeyn may not work with PyX versions older than 0.9!")
 
 ## Units
 pyx.unit.set(uscale = 4, vscale = 4, wscale = 4, xscale = 4)
 pyx.unit.set(defaultunit = "cm")
 
 ## TeX stuff
-pyx.text.defaulttexrunner.set(mode="latex")
+if pyxversion >= Version("0.13.0"):
+    pyx.text.set(pyx.text.LatexRunner)
+else:
+    pyx.text.defaulttexrunner.set(mode="latex")
+
 import subprocess
 try:
   subprocess.Popen(["kpsewhich","hepnicenames.sty"])
-  pyx.text.defaulttexrunner.preamble(r"\usepackage{hepnicenames}")
+  if pyxversion >= Version("0.13.0"):
+    pyx.text.default_runner.preamble(r"\usepackage{hepnicenames}")
+  else:  
+    pyx.text.defaulttexrunner.preamble(r"\usepackage{hepnicenames}")
 except:
-  print "Warning: hepnicenames package not found!"
+  print("Warning: hepnicenames package not found!")
 

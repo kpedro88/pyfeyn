@@ -35,10 +35,10 @@ class Point:
         """Add a LaTeX label to this point, either via parameters or actually as
         a PointLable object."""
         if config.getOptions().DEBUG:
-            print "Adding label: " + text
+            print("Adding label: " + text)
         self.labels.append(PointLabel(text=text, point=self, displace=displace, angle=angle, size=size))
         if config.getOptions().DEBUG:
-            print "Labels = " + str(self.labels)
+            print("Labels = " + str(self.labels))
         return self
 
             

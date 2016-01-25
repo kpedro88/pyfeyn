@@ -40,7 +40,7 @@ class Visible:
 
     def getDepth(self):
         """Return the depth at which this instance lives."""
-        if self.__dict__.has_key("depth"):
+        if "depth" in self.__dict__:
             return self.depth
         else:
             return None
@@ -51,9 +51,9 @@ class Visible:
             return -1
 
         if config.getOptions().DEBUG:
-            print "Comparing visible classes: ", \
+            print("Comparing visible classes: ", \
                   self.__class__, "->", self.getDepth(), "vs.", \
-                  other.__class__, "->", other.getDepth()
+                  other.__class__, "->", other.getDepth())
         else:
             return cmp(self.getDepth(), other.getDepth())
 

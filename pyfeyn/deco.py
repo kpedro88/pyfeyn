@@ -119,7 +119,7 @@ class ParallelArrow(Visible):
         else:
             displacement -= intrinsicwidth
         if config.getOptions().DEBUG:
-            print "Displacement = ", displacement
+            print("Displacement = ", displacement)
 
         ## Position the arrow on the right hand side of lines
         tangent = p.tangent(posparam, displacement)
@@ -293,7 +293,7 @@ class LineLabel(Label):
         else:
             displacement -= intrinsicwidth
         if config.getOptions().DEBUG:
-            print "Displacement = ", displacement
+            print("Displacement = ", displacement)
 
         ## Position the label on the right hand side of lines
         tangent = p.tangent(posparam, displacement)
