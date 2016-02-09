@@ -3,9 +3,9 @@ PyFeyn - a simple Python interface for making Feynman diagrams.
 """
 
 __author__ = "Andy Buckley & Georg von Hippel (pyfeyn at projects.hepforge.org)"
-__version__ = "0.3.5"
+__version__ = "1.0.0"
 __date__ = "$Date$"
-__copyright__ = "Copyright (c) 2007-2014 Andy Buckley and Georg von Hippel"
+__copyright__ = "Copyright (c) 2007-2016 Andy Buckley, Georg von Hippel, George Williams"
 __license__ = "GPL"
 
 ## Set __all__ (for "from pyfeyn import *")
@@ -40,8 +40,7 @@ try:
   subprocess.Popen(["kpsewhich","hepnicenames.sty"])
   if pyxversion >= Version("0.13.0"):
     pyx.text.default_runner.preamble(r"\usepackage{hepnicenames}")
-  else:  
+  else:
     pyx.text.defaulttexrunner.preamble(r"\usepackage{hepnicenames}")
 except:
   print("Warning: hepnicenames package not found!")
-
