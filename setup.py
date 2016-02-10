@@ -24,12 +24,12 @@ setup(name = 'pyfeyn',
       long_description = longdesc,
       keywords = 'feynman hep physics particle diagram',
       license = 'GPL',
-      classifiers = ['Development Status :: 4 - Beta',
-                   'Environment :: Console',
-                   'Intended Audience :: Science/Research',
-                   'License :: OSI Approved :: GNU General Public License (GPL)',
-                   'Operating System :: OS Independent',
-                   'Programming Language :: Python',
-                   'Topic :: Artistic Software',
-                   'Topic :: Scientific/Engineering :: Physics']
-      )
+      classifiers = ['Development Status :: 5 - Production/Stable',
+                     'Environment :: Console',
+                     'Intended Audience :: Science/Research',
+                     'License :: OSI Approved :: GNU General Public License (GPL)',
+                     'Operating System :: OS Independent',
+                     'Programming Language :: Python',
+                     'Topic :: Artistic Software',
+                     'Topic :: Scientific/Engineering :: Physics']
+)
