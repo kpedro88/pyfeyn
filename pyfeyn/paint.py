@@ -3,11 +3,11 @@
 import pyx
 
 ## Colours
-BLACK = pyx.color.rgb.black
-BLUE = pyx.color.rgb.blue
-GREEN = pyx.color.rgb.green
-RED = pyx.color.rgb.red
-WHITE = pyx.color.rgb.white
+#BLACK = pyx.color.rgb.black
+#BLUE = pyx.color.rgb.blue
+#GREEN = pyx.color.rgb.green
+#RED = pyx.color.rgb.red
+#WHITE = pyx.color.rgb.white
 APRICOT = pyx.color.cmyk.Apricot
 AQUAMARINE = pyx.color.cmyk.Aquamarine
 BITTERSWEET = pyx.color.cmyk.Bittersweet
