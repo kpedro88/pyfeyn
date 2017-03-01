@@ -372,10 +372,14 @@ class MultiLine(Line):
 class Scalar(Line):
     """A scalar particle line, like a Higgs boson."""
 
+    def __init__(self, point1, point2, linestyle=pyx.style.linestyle.dashed):
+        Line.__init__(self,point1,point2)
+        self.linestyle = linestyle
+    
     def draw(self, canvas):
         """Draw this scalar line on the given canvas."""
         path = self.getVisiblePath()
-        styles = self.styles + [pyx.style.linestyle.dashed] + self.arrows
+        styles = self.styles + [self.linestyle] + self.arrows
         ## TODO: call base class method?
         if config.getOptions().DEBUG:
             print("Drawing " + str(self.__class__) + " with styles = " + str(styles))
@@ -911,7 +915,7 @@ class Phantom(DecoratedLine):
     """An invisible line."""
     def __init__(self, point1, point2, amplitude=0.25, frequency=1.0, extras=0):
         """Constructor."""
-        super(Phantom,self).__init__(point1,point2,amplitude,frequency,extras,"phantom")
+        DecoratedLine.__init__(point1,point2,amplitude,frequency,extras,"phantom")
 
     def draw(self, canvas):
         """Draw the line on the supplied canvas (does nothing for a phantom)."""
