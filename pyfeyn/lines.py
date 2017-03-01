@@ -364,6 +364,8 @@ class MultiLine(Line):
         styles = self.styles + self.arrows
         for p in paths:
             canvas.stroke(p, styles)
+        for l in self.labels:
+            l.draw(canvas)
 
 
 class Scalar(Line):
