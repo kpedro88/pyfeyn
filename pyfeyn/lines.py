@@ -398,21 +398,12 @@ Sfermion = Scalar
 
 
 
-class Ghost(Line):
+class Ghost(Scalar):
     """A dotted scalar particle line, like a Yang-Mills ghost particle."""
 
-    def draw(self, canvas):
-        """Draw this scalar line on the given canvas."""
-        path = self.getVisiblePath()
-        styles = self.styles + [pyx.style.linestyle.dotted] + self.arrows
-        ## TODO: call base class method?
-        if config.getOptions().DEBUG:
-            print("Drawing " + str(self.__class__) + " with styles = " + str(styles))
-            print(path)
-        canvas.stroke(path, styles)
-        for l in self.labels:
-            l.draw(canvas)
-
+    # same as scalar, but default style is dotted
+    def __init__(self, point1, point2, linestyle=pyx.style.linestyle.dotted):
+        Scalar.__init__(self,point1,point2,linestyle)
 
 
 ## DecoratedLine base class
