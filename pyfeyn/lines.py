@@ -7,6 +7,7 @@ from pyfeyn.diagrams import FeynDiagram
 from pyfeyn.points import Point
 from pyfeyn.deco import Arrow, ParallelArrow, LineLabel
 from pyfeyn.utils import Visible, defunit
+from pyfeyn.paint import *
 from pyfeyn import config
 
 
@@ -28,7 +29,7 @@ class Line(Visible):
         FeynDiagram.currentDiagram.add(self)
 
 
-    def addLabel(self, text, pos=0.5, displace=-0.25, angle = 0, size=pyx.text.size.normalsize):
+    def addLabel(self, text, pos=0.5, displace=-0.25, angle = 0, size=pyx.text.size.normalsize, halign=CENTER, valign=None):
         """Add a LaTeX label to this line, either via parameters or actually as
         a TeXLabel object."""
         if config.getOptions().DEBUG:
@@ -36,7 +37,7 @@ class Line(Visible):
         #if text.__class__ == "Label":
         #    self.labels.append(label)
         #else:
-        self.labels.append(LineLabel(text=text, line=self, pos=pos, displace=displace, angle=angle, size=size))
+        self.labels.append(LineLabel(text=text, line=self, pos=pos, displace=displace, angle=angle, size=size, halign=halign, valign=valign))
         if config.getOptions().DEBUG:
             print("Labels = " + str(self.labels))
         return self

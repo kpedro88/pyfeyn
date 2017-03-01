@@ -3,6 +3,7 @@
 import pyx, math
 from pyfeyn.diagrams import FeynDiagram
 from pyfeyn.utils import Visible
+from pyfeyn.paint import *
 from pyfeyn import config,pyxversion
 
 ###########################################################################################
@@ -187,7 +188,7 @@ class ParallelArrow(Visible):
 ## Label
 class Label(Visible):
     """General label, unattached to any diagram elements"""
-    def __init__(self, text, pos=None, x=None, y=None, size=pyx.text.size.normalsize):
+    def __init__(self, text, pos=None, x=None, y=None, size=pyx.text.size.normalsize, halign=CENTER, valign=None):
         """Constructor."""
         self.x, self.y = 0, 0
         if x is not None:
@@ -197,6 +198,8 @@ class Label(Visible):
         self.size = size
         self.text = text
         self.textattrs = []
+        self.textattrs.append(halign)
+        if valign is not None: self.textattrs.append(valign)
         self.pos = pos
 
         ## Add this to the current diagram automatically
@@ -204,8 +207,7 @@ class Label(Visible):
 
     def draw(self, canvas):
         """Draw this label on the supplied canvas."""
-        textattrs = pyx.attr.mergeattrs([pyx.text.halign.center,
-                                         pyx.text.vshift.mathaxis,
+        textattrs = pyx.attr.mergeattrs([pyx.text.vshift.mathaxis,
                                          self.size] + self.textattrs)
         t = pyx.text.defaulttexrunner.text(self.x, self.y, self.text, textattrs)
         canvas.insert(t)
@@ -215,7 +217,7 @@ class Label(Visible):
 ## PointLabel
 class PointLabel(Label):
     """Label attached to points on the diagram"""
-    def __init__(self, point, text, displace=0.3, angle=0, size=pyx.text.size.normalsize):
+    def __init__(self, point, text, displace=0.3, angle=0, size=pyx.text.size.normalsize, halign=CENTER, valign=None):
         """Constructor."""
         self.size = size
         self.displace = pyx.unit.length(displace)
@@ -223,6 +225,8 @@ class PointLabel(Label):
         self.text = text
         self.point = point
         self.textattrs = []
+        self.textattrs.append(halign)
+        if valign is not None: self.textattrs.append(valign)
 
 
     def getPoint(self):
@@ -243,8 +247,7 @@ class PointLabel(Label):
                                         self.point.getY(), 0.05), [pyx.color.rgb.green])
         x = self.point.getX() + self.displace * math.cos(math.radians(self.angle))
         y = self.point.getY() + self.displace * math.sin(math.radians(self.angle))
-        textattrs = pyx.attr.mergeattrs([pyx.text.halign.center,
-                                         pyx.text.vshift.mathaxis,
+        textattrs = pyx.attr.mergeattrs([pyx.text.vshift.mathaxis,
                                          self.size] + self.textattrs)
         t = pyx.text.defaulttexrunner.text(x, y, self.text, textattrs)
         canvas.insert(t)
@@ -254,7 +257,7 @@ class PointLabel(Label):
 ## LineLabel
 class LineLabel(Label):
     """Label for Feynman diagram lines"""
-    def __init__(self, line, text, pos=0.5, displace=0.3, angle=0, size=pyx.text.size.normalsize):
+    def __init__(self, line, text, pos=0.5, displace=0.3, angle=0, size=pyx.text.size.normalsize, halign=CENTER, valign=None):
         """Constructor."""
         self.pos = pos
         self.size = size
@@ -263,6 +266,8 @@ class LineLabel(Label):
         self.text = text
         self.line = line
         self.textattrs = []
+        self.textattrs.append(halign)
+        if valign is not None: self.textattrs.append(valign)
 
 
     def getLine(self):
@@ -316,8 +321,7 @@ class LineLabel(Label):
         ## Displace the label by this normal vector
         x, y = nx, ny
 
-        textattrs = pyx.attr.mergeattrs([pyx.text.halign.center,
-                                         pyx.text.vshift.mathaxis,
+        textattrs = pyx.attr.mergeattrs([pyx.text.vshift.mathaxis,
                                          self.size] + self.textattrs)
         t = pyx.text.defaulttexrunner.text(x, y, self.text, textattrs)
         #t.linealign(self.displace,

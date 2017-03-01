@@ -100,3 +100,11 @@ THIN3 = pyx.style.linewidth.THin
 THIN4 = pyx.style.linewidth.THIn
 THIN5 = pyx.style.linewidth.THIN
 CLEAR = pyx.style.linewidth.clear
+
+## Text alignment
+TOP = pyx.text.valign.top
+MIDDLE = pyx.text.valign.middle
+BOTTOM = pyx.text.valign.bottom
+LEFT = pyx.text.halign.left
+CENTER = pyx.text.halign.center
+RIGHT = pyx.text.halign.right
