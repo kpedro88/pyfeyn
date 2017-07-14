@@ -15,21 +15,21 @@ from pyfeyn import config
 class Line(Visible):
     "Base class for all objects which connect points in Feynman diagrams"
 
-    def __init__(self, point1, point2):
+    def __init__(self, point1, point2, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
         self.p1 = point1
         self.p2 = point2
-        self.styles = []
-        self.arcthrupoint = None
-        self.is3D = False
-        self.arrows = []
-        self.labels = []
+        self.styles = styles
+        self.arcthrupoint = arcthrupoint
+        self.is3D = is3D
+        self.arrows = arrows
+        self.labels = labels
 
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
 
-    def addLabel(self, text, pos=0.5, displace=-0.25, angle = 0, size=pyx.text.size.normalsize, halign=CENTER, valign=None):
+    def addLabel(self, text, pos=0.5, displace=-0.25, angle = 0, size=pyx.text.size.normalsize, halign=CENTER, valign=None, **kwargs):
         """Add a LaTeX label to this line, either via parameters or actually as
         a TeXLabel object."""
         if config.getOptions().DEBUG:
@@ -336,21 +336,11 @@ Fermion = Line
 
 class MultiLine(Line):
     """A class for drawing multiple parallel straight lines."""
-    def __init__(self, point1, point2, n=5, dist=0.2):
+    def __init__(self, point1, point2, n=5, dist=0.2, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        self.p1 = point1
-        self.p2 = point2
-        self.styles = []
-        self.arcthrupoint = None
-        self.is3D = False
-        self.arrows = []
-        self.labels = []
+		Line.__init__(self,point1,point2,styles,arcthrupoint,is3D,arrows,labels)
         self.n = n
         self.dist = dist
-
-        ## Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
-
 
     def draw(self, canvas):
         """Draw this multiline on the supplied canvas."""
@@ -372,8 +362,8 @@ class MultiLine(Line):
 class Scalar(Line):
     """A scalar particle line, like a Higgs boson."""
 
-    def __init__(self, point1, point2, linestyle=pyx.style.linestyle.dashed):
-        Line.__init__(self,point1,point2)
+    def __init__(self, point1, point2, linestyle=pyx.style.linestyle.dashed, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
+        Line.__init__(self,point1,point2,styles,arcthrupoint,is3D,arrows,labels)
         self.linestyle = linestyle
     
     def draw(self, canvas):
@@ -402,29 +392,21 @@ class Ghost(Scalar):
     """A dotted scalar particle line, like a Yang-Mills ghost particle."""
 
     # same as scalar, but default style is dotted
-    def __init__(self, point1, point2, linestyle=pyx.style.linestyle.dotted):
-        Scalar.__init__(self,point1,point2,linestyle)
+    def __init__(self, point1, point2, linestyle=pyx.style.linestyle.dotted, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
+        Scalar.__init__(self,point1,point2,styles,arcthrupoint,is3D,arrows,labels,linestyle)
 
 
 ## DecoratedLine base class
 class DecoratedLine(Line):
     """Base class for spring and sine-like lines"""
-    def __init__(self, point1, point2, amplitude, frequency, extras, linetype):
+    def __init__(self, point1, point2, amplitude, frequency, extras, invert, linetype, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        self.p1 = point1
-        self.p2 = point2
-        self.styles = []
-        self.arcthrupoint = None
-        self.is3D = False
-        self.arrows = []
-        self.labels = []
-        self.inverted = False
+        Line.__init__(self,point1,point2,styles,arcthrupoint,is3D,arrows,labels)
+        self.inverted = invert
         self.arcradius = amplitude
         self.frequency = frequency
         self.extras = extras
         self.linetype = linetype
-        ## Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
 
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""
@@ -469,9 +451,9 @@ class DecoratedLine(Line):
 
 class Gluon(DecoratedLine):
     """A line with a cycloid deformation"""
-    def __init__(self, point1, point2, amplitude=0.15, frequency=1.3, extras=0):
+    def __init__(self, point1, point2, amplitude=0.15, frequency=1.3, extras=0, invert=False, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,"gluon")
+        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,invert,"gluon",styles,arcthrupoint,is3D,arrows,labels)
 
     def getDeformedPath(self):
         """Get the path modified by the coil warping."""
@@ -521,9 +503,9 @@ class Gluon(DecoratedLine):
 
 class Vector(DecoratedLine):
     """A line with a sinoid deformation"""
-    def __init__(self, point1, point2, amplitude=0.25, frequency=1.0, extras=0):
+    def __init__(self, point1, point2, amplitude=0.25, frequency=1.0, extras=0, invert=False, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,"photon")
+        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,invert,"photon",styles,arcthrupoint,is3D,arrows,labels)
 
     def getDeformedPath(self):
         """Get the path with the decorative deformation."""
@@ -552,9 +534,9 @@ Photon = Vector
 
 class Graviton(DecoratedLine):
     """A line with a double sinoid deformation"""
-    def __init__(self, point1, point2, amplitude=0.25, frequency=0.6, extras=0):
+    def __init__(self, point1, point2, amplitude=0.25, frequency=0.6, extras=0, invert=False, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,"graviton")
+        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,invert,"graviton",styles,arcthrupoint,is3D,arrows,labels)
 
     def getDeformedPath(self):
         """Get the path with the decorative deformation."""
@@ -641,9 +623,9 @@ class Graviton(DecoratedLine):
 
 class Gaugino(DecoratedLine):
     """A line with a sinoid deformation and a normal line"""
-    def __init__(self, point1, point2, amplitude=0.25, frequency=1.0, extras=0):
+    def __init__(self, point1, point2, amplitude=0.25, frequency=1.0, extras=0, invert=False, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,"gaugino")
+        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,invert,"gaugino",styles,arcthrupoint,is3D,arrows,labels)
 
     def getDeformedPath(self):
         """Get the path with the decorative deformation."""
@@ -728,9 +710,9 @@ class Gaugino(DecoratedLine):
 
 class Gluino(DecoratedLine):
     """A line with a cycloid deformation and a normal line"""
-    def __init__(self, point1, point2, amplitude=0.25, frequency=1.2, extras=0):
+    def __init__(self, point1, point2, amplitude=0.25, frequency=1.2, extras=0, invert=False, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,"susygluon")
+        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,invert,"susygluon",styles,arcthrupoint,is3D,arrows,labels)
 
     def getDeformedPath(self):
         """Get the path with the decorative deformation."""
@@ -834,9 +816,9 @@ class Gluino(DecoratedLine):
 
 class Gravitino(DecoratedLine):
     """A line with a double sinoid deformation and a simple line"""
-    def __init__(self, point1, point2, amplitude=0.25, frequency=0.6, extras=0):
+    def __init__(self, point1, point2, amplitude=0.25, frequency=0.6, extras=0, invert=False, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,"gravitino")
+        DecoratedLine.__init__(self,point1,point2,amplitude,frequency,extras,invert,"gravitino",styles,arcthrupoint,is3D,arrows,labels)
 
     def getDeformedPath(self):
         """Get the path with the decorative deformation."""
@@ -904,9 +886,9 @@ class Gravitino(DecoratedLine):
 
 class Phantom(DecoratedLine):
     """An invisible line."""
-    def __init__(self, point1, point2, amplitude=0.25, frequency=1.0, extras=0):
+    def __init__(self, point1, point2, amplitude=0.25, frequency=1.0, extras=0, invert=False, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-        DecoratedLine.__init__(point1,point2,amplitude,frequency,extras,"phantom")
+        DecoratedLine.__init__(point1,point2,amplitude,frequency,extras,invert,"phantom",styles,arcthrupoint,is3D,arrows,labels)
 
     def draw(self, canvas):
         """Draw the line on the supplied canvas (does nothing for a phantom)."""
