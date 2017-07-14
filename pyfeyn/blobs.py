@@ -14,11 +14,13 @@ from pyfeyn import config
 class Blob(Point, Visible):
     "Base class for all blob-like objects in Feynman diagrams"
 
-    def __init__(self):
+    def __init__(self, x, y, trafos = [], points = [], fill = [], stroke = [], blob = None, labels=[], **kwargs):
         """Dysfunctional constructor, since this is an abstract base class."""
-        self.trafos = []
-        self.strokestyles = []
-        self.fillstyles = []
+        Point.__init__(self,x,y,blob,labels)
+        self.trafos = trafos
+        self.points = points
+        self.fillstyles = fill
+        self.strokestyles = stroke
         self.layeroffset = 1000
         raise Exception("Blobs are an abstract base class: you can't make them!")
     
@@ -83,32 +85,26 @@ class Circle(Blob):
     """A circular blob"""
     blobshape = "circle"
 
-    def __init__(self,
-                 x = None, y = None,
-                 center = None,
-                 radius = None,
-                 fill = [pyx.color.rgb.white],
-                 stroke = [pyx.color.rgb.black],
-                 points = None):
+    def __init__(self, x = None, y = None, center = None, radius = None, fill = [WHITE], stroke = [BLACK], points = [], blob = None, labels=[], **kwargs):
+        xx = 0
+        yy = 0
+        if x is not None and y is not None:
+            xx = x
+            yy = y
+        elif center is not None:
+            xx = center.getX()
+            yy = center.getY()
+        else:
+            raise Exception("No center specified for blob.")
+
         """Constructor."""
+        Blob.__init__(self,xx,yy,[],points,fill,stroke,blob,labels)
+
         if radius:
             self.radius = float(radius)
         else:
             raise Exception("No (or zero) radius specified for blob.")
 
-        if x is not None and y is not None:
-            self.setXY(x, y)
-        elif center is not None:
-            self.setXY(center.getX(), center.getY())
-        else:
-            raise Exception("No center specified for blob.")
-        
-        self.setPoints(points)
-        self.fillstyles = fill
-        self.strokestyles = stroke
-        self.layeroffset = 1000
-        self.trafos = []
-        self.labels = []
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
         
@@ -131,23 +127,21 @@ class Ellipse(Blob):
     "An elliptical blob"
     blobshape = "ellipse"
 
-    def __init__(self,
-                 x = None, y = None,
-                 center = None,
-                 xradius = None, yradius = None,
-                 fill = [pyx.color.rgb.white],
-                 stroke = [pyx.color.rgb.black],
-                 points = None):
-        """Constructor."""
-        self.layeroffset = 1000
-        
+    def __init__(self, x = None, y = None, center = None, xradius = None, yradius = None, fill = [WHITE], stroke = [BLACK], trafos = [], points = [], blob = None, labels=[], **kwargs):
+        xx = 0
+        yy = 0
         if x is not None and y is not None:
-            self.setXY(x, y)
+            xx = x
+            yy = y
         elif center is not None:
-            self.setXY(center.getX(), center.getY())
+            xx = center.getX()
+            yy = center.getY()
         else:
             raise Exception("No center specified for blob.")
 
+        """Constructor."""
+        Blob.__init__(self,xx,yy,trafos,points,fill,stroke,blob,labels)
+        
         self.xrad = None
         if xradius:
             self.setXRadius(xradius)
@@ -163,11 +157,6 @@ class Ellipse(Blob):
         else:
             raise Exception("No viable candidate for y-radius")
 
-        self.setPoints(points)
-        self.fillstyles = fill
-        self.strokestyles = stroke
-        self.trafos = []
-        self.labels = []    
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 

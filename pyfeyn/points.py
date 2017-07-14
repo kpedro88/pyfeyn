@@ -8,7 +8,7 @@ from pyfeyn.diagrams import FeynDiagram
 from pyfeyn.utils import Visible
 from pyfeyn.deco import PointLabel
 from pyfeyn import config
-
+from pyfeyn.paint import *
 
 def midpoint(point1, point2):
     "Return the point midway between this point and the argument."
@@ -24,11 +24,11 @@ def distance(point1, point2):
 class Point:
     """Base class for all pointlike objects in Feynman diagrams."""
 
-    def __init__(self, x, y, blob = None):
+    def __init__(self, x, y, blob = None, labels=[], **kwargs):
         """Constructor."""
         self.setXY(x, y)
         self.setBlob(blob)
-        self.labels = []
+        self.labels = labels
 
 
     def addLabel(self, text, displace=0.3, angle = 0, size=pyx.text.size.normalsize):
@@ -165,16 +165,10 @@ class Point:
 ## Decorated point class
 class DecoratedPoint(Point, Visible):
     "Class for a point drawn with a marker"
-    def __init__(self, xpos, ypos,
-                 mark = None,
-                 blob = None,
-                 fill = [pyx.color.rgb.black],
-                 stroke = [pyx.color.rgb.black]):
+    def __init__(self, xpos, ypos, mark = None, fill = [BLACK], stroke = [BLACK], blob = None, labels=[], **kwargs):
         """Constructor."""
-        self.setXY(xpos, ypos)
-        self.labels = []
+        Point.__init__(xpos,ypos,blob,labels)
         self.setMark(copy(mark))
-        self.setBlob(blob)
         self.layeroffset = 1000
         self.fillstyles = copy(fill) # lists are mutable --
         self.strokestyles = copy(stroke) # hence make a copy!
