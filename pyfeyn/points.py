@@ -165,9 +165,20 @@ class Point:
 ## Decorated point class
 class DecoratedPoint(Point, Visible):
     "Class for a point drawn with a marker"
-    def __init__(self, xpos, ypos, mark = None, fill = [BLACK], stroke = [BLACK], blob = None, labels=[], **kwargs):
+    def __init__(self, x = None, y = None, center = None, mark = None, fill = [BLACK], stroke = [BLACK], blob = None, labels=[], **kwargs):
         """Constructor."""
-        Point.__init__(xpos,ypos,blob,labels)
+        xx = 0
+        yy = 0
+        if x is not None and y is not None:
+            xx = x
+            yy = y
+        elif center is not None:
+            xx = center.getX()
+            yy = center.getY()
+        else:
+            raise Exception("No center specified for blob.")
+        
+        Point.__init__(self,xx,yy,blob,labels)
         self.setMark(copy(mark))
         self.layeroffset = 1000
         self.fillstyles = copy(fill) # lists are mutable --
