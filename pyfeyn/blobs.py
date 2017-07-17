@@ -15,14 +15,13 @@ class Blob(Point, Visible):
     "Base class for all blob-like objects in Feynman diagrams"
 
     def __init__(self, x, y, trafos = [], points = [], fill = [], stroke = [], blob = None, labels=[], **kwargs):
-        """Dysfunctional constructor, since this is an abstract base class."""
+        """Constructor."""
         Point.__init__(self,x,y,blob,labels)
         self.trafos = trafos
         self.points = points
         self.fillstyles = fill
         self.strokestyles = stroke
         self.layeroffset = 1000
-        raise Exception("Blobs are an abstract base class: you can't make them!")
     
     def setStrokeStyle(self, strokestyle):
         """Set the stroke style."""

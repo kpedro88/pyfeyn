@@ -338,7 +338,7 @@ class MultiLine(Line):
     """A class for drawing multiple parallel straight lines."""
     def __init__(self, point1, point2, n=5, dist=0.2, styles=[], arcthrupoint=None, is3D=False, arrows=[], labels=[], **kwargs):
         """Constructor."""
-		Line.__init__(self,point1,point2,styles,arcthrupoint,is3D,arrows,labels)
+        Line.__init__(self,point1,point2,styles,arcthrupoint,is3D,arrows,labels)
         self.n = n
         self.dist = dist
 
