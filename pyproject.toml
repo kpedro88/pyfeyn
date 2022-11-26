@@ -12,6 +12,7 @@ pydot = "*"
 particles = "*"
 xsdata = {version = "*", extras = ["cli","lxml","soap"]}
 pylatex = "*"
+dot2tex = "*"
 
 
 [tool.poetry.group.dev.dependencies]

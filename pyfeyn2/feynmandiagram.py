@@ -47,10 +47,19 @@ class Point:
     y: Optional[Decimal] = field(
         default=0.0, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    z: Optional[Decimal] = field(
+        default=0.0, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
 
     def set_xy(self, x, y):
         self.x = float(x)
         self.y = float(y)
+        return self
+
+    def set_xyz(self, x, y):
+        self.x = float(x)
+        self.y = float(y)
+        self.z = float(z)
         return self
 
 
@@ -94,6 +103,14 @@ class Leg(Labeled, Particle, Point, Targeting, Identifiable):
     sense: str = field(
         default="incoming", metadata={"xml_attribute": True, "type": "Attribute"}
     )
+
+    def set_incoming(self):
+        self.sense = "incoming"
+        return self
+
+    def set_outgoing(self):
+        self.sense = "outgoing"
+        return self
 
 
 @dataclass

@@ -87,6 +87,17 @@ untokenize = ">=0.1.1,<0.2.0"
 tomli = ["tomli (<2.0.0)"]
 
 [[package]]
+name = "dot2tex"
+version = "2.11.3"
+description = "A Graphviz to LaTeX converter"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pyparsing = "*"
+
+[[package]]
 name = "filelock"
 version = "3.8.0"
 description = "A platform independent file lock."
@@ -440,7 +451,7 @@ test = ["codecov", "pre-commit", "pytest", "pytest-benchmark", "pytest-cov", "to
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "23f9afc604e644c4b619be0ec744adc146c20f7c9fdfb403dcf05aeb2e5dcf1f"
+content-hash = "b8df0e7aab18015dceba96648bd8b8be155fe3ca65511d2e54a27daf063b0e38"
 
 [metadata.files]
 certifi = [
@@ -477,6 +488,10 @@ distlib = [
 docformatter = [
     {file = "docformatter-1.5.0-py3-none-any.whl", hash = "sha256:ae56c64822c3184602ac83ec37650c9785e80dfec17b4eba4f49ad68815d71c0"},
     {file = "docformatter-1.5.0.tar.gz", hash = "sha256:9dc71659d3b853c3018cd7b2ec34d5d054370128e12b79ee655498cb339cc711"},
+]
+dot2tex = [
+    {file = "dot2tex-2.11.3-py2.py3-none-any.whl", hash = "sha256:6a1f451823b27d331edca733c7f486a1849e97e77b4bafd562443f5c6e6583e2"},
+    {file = "dot2tex-2.11.3.tar.gz", hash = "sha256:299a2af05aee5bbe0257a562a506a93e279293d5c38f28d08ab8acb3233fe7ce"},
 ]
 filelock = [
     {file = "filelock-3.8.0-py3-none-any.whl", hash = "sha256:617eb4e5eedc82fc5f47b6d61e4d11cb837c56cb4544e39081099fa17ad109d4"},
