@@ -10,6 +10,9 @@ python = "^3.9"
 dicttoxml = "*"
 pydot = "*"
 particles = "*"
+xml_marshaller = "*"
+xml-dataclasses = "*"
+xsdata = {version = "*", extras = ["cli","lxml","soap"]}
 
 
 [tool.poetry.group.dev.dependencies]
