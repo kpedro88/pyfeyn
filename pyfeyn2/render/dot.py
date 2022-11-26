@@ -11,14 +11,44 @@ map_feyn_to_tikz = {
 }
 
 
+def feynman_adjust_points(fd, size=5):
+    norm = size
+    dot = feynman_to_dot(fd)
+    positions = dot_to_positions(dot)
+    max = 0
+    for i, p in positions.items():
+        if p[0] > max:
+            max = p[0]
+        if p[1] > max:
+            max = p[1]
+    for v in fd.vertices:
+        if v.id in positions:
+            v.x = positions[v.id][0] / max * norm
+            v.y = positions[v.id][1] / max * norm
+    for l in fd.legs:
+        l.x = positions[l.id][0] / max * norm
+        l.y = positions[l.id][1] / max * norm
+    return fd
+
+
+def dot_to_positions(dot):
+    return dot2tex.dot2tex(dot, format="positions")
+
+
 def dot_to_tikz(dot):
     return dot2tex.dot2tex(dot, format="tikz", figonly=True)
 
 
 def feynman_to_dot(fd):
-    src = "graph {"
-    src += "rankdir=LR;"
-    src += 'node [style="invis"];'
+    # TODO style pick neato or dot or whatever
+    src = "graph G {\n"
+    src += "rankdir=LR;\n"
+    src += "layout=neato;\n"
+    # src += "mode=hier;\n"
+    src += 'node [style="invis"];\n'
+    for l in fd.legs:
+        if l.x is not None and l.y is not None:
+            src += f'\t\t{l.id} [ pos="{l.x},{l.y}!"];\n'
     for p in fd.propagators:
         src += 'edge [style="decorate,decoration={}"];\n'.format(
             map_feyn_to_tikz[p.type]
@@ -41,6 +71,7 @@ def feynman_to_dot(fd):
             src += f"\t\t{l.target} -- {l.id};\n"
             rank_out += f"{l.id} ;"
         else:
+            # TODO maybe not error but just use the default
             raise Exception("Unknown sense")
     src += rank_in + "}\n"
     src += rank_out + "}\n"

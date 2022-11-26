@@ -7,7 +7,7 @@ from typing import List, Optional
 
 
 @dataclass
-class Particle:
+class PDG:
     pdgid: Optional[int] = field(
         default=0, metadata={"xml_attribute": True, "type": "Attribute"}
     )
@@ -99,9 +99,9 @@ class Vertex(Labeled, Point, Identifiable):
 
 
 @dataclass
-class Leg(Labeled, Particle, Point, Targeting, Identifiable):
+class Leg(Labeled, PDG, Point, Targeting, Identifiable):
     sense: str = field(
-        default="incoming", metadata={"xml_attribute": True, "type": "Attribute"}
+        default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
     def set_incoming(self):
@@ -114,7 +114,7 @@ class Leg(Labeled, Particle, Point, Targeting, Identifiable):
 
 
 @dataclass
-class Propagator(Labeled, Particle, Line, Identifiable):
+class Propagator(Labeled, PDG, Line, Identifiable):
     pass
 
 
