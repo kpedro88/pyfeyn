@@ -25,11 +25,21 @@ class PDG:
         return self
 
 
+id = 0
+
+
 @dataclass
 class Identifiable:
     id: Optional[str] = field(
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
+
+    def __post_init__(self):
+        global id
+        if self.id == "":
+            # use some global counter to generate unique id
+            self.id = self.__class__.__name__ + str(id)
+            id = id + 1
 
 
 @dataclass
@@ -95,6 +105,7 @@ class Line(Targeting, Sourcing):
 
 @dataclass
 class Vertex(Labeled, Point, Identifiable):
+
     pass
 
 
