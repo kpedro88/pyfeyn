@@ -2,6 +2,7 @@ import os
 import re
 from tempfile import mktemp
 
+from IPython.display import display
 from pylatex import Command, Document, Section, Subsection
 from pylatex.utils import NoEscape, italic
 from wand.image import Image as WImage
@@ -35,7 +36,7 @@ class LatexRender(Document, Render):
         self.src_diag = src_diag
         self.append(NoEscape(src_diag))
 
-    def render(self, file=None, resolution=100, width=None, height=None):
+    def render(self, file=None, show=True, resolution=100, width=None, height=None):
         delete = False
         if file is None:
             delete = True
@@ -47,4 +48,6 @@ class LatexRender(Document, Render):
         )
         if delete:
             os.remove(file + ".pdf")
+        if show:
+            display(wi)
         return wi

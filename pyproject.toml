@@ -8,13 +8,14 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 pydot = "*"
-particles = "*"
+particle = "*"
 xsdata = {version = "*", extras = ["cli","lxml","soap"]}
 pylatex = "*"
 dot2tex = "*"
 matplotlib = "*"
 Wand = "*"
 numpy = "*"
+pyx = ">=0.12"
 
 
 Sphinx = { version = "*", optional = true }

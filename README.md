@@ -1,5 +1,10 @@
 # PyFeyn2
 
+## Dependencies
+
+* libmagickwand-dev
+* latexmk
+
 ## Installation
 
 ```sh

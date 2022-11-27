@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import List, Optional
 
+from pyfeyn2.particles import get_name
+
 # from pyfeyn2.propagator import Propagator
 # from pyfeyn2.vertex import Vertex
 
@@ -9,15 +11,26 @@ from typing import List, Optional
 @dataclass
 class PDG:
     pdgid: Optional[int] = field(
-        default=0, metadata={"xml_attribute": True, "type": "Attribute"}
+        default=21, metadata={"xml_attribute": True, "type": "Attribute"}
     )
     type: Optional[str] = field(
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    latexname: Optional[str] = field(
+        default="", metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+
+    def _sync_latexname(self):
+        """Sync the latexname with the pdgid"""
+        if self.pdgid is not None:
+            self.latexname = get_name(self.pdgid)
+
+    def __post_init__(self):
+        self._sync_latexname()
 
     def set_pdgid(self, pdgid):
         self.pdgid = pdgid
-        # TODO get type from pdgid
+        self._sync_latexname()
         return self
 
     def set_type(self, type):
@@ -48,6 +61,10 @@ class Labeled:
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
+    def set_label(self, label):
+        self.label = label
+        return self
+
 
 @dataclass
 class Point:
@@ -71,6 +88,20 @@ class Point:
         self.y = float(y)
         self.z = float(z)
         return self
+
+
+@dataclass
+class Styled:
+    style: Optional[str] = field(
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+
+
+@dataclass
+class Bending:
+    bend: Optional[str] = field(
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
 
 
 @dataclass
@@ -104,13 +135,12 @@ class Line(Targeting, Sourcing):
 
 
 @dataclass
-class Vertex(Labeled, Point, Identifiable):
-
+class Vertex(Labeled, Styled, Point, Identifiable):
     pass
 
 
 @dataclass
-class Leg(Labeled, PDG, Point, Targeting, Identifiable):
+class Leg(Labeled, Styled, PDG, Bending, Point, Targeting, Identifiable):
     sense: str = field(
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
@@ -125,7 +155,7 @@ class Leg(Labeled, PDG, Point, Targeting, Identifiable):
 
 
 @dataclass
-class Propagator(Labeled, PDG, Line, Identifiable):
+class Propagator(Labeled, Styled, PDG, Bending, Line, Identifiable):
     pass
 
 
@@ -146,3 +176,12 @@ class FeynmanDiagram:
         default_factory=list,
         metadata={"name": "leg", "type": "Element", "namespace": ""},
     )
+
+    def get_point(self, id):
+        for v in self.vertices:
+            if v.id == id:
+                return v
+        for l in self.legs:
+            if l.id == id:
+                return l
+        return None
