@@ -1,5 +1,7 @@
 # PyFeyn2
 
+Forked from https://pyfeyn.hepforge.org/
+
 ## Dependencies
 
 * libmagickwand-dev

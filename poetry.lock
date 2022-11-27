@@ -1120,6 +1120,17 @@ dev = ["pandas", "pytest (>=6)", "pytest-benchmark", "tabulate"]
 test = ["pandas", "pytest (>=6)", "pytest-benchmark", "pytest-cov", "tabulate"]
 
 [[package]]
+name = "pdf2image"
+version = "1.16.0"
+description = "A wrapper around the pdftoppm and pdftocairo command line tools to convert PDF to a PIL Image list."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pillow = "*"
+
+[[package]]
 name = "pexpect"
 version = "4.8.0"
 description = "Pexpect allows easy control of interactive console applications."
@@ -1975,7 +1986,7 @@ docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-napoleon", "nbsphinx", "jup
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "133c8d4be96d262142ef0ab045d8e43575c98f42d4b5901c5ebf7ab9aa4328e6"
+content-hash = "edc118f2f9487ef18ba48c2cd7890e40792b35b536d4eab1a7f552472f63e7c5"
 
 [metadata.files]
 alabaster = [
@@ -2810,6 +2821,10 @@ parso = [
 particle = [
     {file = "particle-0.21.0-py3-none-any.whl", hash = "sha256:d72b5b5915d62fa0a6cad9e17d8c062a9a6b9461de29ace5185b2b85124f85bb"},
     {file = "particle-0.21.0.tar.gz", hash = "sha256:483748834e7e81f2cd690fa0962b537f767fe8af4705c8bada68c8bbdac8a17d"},
+]
+pdf2image = [
+    {file = "pdf2image-1.16.0-py3-none-any.whl", hash = "sha256:84f79f2b8fad943e36323ea4e937fcb05f26ded0caa0a01181df66049e42fb65"},
+    {file = "pdf2image-1.16.0.tar.gz", hash = "sha256:d58ed94d978a70c73c2bb7fdf8acbaf2a7089c29ff8141be5f45433c0c4293bb"},
 ]
 pexpect = [
     {file = "pexpect-4.8.0-py2.py3-none-any.whl", hash = "sha256:0b48a55dcb3c05f3329815901ea4fc1537514d6ba867a152b581d69ae3710937"},
