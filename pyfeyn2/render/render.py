@@ -6,5 +6,5 @@ class Render:
     def get_src(self):
         return self.src
 
-    def render(self, file):
+    def render(self, file=None):
         pass

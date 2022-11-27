@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-poerty install
+poerty install --extras docs --extras dev
 poetry shell
 ```
 

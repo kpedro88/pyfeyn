@@ -42,13 +42,13 @@ class Labeled:
 @dataclass
 class Point:
     x: Optional[Decimal] = field(
-        default=0.0, metadata={"xml_attribute": True, "type": "Attribute"}
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
     y: Optional[Decimal] = field(
-        default=0.0, metadata={"xml_attribute": True, "type": "Attribute"}
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
     z: Optional[Decimal] = field(
-        default=0.0, metadata={"xml_attribute": True, "type": "Attribute"}
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
     def set_xy(self, x, y):

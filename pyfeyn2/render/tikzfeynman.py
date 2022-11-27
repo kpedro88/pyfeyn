@@ -53,6 +53,3 @@ class TikzFeynmanRender(LatexRender):
         )
         self.append(NoEscape(feynman_to_tikz_feynman(fd)))
         self.src = self.dumps()
-
-    def render(self, file):
-        return self.generate_pdf(file, clean_tex=True)

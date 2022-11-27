@@ -1,3 +1,5 @@
+import copy
+
 import dot2tex
 from pylatex import Command, Document, Section, Subsection
 from pylatex.utils import NoEscape, italic
@@ -11,7 +13,9 @@ map_feyn_to_tikz = {
 }
 
 
-def feynman_adjust_points(fd, size=5):
+def feynman_adjust_points(feyndiag, size=5):
+    # deepcopy
+    fd = copy.deepcopy(feyndiag)
     norm = size
     dot = feynman_to_dot(fd)
     positions = dot_to_positions(dot)
@@ -40,6 +44,7 @@ def dot_to_tikz(dot):
 
 
 def feynman_to_dot(fd):
+    # TODO better use pydot? still alive?
     # TODO style pick neato or dot or whatever
     src = "graph G {\n"
     src += "rankdir=LR;\n"
@@ -101,5 +106,8 @@ class DotRender(LatexRender):
             Command("usetikzlibrary", NoEscape("snakes,arrows,shapes"))
         )
         self.preamble.append(Command("usepackage", NoEscape("amsmath")))
-        self.append(NoEscape(dot_to_tikz(feynman_to_dot(fd))))
-        self.src = self.dumps()
+        self.src_dot = feynman_to_dot(fd)
+        self.set_src_diag(dot_to_tikz(self.src_dot))
+
+    def get_src_dot(self):
+        return self.src_dot

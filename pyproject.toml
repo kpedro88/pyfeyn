@@ -7,12 +7,35 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-dicttoxml = "*"
 pydot = "*"
 particles = "*"
 xsdata = {version = "*", extras = ["cli","lxml","soap"]}
 pylatex = "*"
 dot2tex = "*"
+matplotlib = "*"
+Wand = "*"
+numpy = "*"
+
+
+Sphinx = { version = "*", optional = true }
+sphinx-rtd-theme = { version = "*", optional = true }
+sphinxcontrib-napoleon = { version = "*", optional = true }
+nbsphinx = {version = "*", optional = true}
+jupyter-sphinx = {version = "*", optional = true}
+sphinx-autoapi = {version = "*", optional = true}
+sphinx_autobuild = {version = "*", optional = true}
+sphinx_math_dollar = {version = "*", optional = true}
+
+pytest = {version = "*", optional = true}
+pytest-cov = {version = "*", optional = true}
+pytest-profiling = {version = "*", optional = true}
+pytest-line-profiler-apn = {version = ">=0.1.3", optional = true}
+ipython = {version = "*", optional = true}
+jupyterlab = {version = "*", optional = true}
+
+[tool.poetry.extras]
+docs = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-napoleon", "nbsphinx", "jupyter-sphinx", "sphinx-autoapi", "sphinx_autobuild", "sphinx_math_dollar"]
+dev = ["pytest","pytest-cov","pytest-profiling","pytest-line-profiler-apn","ipython","jupyterlab"]
 
 
 [tool.poetry.group.dev.dependencies]
