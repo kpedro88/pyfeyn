@@ -6,18 +6,8 @@
 Welcome to pyfeyn2's documentation!
 ===================================
 
-
-Install
-=======
-
-Stable version::
-
-   $ pip install pyfeyn2
-
-Dev version::
-
-   $ pip install --index-url https://test.pypi.org/simple/ pyfeyn2
-
+.. include:: README.md
+   :parser: myst_parser.sphinx_
 
 
 .. toctree::
@@ -35,7 +25,14 @@ Dev version::
 
 .. toctree::
    :glob:
-   :maxdepth: 3  
+   :maxdepth: 3
+   :caption: Features:
+
+   features/*
+
+.. toctree::
+   :glob:
+   :maxdepth: 3
    :caption: Examples:
 
    examples/*

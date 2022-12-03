@@ -15,7 +15,7 @@ class LatexRender(Document, Render):
         self,
         fd,
         documentclass="standalone",
-        document_options=["preview", "crop", "tikz"],
+        document_options=["preview", "crop"],
         *args,
         **kwargs,
     ):

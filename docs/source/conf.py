@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 # -- Project information -----------------------------------------------------
 
 project = "pyfeyn2"
-copyright = str(datetime.datetime.now().year) + ", Alexander Puck Neuwirth(APN-Pucky)"
+copyright = str(datetime.datetime.now().year) + ", Alexander Puck Neuwirth (APN-Pucky)"
 author = "Alexander Puck Neuwirth"
 
 
@@ -34,6 +34,7 @@ author = "Alexander Puck Neuwirth"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "myst_parser",
     "sphinx.ext.autodoc",
     "nbsphinx",
     "sphinx.ext.githubpages",

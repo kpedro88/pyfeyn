@@ -51,5 +51,4 @@ class TikzFeynmanRender(LatexRender):
         self.preamble.append(
             Command("usepackage", NoEscape("tikz-feynman"), "compat=1.1.0")
         )
-        self.append(NoEscape(feynman_to_tikz_feynman(fd)))
-        self.src = self.dumps()
+        self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
