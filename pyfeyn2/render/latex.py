@@ -25,6 +25,7 @@ class LatexRender(Document, Render):
             document_options=document_options,
             **kwargs,
         )
+        Render.__init__(self, fd)
 
     def get_src(self):
         return self.dumps()

@@ -1,6 +1,7 @@
 from typing import List
 
 from pyfeyn2.feynmandiagram import Point
+from pyfeyn2.render.latex import LatexRender
 from pyfeyn2.render.render import Render
 
 
