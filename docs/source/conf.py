@@ -106,7 +106,8 @@ renders = {
 }
 styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
 types = [
-    "boson" "fermion",
+    "boson",
+    "fermion",
     "photon",
     "higgs",
     "gluon",
@@ -136,21 +137,13 @@ attributes = [
     "type",
 ]
 rst_epilog = """
-.. |check| raw:: html
+.. |check| replace:: ✔
 
-    <input checked=""  type="checkbox">
 
-.. |check_| raw:: html
+.. |uncheck| replace:: ✖
 
-    <input checked=""  disabled="" type="checkbox">
 
-.. |uncheck| raw:: html
-
-    <input type="checkbox">
-
-.. |uncheck_| raw:: html
-
-    <input disabled="" type="checkbox">
+.. |mixed| replace:: ✔/✖
 
 """
 for r, n in renders.items():
