@@ -39,9 +39,7 @@ class MetaPostRender(LatexRender):
             height=height,
             clean_up=False,
         )
-        parent_dir = (
-            os.path.dirname(file) if file else Path("tmp.pdf").parent.absolute()
-        )
+        parent_dir = Path(file if file else "tmp.pdf").parent.absolute()
         # for filename in os.listdir(parent_dir):
         #    if filename.endswith(".dvi"):
         #        os.remove(filename)
@@ -52,10 +50,11 @@ class MetaPostRender(LatexRender):
             if filename.endswith(".mp") and filename.startswith("tmp"):
                 subprocess.call(
                     ["mpost", filename],
+                    cwd=parent_dir,
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.STDOUT,
                 )
-        return super().render(
+        ret = super().render(
             file,
             show=show,
             resolution=resolution,
@@ -63,3 +62,12 @@ class MetaPostRender(LatexRender):
             height=height,
             clean_up=clean_up,
         )
+        if clean_up:
+            for filename in os.listdir(parent_dir):
+                if filename.endswith(".mp") and filename.startswith("tmp"):
+                    os.remove(filename)
+                if filename.endswith(".1") and filename.startswith(
+                    "tmp"
+                ):  # TODO maybe add more numbers
+                    os.remove(filename)
+        return ret

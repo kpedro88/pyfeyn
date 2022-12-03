@@ -7,6 +7,7 @@ from pylatex import Document, Figure, NoEscape, Section, SubFigure
 
 from pyfeyn2.render.asciipdf import ASCIIPDFRender
 from pyfeyn2.render.dot import DotRender
+from pyfeyn2.render.feynmp import FeynmpRender
 from pyfeyn2.render.latex import LatexRender
 from pyfeyn2.render.mpl import MPLRender
 from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
@@ -55,6 +56,7 @@ class AllRender(LatexRender):
         ASCIIPDFRender(fd).render(dirpath + "/asciipdf.pdf", **dynarg)
         TikzFeynmanRender(fd).render(dirpath + "/tikz.pdf", **dynarg)
         DotRender(fd).render(dirpath + "/dot.pdf", **dynarg)
+        FeynmpRender(fd).render(dirpath + "/feynmp.pdf", **dynarg)
         MPLRender(fd).render(dirpath + "/mpl.pdf", **dynarg)
         plt.close()
         with self.create(Figure(position="h!")) as kittens:
@@ -74,6 +76,12 @@ class AllRender(LatexRender):
                     dirpath + "/dot.pdf", width=NoEscape("0.49\\textwidth")
                 )
                 subfig.add_caption("Dot")
+            with self.create(SubFigure(position="b")) as subfig:
+                subfig.add_image(
+                    dirpath + "/feynmp.pdf", width=NoEscape("0.49\\textwidth")
+                )
+                subfig.add_caption("FeynMP")
+            self.append(NoEscape(r"\\"))
             with self.create(SubFigure(position="b")) as subfig:
                 subfig.add_image(
                     dirpath + "/mpl.pdf", width=NoEscape("0.49\\textwidth")
