@@ -16,9 +16,6 @@ matplotlib = "*"
 Wand = "*"
 numpy = "*"
 pyx = ">=0.12"
-pdf2image = "*"
-pillow ="*"
-cycler = "*"
 
 
 Sphinx = { version = "*", optional = true }
