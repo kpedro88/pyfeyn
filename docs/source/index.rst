@@ -41,10 +41,11 @@ Welcome to pyfeyn2's documentation!
    examples/*
 
 .. toctree::
-   :titlesonly:
+   :glob:
+   :maxdepth: 3
    :caption: Module:
 
-   /autoapi/pyfeyn2/index
+   autoapi/index.rst
 
 
 

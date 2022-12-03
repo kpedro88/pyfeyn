@@ -1,8 +1,9 @@
 .. _type:
+
 Type
 ====
 | Format: String
-| Valid on: :ref:`leg`, :ref:`propagator`
+| Elements: :ref:`leg`, :ref:`propagator`
 | Implementation: :py:class:`pyfeyn2.feynmandiagram.PDG`
 
 The type indicates the style of the line used to draw. 

@@ -10,6 +10,7 @@ Okay, XML is a bit of a buzzword. Not everything is best-represented as XML. How
 
 
 .. _elements:
+
 Elements
 ~~~~~~~~~~
 A Feynman diagram is constructed of 
@@ -23,6 +24,7 @@ A Feynman diagram is constructed of
    propagator.rst
 
 .. _attributes:
+
 Attributes
 ~~~~~~~~~~~
 Above buildings blocks come with different attributes, which are described in the following sections

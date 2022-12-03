@@ -1,4 +1,5 @@
 .. _style:
+
 Style
 ======
 | Format: String
@@ -7,3 +8,11 @@ Style
 A CSS-like semi-colon separated list of style properties. The following properties are supported per implementation:
 
 .. include:: ../../shared/style_tab.rst
+
+
+.. toctree::
+   :glob:
+   :maxdepth: 3
+   :hidden:
+
+   style/*
