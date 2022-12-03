@@ -25,6 +25,7 @@ Submodules
    dot/index.rst
    feynmp/index.rst
    latex/index.rst
+   metapost/index.rst
    mpl/index.rst
    pdf/index.rst
    render/index.rst

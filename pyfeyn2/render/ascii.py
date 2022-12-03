@@ -112,3 +112,8 @@ class ASCIIRender(Render):
         if show:
             print(joined)
         return joined
+
+    def valid_type(typ: str) -> bool:
+        if typ.lower() in namedlines:
+            return True
+        return False

@@ -56,3 +56,6 @@ Attributes
    Renders Feynman diagrams to ASCII art.
 
    .. py:method:: render(file=None, show=True, resolution=100, width=100, height=20)
+
+
+   .. py:method:: valid_type() -> bool

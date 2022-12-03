@@ -25,10 +25,10 @@ Classes
    .. py:method:: render(file=None)
 
 
-   .. py:method:: valid_style()
+   .. py:method:: valid_style() -> bool
 
 
-   .. py:method:: valid_type()
+   .. py:method:: valid_type() -> bool
 
 
-   .. py:method:: valid_attribute()
+   .. py:method:: valid_attribute() -> bool

@@ -1,7 +1,7 @@
-:py:mod:`pyfeyn2.render.feynmp`
-===============================
+:py:mod:`pyfeyn2.render.metapost`
+=================================
 
-.. py:module:: pyfeyn2.render.feynmp
+.. py:module:: pyfeyn2.render.metapost
 
 
 Module Contents
@@ -12,38 +12,14 @@ Classes
 
 .. autoapisummary::
 
-   pyfeyn2.render.feynmp.FeynmpRender
+   pyfeyn2.render.metapost.MetaPostRender
 
 
 
-Functions
-~~~~~~~~~
 
-.. autoapisummary::
+.. py:class:: MetaPostRender(fd, documentclass='standalone', document_options=['preview', 'crop'], *args, **kwargs)
 
-   pyfeyn2.render.feynmp.feynman_to_feynmp
-
-
-
-Attributes
-~~~~~~~~~~
-
-.. autoapisummary::
-
-   pyfeyn2.render.feynmp.type_map
-
-
-.. py:data:: type_map
-   
-
-   
-
-.. py:function:: feynman_to_feynmp(fd)
-
-
-.. py:class:: FeynmpRender(fd, documentclass='standalone', document_options=['preview', 'crop'], *args, **kwargs)
-
-   Bases: :py:obj:`pyfeyn2.render.metapost.MetaPostRender`
+   Bases: :py:obj:`pyfeyn2.render.latex.LatexRender`
 
    A class that contains a full LaTeX document.
 
@@ -82,4 +58,4 @@ Attributes
    :param data: Initial content of the document.
    :type data: list
 
-   .. py:method:: valid_type()
+   .. py:method:: render(file=None, show=True, resolution=100, width=None, height=None, clean_up=True)

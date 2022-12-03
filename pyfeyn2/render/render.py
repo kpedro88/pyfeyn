@@ -9,11 +9,11 @@ class Render:
     def render(self, file=None):
         pass
 
-    def valid_style(style):
+    def valid_style(style: str) -> bool:
         return False
 
-    def valid_type(style):
+    def valid_type(typ: str) -> bool:
         return False
 
-    def valid_attribute(style):
+    def valid_attribute(attr: str) -> bool:
         return False

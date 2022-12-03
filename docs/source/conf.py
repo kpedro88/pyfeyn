@@ -20,6 +20,7 @@ import sys
 
 from pyfeyn2.render.ascii import ASCIIRender
 from pyfeyn2.render.dot import DotRender
+from pyfeyn2.render.feynmp import FeynmpRender
 from pyfeyn2.render.pyx.pyxrender import PyxRender
 from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
 
@@ -100,11 +101,12 @@ renders = {
     PyxRender: "pyx",
     DotRender: "dot",
     ASCIIRender: "ascii",
+    FeynmpRender: "feynmp",
     TikzFeynmanRender: "tikzfeynman",
 }
 styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
 types = [
-    "fermion",
+    "boson" "fermion",
     "photon",
     "higgs",
     "gluon",

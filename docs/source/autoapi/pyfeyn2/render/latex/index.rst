@@ -67,4 +67,4 @@ Classes
    .. py:method:: set_src_diag(src_diag)
 
 
-   .. py:method:: render(file=None, show=True, resolution=100, width=None, height=None)
+   .. py:method:: render(file=None, show=True, resolution=100, width=None, height=None, clean_up=True)
