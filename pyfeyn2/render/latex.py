@@ -37,13 +37,21 @@ class LatexRender(Document, Render):
         self.src_diag = src_diag
         self.append(NoEscape(src_diag))
 
-    def render(self, file=None, show=True, resolution=100, width=None, height=None):
+    def render(
+        self,
+        file=None,
+        show=True,
+        resolution=100,
+        width=None,
+        height=None,
+        clean_up=True,
+    ):
         delete = False
         if file is None:
             delete = True
             file = "tmp"
         file = re.sub("\.pdf$", "", file.strip())
-        self.generate_pdf(file, clean_tex=True)
+        self.generate_pdf(file, clean_tex=clean_up)
         wi = WImage(
             filename=file + ".pdf", resolution=resolution, width=width, height=height
         )

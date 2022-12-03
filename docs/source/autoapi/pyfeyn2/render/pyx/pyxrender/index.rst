@@ -27,3 +27,6 @@ Classes
    .. py:method:: apply_layout(stylestring, obj)
 
       Apply the decorators encoded in a style string to an object.
+
+
+   .. py:method:: valid_type()

@@ -163,3 +163,8 @@ class PyxRender(Render):
             elif styledict["is3d"].lstrip().lower() in twords:
                 obj.set3D(True)
         return obj
+
+    def valid_type(typ: str):
+        if typ.lower() in NamedLine:
+            return True
+        return False

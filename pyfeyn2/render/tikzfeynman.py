@@ -6,6 +6,29 @@ from pyfeyn2.render.render import Render
 
 # converte FeynmanDiagram to tikz-feynman
 
+type_map = {
+    "gluon": "gluon",
+    "ghost": "ghost",
+    "photon": "boson",
+    "boson": "boson",
+    "fermion": "fermion",
+    "anti fermion": "anti fermion",
+    "charged boson": "charged boson",
+    "anti charged boson": "anti charged boson",
+    "scalar": "scalar",
+    "charged scalar": "charged scalar",
+    "anti charged scalar": "anti charged scalar",
+    "majorana": "majorana",
+    "anti majorana": "anti majorana",
+    # SUSY
+    "gaugino": "plain,boson",
+    "chargino": "plain,boson",
+    "neutralino": "plain,boson",
+    "squark": "charged scalar",
+    "slepton": "charged scalar",
+    "gluino": "plain,gluon",
+}
+
 
 def feynman_to_tikz_feynman(fd):
     src = "\\begin{tikzpicture}\n"
@@ -16,12 +39,14 @@ def feynman_to_tikz_feynman(fd):
         src += f"\t\\vertex ({l.id}) [label={l.label}] at ({l.x},{l.y});\n"
     src += "\t\\diagram*{\n"
     for p in fd.propagators:
-        src += f"\t\t({p.source}) -- [{p.type}] ({p.target}),\n"
+        ttype = type_map[p.type]
+        src += f"\t\t({p.source}) -- [{ttype}] ({p.target}),\n"
     for l in fd.legs:
+        ttype = type_map[l.type]
         if l.sense == "incoming":
-            src += f"\t\t({l.id}) -- [{l.type}] ({l.target}),\n"
+            src += f"\t\t({l.id}) -- [{ttype}] ({l.target}),\n"
         elif l.sense == "outgoing":
-            src += f"\t\t({l.target}) -- [{l.type}] ({l.id}),\n"
+            src += f"\t\t({l.target}) -- [{ttype}] ({l.id}),\n"
         else:
             raise Exception("Unknown sense")
     src += "\t};\n"
@@ -46,9 +71,13 @@ class TikzFeynmanRender(LatexRender):
             document_options=document_options,
             **kwargs,
         )
-        # super(Render,self).__init__(*args, fd=fd,**kwargs)
         self.preamble.append(Command("RequirePackage", "luatex85"))
         self.preamble.append(
             Command("usepackage", NoEscape("tikz-feynman"), "compat=1.1.0")
         )
         self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
+
+    def valid_type(typ):
+        if typ.lower() in type_map:
+            return True
+        return False

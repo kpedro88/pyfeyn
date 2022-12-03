@@ -8,6 +8,7 @@ PyFeyn is a Python-language based system for drawing Feynman diagrams. It was in
 
 * libmagickwand-dev
 * latexmk
+* (feynmp-auto)
 
 ## Installation
 

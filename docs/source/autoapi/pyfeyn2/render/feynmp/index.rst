@@ -1,7 +1,7 @@
-:py:mod:`pyfeyn2.render.tikzfeynman`
-====================================
+:py:mod:`pyfeyn2.render.feynmp`
+===============================
 
-.. py:module:: pyfeyn2.render.tikzfeynman
+.. py:module:: pyfeyn2.render.feynmp
 
 
 Module Contents
@@ -12,7 +12,7 @@ Classes
 
 .. autoapisummary::
 
-   pyfeyn2.render.tikzfeynman.TikzFeynmanRender
+   pyfeyn2.render.feynmp.FeynmpRender
 
 
 
@@ -21,7 +21,7 @@ Functions
 
 .. autoapisummary::
 
-   pyfeyn2.render.tikzfeynman.feynman_to_tikz_feynman
+   pyfeyn2.render.feynmp.feynman_to_feynmp
 
 
 
@@ -30,7 +30,7 @@ Attributes
 
 .. autoapisummary::
 
-   pyfeyn2.render.tikzfeynman.type_map
+   pyfeyn2.render.feynmp.type_map
 
 
 .. py:data:: type_map
@@ -38,10 +38,10 @@ Attributes
 
    
 
-.. py:function:: feynman_to_tikz_feynman(fd)
+.. py:function:: feynman_to_feynmp(fd)
 
 
-.. py:class:: TikzFeynmanRender(fd, documentclass='standalone', document_options=['preview', 'crop', 'tikz'], *args, **kwargs)
+.. py:class:: FeynmpRender(fd, documentclass='standalone', document_options=['preview', 'crop', 'tikz'], *args, **kwargs)
 
    Bases: :py:obj:`pyfeyn2.render.latex.LatexRender`
 
