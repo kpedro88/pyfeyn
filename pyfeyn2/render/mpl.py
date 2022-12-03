@@ -47,7 +47,7 @@ class MPLRender(Render):
     def __init__(self, fd, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
-    def render(self, file=None, show=True):
+    def render(self, file=None, show=True, width=None, height=None, resolution=100):
         idtopos = {}
         for v in self.fd.vertices:
             idtopos[v.id] = (v.x, v.y)
