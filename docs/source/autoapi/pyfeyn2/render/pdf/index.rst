@@ -1,0 +1,25 @@
+:py:mod:`pyfeyn2.render.pdf`
+============================
+
+.. py:module:: pyfeyn2.render.pdf
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   pyfeyn2.render.pdf.Render
+
+
+
+
+.. py:class:: Render(fd)
+
+   .. py:method:: get_src()
+
+
+   .. py:method:: render(file=None)

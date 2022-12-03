@@ -18,6 +18,11 @@ import os
 import re
 import sys
 
+from pyfeyn2.render.ascii import ASCIIRender
+from pyfeyn2.render.dot import DotRender
+from pyfeyn2.render.pyx.pyxrender import PyxRender
+from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
+
 sys.path.insert(0, os.path.abspath("../.."))
 
 
@@ -90,3 +95,120 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+renders = {
+    PyxRender: "pyx",
+    DotRender: "dot",
+    ASCIIRender: "ascii",
+    TikzFeynmanRender: "tikzfeynman",
+}
+styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
+types = [
+    "fermion",
+    "photon",
+    "gluon",
+    "scalar",
+    "vector",
+    "ghost",
+    "graviton",
+    "higgs",
+    "gluino",
+    "squark",
+    "slepton",
+    "sneutrino",
+    "sbottom",
+    "stop",
+    "stau",
+    "neutralino",
+    "chargino",
+    "wino",
+    "zino",
+    "higgsino",
+]
+attributes = [
+    "x",
+    "y",
+    "bend",
+    "label",
+    "pdgid",
+    "sense",
+    "target",
+    "source",
+    "style",
+    "id",
+    "type",
+]
+rst_epilog = """
+.. |check| raw:: html
+
+    <input checked=""  type="checkbox">
+
+.. |check_| raw:: html
+
+    <input checked=""  disabled="" type="checkbox">
+
+.. |uncheck| raw:: html
+
+    <input type="checkbox">
+
+.. |uncheck_| raw:: html
+
+    <input disabled="" type="checkbox">
+
+"""
+for r, n in renders.items():
+    for s in styles:
+        rst_epilog += (
+            f".. |{n}.style.{s}| replace:: "
+            + ("|check|" if r.valid_style(s) else "|uncheck|")
+            + "\n\n"
+        )
+    for s in types:
+        rst_epilog += (
+            f".. |{n}.type.{s}| replace:: "
+            + ("|check|" if r.valid_type(s) else "|uncheck|")
+            + "\n\n"
+        )
+    for s in attributes:
+        rst_epilog += (
+            f".. |{n}.attribute.{s}| replace:: "
+            + ("|check|" if r.valid_attribute(s) else "|uncheck|")
+            + "\n\n"
+        )
+
+import copy
+
+from smpl import doc, io
+
+style_tab = {":ref:`style`": [v for v in renders.values()]}
+original = copy.copy(style_tab)
+for s in styles:
+    arr = []
+    for r, n in renders.items():
+        arr += [f"|{n}.style.{s}|"]
+    style_tab[f":ref:`{s}`"] = arr
+    io.write(
+        "shared/style/" + s + ".rst",
+        doc.array_table({**original, f":ref:`{s}`": arr}, tabs=0, init=True),
+    )
+
+types_tab = {":ref:`type`": [v for v in renders.values()]}
+for s in types:
+    for r, n in renders.items():
+        types_tab[f":ref:`{s}`"] = (
+            [] if f":ref:`{s}`" not in types_tab else types_tab[f":ref:`{s}`"]
+        )
+        types_tab[f":ref:`{s}`"] += [f"|{n}.type.{s}|"]
+
+attr_tab = {":ref:`attribute`": [v for v in renders.values()]}
+for s in attributes:
+    for r, n in renders.items():
+        attr_tab[f":ref:`{s}`"] = (
+            [] if f":ref:`{s}`" not in attr_tab else attr_tab[f":ref:`{s}`"]
+        )
+        attr_tab[f":ref:`{s}`"] += [f"|{n}.attribute.{s}|"]
+
+
+io.write("shared/style_tab.rst", doc.array_table(style_tab, tabs=0, init=True))
+io.write("shared/type_tab.rst", doc.array_table(types_tab, tabs=0, init=True))
+io.write("shared/attr_tab.rst", doc.array_table(attr_tab, tabs=0, init=True))

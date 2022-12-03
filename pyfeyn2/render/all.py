@@ -60,23 +60,23 @@ class AllRender(LatexRender):
         with self.create(Figure(position="h!")) as kittens:
             with self.create(SubFigure(position="b")) as subfig:
                 subfig.add_image(
-                    dirpath + "/asciipdf.pdf", width=NoEscape("0.45\\textwidth")
+                    dirpath + "/asciipdf.pdf", width=NoEscape("0.49\\textwidth")
                 )
                 subfig.add_caption("ASCIIPDF")
             with self.create(SubFigure(position="b")) as subfig:
                 subfig.add_image(
-                    dirpath + "/tikz.pdf", width=NoEscape("0.45\\textwidth")
+                    dirpath + "/tikz.pdf", width=NoEscape("0.49\\textwidth")
                 )
                 subfig.add_caption("Tikz")
             self.append(NoEscape(r"\\"))
             with self.create(SubFigure(position="b")) as subfig:
                 subfig.add_image(
-                    dirpath + "/dot.pdf", width=NoEscape("0.45\\textwidth")
+                    dirpath + "/dot.pdf", width=NoEscape("0.49\\textwidth")
                 )
                 subfig.add_caption("Dot")
             with self.create(SubFigure(position="b")) as subfig:
                 subfig.add_image(
-                    dirpath + "/mpl.pdf", width=NoEscape("0.45\\textwidth")
+                    dirpath + "/mpl.pdf", width=NoEscape("0.49\\textwidth")
                 )
                 subfig.add_caption("MPL")
         if subfigure:

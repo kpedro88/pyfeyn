@@ -3,10 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+
+
+
 Welcome to pyfeyn2's documentation!
 ===================================
 
-.. include:: README.md
+.. include:: ../../README.md
    :parser: myst_parser.sphinx_
 
 
@@ -26,9 +29,9 @@ Welcome to pyfeyn2's documentation!
 .. toctree::
    :glob:
    :maxdepth: 3
-   :caption: Features:
+   :caption: FeynML:
 
-   features/*
+   feynml/index.rst
 
 .. toctree::
    :glob:

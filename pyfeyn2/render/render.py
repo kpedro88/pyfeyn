@@ -8,3 +8,12 @@ class Render:
 
     def render(self, file=None):
         pass
+
+    def valid_style(style):
+        return False
+
+    def valid_type(style):
+        return False
+
+    def valid_attribute(style):
+        return False

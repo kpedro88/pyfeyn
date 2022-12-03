@@ -1,0 +1,23 @@
+:py:mod:`pyfeyn2`
+=================
+
+.. py:module:: pyfeyn2
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   render/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   feynmandiagram/index.rst
+   particles/index.rst
