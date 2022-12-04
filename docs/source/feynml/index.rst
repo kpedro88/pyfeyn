@@ -13,7 +13,7 @@ Okay, XML is a bit of a buzzword. Not everything is best-represented as XML. How
 
 Elements
 ~~~~~~~~~~
-A Feynman diagram is constructed of ✓
+A Feynman diagram is constructed of
 
 .. toctree::
    :glob:
