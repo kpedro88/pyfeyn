@@ -4,22 +4,23 @@
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 livehtml:
-	$(MAKE) -C docs livehtml
+	poetry run $(MAKE) -C docs livehtml
 
 html:
-	$(MAKE) -C docs html
+	poetry run $(MAKE) -C docs html
 	
 doc: html
 
-#install:
-#	python3 -m pip install --user .[doc,dev]
-#
-#build:
-#	python3 -m build
+install:
+	poetry install --with docs --with dev
+	python3 -m pip install --user .
+
+build:
+	poetry build
 
 test:
 	rm -f .coverage coverage.xml
-	pytest pyfeyn2
+	poetry run pytest pyfeyn2
 
 commit: 
 	-git add .

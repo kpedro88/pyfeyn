@@ -21,7 +21,7 @@ pyx = ">=0.12"
 optional = true
 
 [tool.poetry.group.docs.dependencies]
-Sphinx = "*"
+sphinx = "*"
 sphinx-rtd-theme = "*"
 sphinxcontrib-napoleon = "*"
 nbsphinx = "*"
@@ -30,7 +30,8 @@ sphinx-autoapi = "*"
 sphinx_autobuild = "*"
 sphinx_math_dollar = "*"
 myst-parser  = "*"
-smpl = {path = "/home/apn/git/smpl", develop = true}
+smpl = "*"
+#smpl = {path = "/home/apn/git/smpl", develop = true}
 #smpl = {git = "https://github.com/APN-Pucky/smpl.git", branch = "master"}
 
 [tool.poetry.group.dev]
@@ -45,7 +46,18 @@ pytest-line-profiler-apn = ">=0.1.3"
 ipython =  "*"
 jupyterlab =  "*"
 jupyter = "*"
+poetry-dynamic-versioning = {extras = ["plugin"], version = "^0.21.1"}
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "pep440"
+dirty = true
+# modified dunami default pattern without v
+pattern = '(?x)(?# ignore whitespace)^((?P<epoch>\d+)!)?(?P<base>\d+(\.\d+)*)(?# v1.2.3 or v1!2000.1.2)([-._]?((?P<stage>[a-zA-Z]+)[-._]?(?P<revision>\d+)?))?(?# b0)(\+(?P<tagged_metadata>.+))?$(?# +linux)'
+strict = true
+format-jinja = "{% if distance == 0 %}{{ base }}{% else %}{{ base }}.{{ distance }}{% endif %}"
