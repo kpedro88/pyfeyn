@@ -44,7 +44,8 @@
    :maxdepth: 3
    :caption: Module:
 
-   autoapi/index.rst
+   /autoapi/pyfeyn2/index
+
 
 
 
