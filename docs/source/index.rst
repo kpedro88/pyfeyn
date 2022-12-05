@@ -27,6 +27,14 @@
 
 .. toctree::
    :glob:
+   :hidden:
+   :caption: Links:
+   :maxdepth: 3
+
+   GitHub <https://github.com/APN-Pucky/pyfeyn2>
+
+.. toctree::
+   :glob:
    :maxdepth: 3
    :caption: FeynML:
 
@@ -44,7 +52,7 @@
    :maxdepth: 3
    :caption: Module:
 
-   /autoapi/pyfeyn2/index
+   autoapi/index
 
 
 
