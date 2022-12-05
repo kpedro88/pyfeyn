@@ -17,6 +17,11 @@ poerty install --with docs --with dev
 poetry shell
 ```
 
+## Documentation
+
+-   <https://pyfeyn2.readthedocs.io/en/stable/>
+-   <https://apn-pucky.github.io/pyfeyn2/index.html>
+
 ## Troubleshooting
 
 * [ImageMagick security policy 'PDF' blocking conversion]( https://stackoverflow.com/questions/52998331/imagemagick-security-policy-pdf-blocking-conversion )
