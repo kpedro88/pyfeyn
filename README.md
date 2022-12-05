@@ -6,9 +6,9 @@ PyFeyn is a Python-language based system for drawing Feynman diagrams. It was in
 
 ## Dependencies
 
-* libmagickwand-dev (to display pdfs in a jupyter-notebook, might require a policy change of the imagemagick config for PDFs, see Troubleshooting)
-* latexmk
-* (feynmp-auto/feynmf)
+-   libmagickwand-dev (to display pdfs in a jupyter-notebook, might require a policy change of the imagemagick config for PDFs, see Troubleshooting)
+-   latexmk
+-   (feynmp-auto/feynmf)
 
 ## Installation
 
@@ -24,12 +24,12 @@ poetry shell
 
 ## Troubleshooting
 
-* [ImageMagick security policy 'PDF' blocking conversion]( https://stackoverflow.com/questions/52998331/imagemagick-security-policy-pdf-blocking-conversion )
+-   [ImageMagick security policy 'PDF' blocking conversion]( https://stackoverflow.com/questions/52998331/imagemagick-security-policy-pdf-blocking-conversion )
 
 ## Development
 
 
 ### package/python structure:
 
-* https://mathspp.com/blog/how-to-create-a-python-package-in-2022
-* https://www.brainsorting.com/posts/publish-a-package-on-pypi-using-poetry/
+-   <https://mathspp.com/blog/how-to-create-a-python-package-in-2022>
+-   <https://www.brainsorting.com/posts/publish-a-package-on-pypi-using-poetry/>
