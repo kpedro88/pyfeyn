@@ -18,6 +18,8 @@ import os
 import re
 import sys
 
+import toml
+
 from pyfeyn2.render.ascii import ASCIIRender
 from pyfeyn2.render.dot import DotRender
 from pyfeyn2.render.feynmp import FeynmpRender
@@ -29,9 +31,12 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 
-project = "pyfeyn2"
-copyright = str(datetime.datetime.now().year) + ", Alexander Puck Neuwirth (APN-Pucky)"
-author = "Alexander Puck Neuwirth"
+info = toml.load("../../pyproject.toml")
+project = info["tool"]["poetry"]["name"]
+copyright = str(datetime.datetime.now().year) + ", Alexander Puck Neuwirth"
+author = ", ".join(info["tool"]["poetry"]["authors"])
+version = re.sub("^", "", os.popen("git describe --tags").read().strip())
+rst_prolog = f""".. |project| replace:: {project}"""
 
 
 # -- General configuration ---------------------------------------------------

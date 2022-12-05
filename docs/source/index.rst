@@ -3,11 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+=================================
+|project| |version| documentation
+=================================
 
-
-
-Welcome to pyfeyn2's documentation!
-===================================
 
 .. include:: ../../README.md
    :parser: myst_parser.sphinx_
