@@ -17,6 +17,10 @@ poerty install --with docs --with dev
 poetry shell
 ```
 
+## Troubleshooting
+
+* [ImageMagick security policy 'PDF' blocking conversion]( https://stackoverflow.com/questions/52998331/imagemagick-security-policy-pdf-blocking-conversion )
+
 ## Development
 
 
