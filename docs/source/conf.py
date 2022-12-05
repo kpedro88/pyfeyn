@@ -135,7 +135,9 @@ attributes = [
     "id",
     "type",
 ]
-rst_epilog = """
+rst_epilog = (
+    rst_epilog
+    + """
 .. |check| replace:: ✔
 
 
@@ -145,6 +147,7 @@ rst_epilog = """
 .. |mixed| replace:: ✔/✖
 
 """
+)
 for r, n in renders.items():
     for s in styles:
         rst_epilog += (
