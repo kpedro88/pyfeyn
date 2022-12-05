@@ -30,7 +30,8 @@ sphinx-autoapi = "*"
 sphinx_autobuild = "*"
 sphinx_math_dollar = "*"
 myst-parser  = "*"
-smpl = "*"
+smpl = ">=1.0.0"
+toml = "*"
 #smpl = {path = "/home/apn/git/smpl", develop = true}
 #smpl = {git = "https://github.com/APN-Pucky/smpl.git", branch = "master"}
 
