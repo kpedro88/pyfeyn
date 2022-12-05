@@ -39,7 +39,7 @@ project = info["tool"]["poetry"]["name"]
 copyright = str(datetime.datetime.now().year) + ", Alexander Puck Neuwirth"
 author = ", ".join(info["tool"]["poetry"]["authors"])
 version = re.sub("^", "", os.popen("git describe --tags").read().strip())
-rst_epilog = f""".. |project| replace:: {project}"""
+rst_epilog = f""".. |project| replace:: {project}\n\n"""
 
 
 # -- General configuration ---------------------------------------------------
@@ -63,21 +63,12 @@ extensions = [
     "sphinx.ext.coverage",
     "jupyter_sphinx",
     "IPython.sphinxext.ipython_console_highlighting",
-    #'sphinx_copybutton',
-    #'sphinx.ext.doctest',
-    #'sphinx.ext.autodoc',
-    #'sphinx.ext.githubpages',
-    #'nbsphinx',
-    #'jupyter_sphinx',
-    #'sphinx.ext.doctest',
-    #'sphinx.ext.viewcode',
-    #'sphinx.ext.autosummary',
     "autoapi.extension",
 ]
 
 napoleon_use_ivar = True
 autoapi_type = "python"
-autoapi_dirs = ["../../pyfeyn2"]
+autoapi_dirs = ["../../" + project]
 autoapi_python_class_content = "both"
 
 # Add any paths that contain templates here, relative to this directory.
