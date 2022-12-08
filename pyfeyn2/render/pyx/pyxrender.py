@@ -164,12 +164,12 @@ class PyxRender(Render):
                 obj.set3D(True)
         return obj
 
-    def valid_type(typ: str):
+    def valid_type(self, typ: str):
         if typ.lower() in NamedLine:
             return True
         return False
 
-    def valid_attribute(attr: str) -> bool:
+    def valid_attribute(self, attr: str) -> bool:
         return super().valid_attribute(attr) or attr.lower() in [
             "style",
             "type",
@@ -177,7 +177,7 @@ class PyxRender(Render):
             "label",
         ]
 
-    def valid_style(attr: str) -> bool:
+    def valid_style(self, attr: str) -> bool:
         return super().valid_style(attr) or attr.lower() in [
             "arrow-pos",
             "parallel-arrow-sense",

@@ -113,7 +113,7 @@ class ASCIIRender(Render):
             print(joined)
         return joined
 
-    def valid_type(typ: str) -> bool:
+    def valid_type(self, typ: str) -> bool:
         if typ.lower() in namedlines:
             return True
         return False

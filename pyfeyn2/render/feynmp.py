@@ -108,7 +108,7 @@ class FeynmpRender(MetaPostRender):
         self.preamble.append(Command("usepackage", NoEscape("feynmp-auto")))
         self.set_src_diag(NoEscape(feynman_to_feynmp(fd)))
 
-    def valid_type(typ):
+    def valid_type(self, typ):
         if typ.lower() in type_map:
             return True
         return False

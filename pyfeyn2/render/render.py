@@ -9,13 +9,13 @@ class Render:
     def render(self, file=None):
         pass
 
-    def valid_style(style: str) -> bool:
+    def valid_style(self, style: str) -> bool:
         return False
 
-    def valid_type(typ: str) -> bool:
+    def valid_type(self, typ: str) -> bool:
         return False
 
-    def valid_attribute(attr: str) -> bool:
+    def valid_attribute(self, attr: str) -> bool:
         if attr == "id":
             return True
         if attr == "sense":

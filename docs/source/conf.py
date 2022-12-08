@@ -20,6 +20,7 @@ import sys
 
 import toml
 
+from pyfeyn2 import feynmandiagram
 from pyfeyn2.render.ascii import ASCIIRender
 from pyfeyn2.render.dot import DotRender
 from pyfeyn2.render.feynmp import FeynmpRender
@@ -96,14 +97,14 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
-
+fd = feynmandiagram.FeynmanDiagram()
 renders = {
-    PyxRender: "pyx",
-    DotRender: "dot",
-    ASCIIRender: "ascii",
-    MPLRender: "mpl",
-    FeynmpRender: "feynmp",
-    TikzFeynmanRender: "tikzfeynman",
+    "pyx": PyxRender(fd),
+    "dot": DotRender(fd),
+    "ascii": ASCIIRender(fd),
+    "mpl": MPLRender(fd),
+    "feynmp": FeynmpRender(fd),
+    "tikzfeynman": TikzFeynmanRender(fd),
 }
 styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
 types = [
@@ -150,7 +151,7 @@ rst_epilog = (
 
 """
 )
-for r, n in renders.items():
+for n, r in renders.items():
     for s in styles:
         rst_epilog += (
             f".. |{n}.style.{s}| replace:: "
@@ -174,11 +175,11 @@ import copy
 
 from smpl import doc, io
 
-style_tab = {":ref:`style`": [v for v in renders.values()]}
+style_tab = {":ref:`style`": [v for v in renders.keys()]}
 original = copy.copy(style_tab)
 for s in styles:
     arr = []
-    for r, n in renders.items():
+    for n, r in renders.items():
         arr += [f"|{n}.style.{s}|"]
     style_tab[f":ref:`{s}`"] = arr
     io.write(
@@ -186,17 +187,17 @@ for s in styles:
         doc.array_table({**original, f":ref:`{s}`": arr}, tabs=0, init=True),
     )
 
-types_tab = {":ref:`type`": [v for v in renders.values()]}
+types_tab = {":ref:`type`": [v for v in renders.keys()]}
 for s in types:
-    for r, n in renders.items():
+    for n, r in renders.items():
         types_tab[f":ref:`{s}`"] = (
             [] if f":ref:`{s}`" not in types_tab else types_tab[f":ref:`{s}`"]
         )
         types_tab[f":ref:`{s}`"] += [f"|{n}.type.{s}|"]
 
-attr_tab = {":ref:`attribute`": [v for v in renders.values()]}
+attr_tab = {":ref:`attribute`": [v for v in renders.keys()]}
 for s in attributes:
-    for r, n in renders.items():
+    for n, r in renders.items():
         attr_tab[f":ref:`{s}`"] = (
             [] if f":ref:`{s}`" not in attr_tab else attr_tab[f":ref:`{s}`"]
         )
