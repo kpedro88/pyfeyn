@@ -168,3 +168,18 @@ class PyxRender(Render):
         if typ.lower() in NamedLine:
             return True
         return False
+
+    def valid_attribute(attr: str) -> bool:
+        return super().valid_attribute(attr) or attr.lower() in [
+            "style",
+            "type",
+            "bend",
+            "label",
+        ]
+
+    def valid_style(attr: str) -> bool:
+        return super().valid_style(attr) or attr.lower() in [
+            "arrow-pos",
+            "parallel-arrow-sense",
+            "parallel-arrow-displace",
+        ]

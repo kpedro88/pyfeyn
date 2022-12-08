@@ -16,4 +16,14 @@ class Render:
         return False
 
     def valid_attribute(attr: str) -> bool:
+        if attr == "id":
+            return True
+        if attr == "sense":
+            return True
+        if attr == "target":
+            return True
+        if attr == "source":
+            return True
+        if attr == "type":
+            return True
         return False
