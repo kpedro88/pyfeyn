@@ -410,3 +410,6 @@ TETRASTAR = StarshapeMark(rays=4)
 STAR = StarshapeMark(rays=5)
 HEXASTAR = StarshapeMark(rays=6)
 OCTOSTAR = StarshapeMark(rays=8)
+
+
+NamedMark = {"none": lambda size: None, "circle": CircleMark, "square": SquareMark}
