@@ -3,6 +3,9 @@ livehtml:
 
 html:
 	poetry run $(MAKE) -C docs html
+
+pdf:
+	poetry run $(MAKE) -C docs latexpdf
 	
 doc: html
 

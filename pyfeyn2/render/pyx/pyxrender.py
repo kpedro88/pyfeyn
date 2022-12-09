@@ -19,7 +19,7 @@ from pyfeyn2.render.render import Render
 
 
 class PyxRender(Render):
-    def __init__(self, fd, *args, **kwargs):
+    def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
     def render(self, file=None, show=True, resolution=100, width=None, height=None):

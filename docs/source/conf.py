@@ -64,6 +64,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.coverage",
     "jupyter_sphinx",
+    "IPython.sphinxext.ipython_directive",
     "IPython.sphinxext.ipython_console_highlighting",
     "autoapi.extension",
 ]
@@ -187,13 +188,16 @@ for s in styles:
         doc.array_table({**original, f":ref:`{s}`": arr}, tabs=0, init=True),
     )
 
-types_tab = {":ref:`type`": [v for v in renders.keys()]}
+type_tab = {":ref:`type`": [v for v in renders.keys()]}
 for s in types:
+    arr = []
     for n, r in renders.items():
-        types_tab[f":ref:`{s}`"] = (
-            [] if f":ref:`{s}`" not in types_tab else types_tab[f":ref:`{s}`"]
-        )
-        types_tab[f":ref:`{s}`"] += [f"|{n}.type.{s}|"]
+        arr += [f"|{n}.type.{s}|"]
+    type_tab[f":ref:`/feynml/attributes/type/{s}.ipynb`"] = arr
+    io.write(
+        "shared/type/" + s + ".rst",
+        doc.array_table({**original, f":ref:`{s}`": arr}, tabs=0, init=True),
+    )
 
 attr_tab = {":ref:`attribute`": [v for v in renders.keys()]}
 for s in attributes:
@@ -205,5 +209,5 @@ for s in attributes:
 
 
 io.write("shared/style_tab.rst", doc.array_table(style_tab, tabs=0, init=True))
-io.write("shared/type_tab.rst", doc.array_table(types_tab, tabs=0, init=True))
+io.write("shared/type_tab.rst", doc.array_table(type_tab, tabs=0, init=True))
 io.write("shared/attr_tab.rst", doc.array_table(attr_tab, tabs=0, init=True))

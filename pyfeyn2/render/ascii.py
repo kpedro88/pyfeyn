@@ -51,15 +51,20 @@ class ASCIILine:
 
 class Gluon(ASCIILine):
     def __init__(self):
-        super().__init__(begin="O", end="O", vert="O", horz="O")
+        super().__init__(begin="O", end="O", vert=["O"], horz=["O"])
 
 
 class Photon(ASCIILine):
     def __init__(self):
-        super().__init__(begin="*", end="*", vert=["(", ")"], horz="~")
+        super().__init__(begin="*", end="*", vert=["(", ")"], horz=["~"])
 
 
-namedlines = {"gluon": Gluon, "photon": Photon}
+class Ghost(ASCIILine):
+    def __init__(self):
+        super().__init__(begin="*", end="*", vert=["."], horz=["."])
+
+
+namedlines = {"gluon": Gluon, "photon": Photon, "ghost": Ghost, "boson": Photon}
 
 
 class ASCIIRender(Render):
@@ -68,10 +73,7 @@ class ASCIIRender(Render):
     def __init__(self, fd, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
-    def render(self, file=None, show=True, resolution=100, width=100, height=20):
-        pane = []
-        for i in range(height):
-            pane.append([" "] * width)
+    def render(self, file=None, show=True, resolution=100, width=None, height=None):
         maxx = minx = maxy = miny = 0
         for l in self.fd.legs:
             if l.x < minx:
@@ -91,6 +93,16 @@ class ASCIIRender(Render):
                 miny = l.y
             if l.y > maxy:
                 maxy = l.y
+
+        if width is None:
+            width = int((maxx - minx + 1) * resolution / 100)
+        if height is None:
+            height = int((maxy - miny + 1) * resolution / 100)
+
+        pane = []
+        for i in range(height):
+            pane.append([" "] * width)
+
         scalex = (width - 1) / (maxx - minx)
         scaley = (height - 1) / (maxy - miny)
         kickx = -minx

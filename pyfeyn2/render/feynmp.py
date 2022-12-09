@@ -63,16 +63,18 @@ def feynman_to_feynmp(fd):
             # src += f"\t\t\\fmf{{{ttype}}}{{{l.target},{l.id}}}\n"
         else:
             raise Exception("Unknown sense")
-    src += "\t\t\\fmfleft{"
-    for l in incoming:
-        src += f"{l.id},"
-    src = src[:-1]
-    src += "}\n"
-    src += "\t\t\\fmfright{"
-    for l in outgoing:
-        src += f"{l.id},"
-    src = src[:-1]
-    src += "}\n"
+    if len(incoming) > 0:
+        src += "\t\t\\fmfleft{"
+        for l in incoming:
+            src += f"{l.id},"
+        src = src[:-1]
+        src += "}\n"
+    if len(outgoing) > 0:
+        src += "\t\t\\fmfright{"
+        for l in outgoing:
+            src += f"{l.id},"
+        src = src[:-1]
+        src += "}\n"
 
     for l in incoming:
         ttype = type_map[l.type]
@@ -92,7 +94,7 @@ def feynman_to_feynmp(fd):
 class FeynmpRender(MetaPostRender):
     def __init__(
         self,
-        fd,
+        fd=None,
         documentclass="standalone",
         document_options=["preview", "crop"],
         *args,
@@ -106,6 +108,11 @@ class FeynmpRender(MetaPostRender):
             **kwargs,
         )
         self.preamble.append(Command("usepackage", NoEscape("feynmp-auto")))
+        if fd is not None:
+            self.set_feynman_diagram(fd)
+
+    def set_feynman_diagram(self, fd):
+        super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_feynmp(fd)))
 
     def valid_type(self, typ):

@@ -4,12 +4,22 @@ import numpy as np
 from pyfeyn2.render.render import Render
 
 
-def line(p1, p2, points=200):
+def dotted(p1, p2, points=200):
     n = np.linspace(0, points, points)
-    return (
+    x, y = (
         p1[0] + (p2[0] - p1[0]) * (n / points),
         p1[1] + (p2[1] - p1[1]) * (n / points),
     )
+    plt.plot(x, y, "k:")
+
+
+def line(p1, p2, points=200):
+    n = np.linspace(0, points, points)
+    x, y = (
+        p1[0] + (p2[0] - p1[0]) * (n / points),
+        p1[1] + (p2[1] - p1[1]) * (n / points),
+    )
+    plt.plot(x, y, "k-")
 
 
 def spring(xp1, xp2, points=200, rot=3, amp=0.15, line_frac=0.2):
@@ -37,10 +47,18 @@ def spring(xp1, xp2, points=200, rot=3, amp=0.15, line_frac=0.2):
         + amp * (np.sin(w * n - alpha) - np.sin(-alpha)),
     )
 
-    return (
+    x, y = (
         np.append(np.insert(ret[0], 0, xp1[0]), xp2[0]),
         np.append(np.insert(ret[1], 0, xp1[1]), xp2[1]),
     )
+    plt.plot(x, y, "k-")
+
+
+namedlines = {
+    "straight": line,
+    "gluon": spring,
+    "ghost": dotted,
+}
 
 
 class MPLRender(Render):
@@ -55,19 +73,21 @@ class MPLRender(Render):
             idtopos[l.id] = (l.x, l.y)
 
         for p in self.fd.propagators:
-            x, y = spring(idtopos[p.source], idtopos[p.target])
-            plt.plot(x, y, "k-")
+            namedlines[l.type](idtopos[p.source], idtopos[p.target])
         for l in self.fd.legs:
             if l.sense == "incoming":
-                x, y = spring(idtopos[l.id], idtopos[l.target])
-                plt.plot(x, y, "k-")
+                namedlines[l.type](idtopos[l.id], idtopos[l.target])
             elif l.sense == "outgoing":
-                x, y = spring(idtopos[l.target], idtopos[l.id])
-                plt.plot(x, y, "k-")
+                namedlines[l.type](idtopos[l.target], idtopos[l.id])
             else:
                 raise Exception("Unknown sense")
-
+        plt.axis("off")
         if show:
             plt.show()
         if file is not None:
             plt.savefig(file)
+
+    def valid_type(self, typ: str) -> bool:
+        if typ.lower() in namedlines:
+            return True
+        return False

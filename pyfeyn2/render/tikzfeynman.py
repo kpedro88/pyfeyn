@@ -58,7 +58,7 @@ def feynman_to_tikz_feynman(fd):
 class TikzFeynmanRender(LatexRender):
     def __init__(
         self,
-        fd,
+        fd=None,
         documentclass="standalone",
         document_options=["preview", "crop", "tikz"],
         *args,
@@ -75,6 +75,11 @@ class TikzFeynmanRender(LatexRender):
         self.preamble.append(
             Command("usepackage", NoEscape("tikz-feynman"), "compat=1.1.0")
         )
+        if fd is not None:
+            self.set_feynman_diagram(fd)
+
+    def set_feynman_diagram(self, fd):
+        super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
 
     def valid_type(self, typ):
