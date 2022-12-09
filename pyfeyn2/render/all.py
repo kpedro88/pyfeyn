@@ -1,9 +1,8 @@
-import copy
 import shutil
 import tempfile
 
 from matplotlib import pyplot as plt
-from pylatex import Document, Figure, NoEscape, Section, SubFigure
+from pylatex import Figure, NoEscape, SubFigure
 
 from pyfeyn2.render.asciipdf import ASCIIPDFRender
 from pyfeyn2.render.dot import DotRender
@@ -21,10 +20,12 @@ class AllRender(LatexRender):
         self,
         fd=None,
         documentclass="standalone",
-        document_options=["varwidth"],
+        document_options=None,
         *args,
         **kwargs,
     ):
+        if document_options is None:
+            document_options = ["varwidth"]
         super().__init__(
             *args,
             fd=fd,
@@ -101,7 +102,7 @@ class AllRender(LatexRender):
         except Exception as e:
             print("MPL failed:", e)
 
-        with self.create(Figure(position="h!")) as kittens:
+        with self.create(Figure(position="h!")):
 
             with self.create(SubFigure(position="b")) as subfig:
                 subfig.add_image(
@@ -148,11 +149,11 @@ class AllRender(LatexRender):
             MPLRender(),
         ]
 
-        def valid_style(self, type):
-            return True in [r.valid_style(type) for r in renderers]
+        def valid_style(self, typ):
+            return True in [r.valid_style(typ) for r in renderers]
 
-        def valid_attribute(self, type):
-            return True in [r.valid_attribute(type) for r in renderers]
+        def valid_attribute(self, typ):
+            return True in [r.valid_attribute(typ) for r in renderers]
 
-        def valid_type(self, type):
-            return True in [r.valid_type(type) for r in renderers]
+        def valid_type(self, typ):
+            return True in [r.valid_type(typ) for r in renderers]

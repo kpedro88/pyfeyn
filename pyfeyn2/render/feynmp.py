@@ -104,10 +104,12 @@ class FeynmpRender(MetaPostRender):
         self,
         fd=None,
         documentclass="standalone",
-        document_options=["preview", "crop"],
+        document_options=None,
         *args,
         **kwargs,
     ):
+        if document_options is None:
+            document_options = ["preview", "crop"]
         super().__init__(
             *args,
             fd=fd,
@@ -126,7 +128,7 @@ class FeynmpRender(MetaPostRender):
     def valid_attribute(self, attr: str) -> bool:
         return super().valid_attribute(attr) or attr in []
 
-    def valid_type(self, typ):
+    def valid_type(self, typ: str):
         if typ.lower() in type_map:
             return True
         return False

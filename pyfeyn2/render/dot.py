@@ -92,10 +92,12 @@ class DotRender(LatexRender):
         self,
         fd=None,
         documentclass="standalone",
-        document_options=["preview", "crop", "tikz"],
+        document_options=None,
         *args,
         **kwargs,
     ):
+        if document_options is None:
+            document_options = ["preview", "crop", "tikz"]
         super().__init__(
             *args,
             fd=fd,
