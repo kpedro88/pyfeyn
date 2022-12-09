@@ -175,6 +175,8 @@ class PyxRender(Render):
             "type",
             "bend",
             "label",
+            "x",
+            "y",
         ]
 
     def valid_style(self, attr: str) -> bool:

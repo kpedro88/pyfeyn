@@ -29,7 +29,7 @@ from pyfeyn2.render.pyx.pyxrender import PyxRender
 from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
 
 sys.path.insert(0, os.path.abspath("../.."))
-
+import pyfeyn2
 
 # -- Project information -----------------------------------------------------
 
@@ -98,52 +98,12 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
-fd = feynmandiagram.FeynmanDiagram()
-renders = {
-    "pyx": PyxRender(fd),
-    "dot": DotRender(fd),
-    "ascii": ASCIIRender(fd),
-    "mpl": MPLRender(fd),
-    "feynmp": FeynmpRender(fd),
-    "tikzfeynman": TikzFeynmanRender(fd),
-}
-styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
-types = [
-    # General
-    "fermion",
-    "boson",
-    "vector",
-    "scalar",
-    # SM
-    "photon",
-    "higgs",
-    "gluon",
-    "ghost",
-    # Grav
-    "graviton",
-    # MSSM
-    "gluino",
-    "squark",
-    "slepton",
-    "gaugino",
-    "neutralino",
-    "chargino",
-    "higgsino",
-    "gravitino",
-]
-attributes = [
-    "x",
-    "y",
-    "bend",
-    "label",
-    "pdgid",
-    "sense",
-    "target",
-    "source",
-    "style",
-    "id",
-    "type",
-]
+
+renders = pyfeyn2.renders
+styles = pyfeyn2.styles
+types = pyfeyn2.types
+attributes = pyfeyn2.attributes
+
 rst_epilog = (
     rst_epilog
     + """
@@ -161,19 +121,19 @@ for n, r in renders.items():
     for s in styles:
         rst_epilog += (
             f".. |{n}.style.{s}| replace:: "
-            + ("|check|" if r.valid_style(s) else "|uncheck|")
+            + ("|check|" if r().valid_style(s) else "|uncheck|")
             + "\n\n"
         )
     for s in types:
         rst_epilog += (
             f".. |{n}.type.{s}| replace:: "
-            + ("|check|" if r.valid_type(s) else "|uncheck|")
+            + ("|check|" if r().valid_type(s) else "|uncheck|")
             + "\n\n"
         )
     for s in attributes:
         rst_epilog += (
             f".. |{n}.attribute.{s}| replace:: "
-            + ("|check|" if r.valid_attribute(s) else "|uncheck|")
+            + ("|check|" if r().valid_attribute(s) else "|uncheck|")
             + "\n\n"
         )
 
