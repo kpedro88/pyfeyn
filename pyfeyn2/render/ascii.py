@@ -6,18 +6,43 @@ from pyfeyn2.render.render import Render
 
 
 class ASCIILine:
-    def __init__(self, begin=" ", end=" ", vert="|", horz="-"):
+    def __init__(
+        self,
+        begin=" ",
+        end=" ",
+        vert=None,
+        horz=None,
+        left=None,
+        up=None,
+        right=None,
+        down=None,
+    ):
         self.begin = begin
         self.end = end
 
-        if isinstance(vert, List):
-            self.vert = vert
-        else:
-            self.vert = [vert]
-        if isinstance(horz, List):
-            self.horz = horz
-        else:
-            self.horz = [horz]
+        if not isinstance(left, List):
+            left = [left]
+        self.left = left
+        if not isinstance(up, List):
+            up = [up]
+        self.up = up
+        if not isinstance(right, List):
+            right = [right]
+        self.right = right
+        if not isinstance(down, List):
+            down = [down]
+        self.down = down
+
+        if vert is not None:
+            if not isinstance(vert, List):
+                vert = [vert]
+            self.down = vert
+            self.up = vert
+        if horz is not None:
+            if not isinstance(horz, List):
+                self.horz = [horz]
+            self.right = horz
+            self.left = horz
         self.index = 0
 
     def draw(self, pane, isrc, itar, scalex=1, scaley=1, kickx=0, kicky=0):
@@ -31,17 +56,22 @@ class ASCIILine:
 
         if abs(srcx - tarx) > abs(srcy - tary):
             for i in range(srcx, tarx, 1 if srcx < tarx else -1):
-                pane[round(srcy + (tary - srcy) * (i - srcx) / (-srcx + tarx))][
-                    i
-                ] = self.horz[self.index % len(self.horz)]
+                pane[round(srcy + (tary - srcy) * (i - srcx) / (-srcx + tarx))][i] = (
+                    self.left[self.index % len(self.left)]
+                    if srcx > tarx
+                    else self.right[self.index % len(self.right)]
+                )
                 self.index += 1
         else:
             for i in range(srcy, tary, 1 if srcy < tary else -1):
-                pane[i][
-                    round(srcx + (tarx - srcx) * (i - srcy) / (-srcy + tary))
-                ] = self.vert[self.index % len(self.vert)]
+                pane[i][round(srcx + (tarx - srcx) * (i - srcy) / (-srcy + tary))] = (
+                    self.up[self.index % len(self.up)]
+                    if srcy < tary
+                    else self.down[self.index % len(self.down)]
+                )
+
                 self.index += 1
-        pane[tary][tarx] = self.vert[self.index % len(self.vert)]
+        # pane[tary][tarx] = self.vert[self.index % len(self.vert)]
         self.index += 1
         if self.begin is not None and self.begin != "":
             pane[srcy][srcx] = self.begin
@@ -64,7 +94,25 @@ class Ghost(ASCIILine):
         super().__init__(begin="*", end="*", vert=["."], horz=["."])
 
 
-namedlines = {"gluon": Gluon, "photon": Photon, "ghost": Ghost, "boson": Photon}
+class Fermion(ASCIILine):
+    def __init__(self):
+        super().__init__(
+            begin="*",
+            end="*",
+            left="--<--",
+            right="-->--",
+            up="||^||",
+            down="||v||",
+        )
+
+
+namedlines = {
+    "gluon": Gluon,
+    "photon": Photon,
+    "ghost": Ghost,
+    "boson": Photon,
+    "fermion": Fermion,
+}
 
 
 class ASCIIRender(Render):

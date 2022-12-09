@@ -32,5 +32,8 @@ class ASCIIPDFRender(LatexRender, ASCIIRender):
         clean_up=True,
     ):
         str = ASCIIRender.render(self, None, False, resolution, width, height)
+        # str = str.replace("^", "\\^{}")
+        # str = str.replace(">", "$>$")
+        # str = str.replace("<", "$<$")
         self.set_src_diag("\\begin{lstlisting}" + str + "\\end{lstlisting}")
         super().render(file, show, resolution, width, height, clean_up)

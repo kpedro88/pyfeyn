@@ -66,6 +66,8 @@ class MetaPostRender(LatexRender):
             for filename in os.listdir(parent_dir):
                 if filename.endswith(".mp") and filename.startswith("tmp"):
                     os.remove(Path.joinpath(parent_dir, filename))
+                elif filename.endswith(".log") and filename.startswith("tmp"):
+                    os.remove(Path.joinpath(parent_dir, filename))
                 elif filename.endswith(".1") and filename.startswith(
                     "tmp"
                 ):  # TODO maybe add more numbers

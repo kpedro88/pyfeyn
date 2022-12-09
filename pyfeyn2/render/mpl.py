@@ -98,6 +98,7 @@ namedlines = {
     "photon": wave,
     "boson": wave,
     "ghost": dotted,
+    "fermion": line,
 }
 
 

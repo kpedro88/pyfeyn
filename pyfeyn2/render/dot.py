@@ -13,6 +13,7 @@ map_feyn_to_tikz = {
     "boson": "decorate,decoration=snake",
     "gluon": "decorate,decoration=coil,aspect=0.3,segment length=1mm",
     "ghost": "dotted",
+    "fermion": "->.",
 }
 
 
