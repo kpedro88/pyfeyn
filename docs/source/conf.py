@@ -109,8 +109,8 @@ renders = {
 }
 styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
 types = [
-    "boson",
     "fermion",
+    "boson",
     "photon",
     "higgs",
     "gluon",

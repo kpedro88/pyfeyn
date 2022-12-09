@@ -54,9 +54,50 @@ def spring(xp1, xp2, points=200, rot=3, amp=0.15, line_frac=0.2):
     plt.plot(x, y, "k-")
 
 
+def wave(xp1, xp2, points=200, rot=3, amp=0.15, line_frac=0.2):
+    # first skip via p1 and p2 to
+    p1 = [
+        xp1[0] + (xp2[0] - xp1[0]) * line_frac,
+        xp1[1] + (xp2[1] - xp1[1]) * line_frac,
+    ]
+
+    p2 = [
+        xp2[0] - (xp2[0] - xp1[0]) * line_frac,
+        xp2[1] - (xp2[1] - xp1[1]) * line_frac,
+    ]
+
+    n = np.linspace(0, points, points)
+    alpha = np.arctan((p2[1] - p1[1]) / np.array([(p2[0] - p1[0])]))
+    scaley = 1
+    scalex = 1
+    if p2[1] < p1[1]:
+        scaley = -1
+    if p2[0] < p1[0]:
+        scalex = -1
+    alphap = alpha + np.pi / 2
+    w = rot / points * (2 * np.pi)  # + np.pi / points
+    ret = (
+        p1[0]
+        + (p2[0] - p1[0]) * (n / points)
+        + amp * np.sin(w * n) * (0 * np.cos((alpha)) - np.sin((alpha))),
+        p1[1]
+        + (p2[1] - p1[1]) * (n / points)
+        + amp * np.sin(w * n) * (0 * np.sin((alpha)) + np.cos((alpha))),
+    )
+    print(alpha)
+
+    x, y = (
+        np.append(np.insert(ret[0], 0, xp1[0]), xp2[0]),
+        np.append(np.insert(ret[1], 0, xp1[1]), xp2[1]),
+    )
+    plt.plot(x, y, "k-")
+
+
 namedlines = {
     "straight": line,
     "gluon": spring,
+    "photon": wave,
+    "boson": wave,
     "ghost": dotted,
 }
 

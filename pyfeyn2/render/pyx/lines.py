@@ -1201,4 +1201,5 @@ NamedLine = {
     "scalar": Higgs,
     "ghost": Ghost,
     "phantom": Phantom,
+    "boson": Photon,
 }
