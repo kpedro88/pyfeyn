@@ -8,6 +8,7 @@ import pyx
 from pyfeyn2.render.pyx import config
 from pyfeyn2.render.pyx.deco import PointLabel
 from pyfeyn2.render.pyx.diagrams import FeynDiagram
+from pyfeyn2.render.pyx.paint import BLACK
 from pyfeyn2.render.pyx.utils import Visible
 
 

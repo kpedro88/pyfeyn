@@ -558,7 +558,7 @@ class DecoratedLine(Line):
 
     def getDeformedPath(self):
         """Get the deformed path."""
-        return getVisiblePath()
+        return self.getVisiblePath()
 
 
 class Gluon(DecoratedLine):
@@ -1052,7 +1052,7 @@ class Gluino(DecoratedLine):
         ## Find the maximum curvature (set None if straight line)
         for curveradius in curveradii:
             try:
-                curveradius = abs(curvature / pyx.unit.m)
+                curveradius = abs(self.curvature / pyx.unit.m)
                 # if config.getOptions().DEBUG:
                 #    print self.__class__, "- curvature radius = ", curveradius
                 if mincurveradius is None or curveradius < mincurveradius:
