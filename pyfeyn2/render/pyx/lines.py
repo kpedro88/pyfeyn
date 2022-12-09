@@ -771,7 +771,9 @@ class Graviton(DecoratedLine):
             sign = -1
 
         vispath = self.getVisiblePath()
-        curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+        # TODO curveradius is not implemented in pyx 0.12
+        # curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+        curveradii = []
         mincurveradius = None
         for curveradius in curveradii:
             try:
@@ -906,7 +908,9 @@ class Gaugino(DecoratedLine):
             sign = -1
 
         vispath = self.getVisiblePath()
-        curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+        # TODO curveradius is not implemented in pyx 0.12
+        # curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+        curveradii = []
         mincurveradius = None
         for curveradius in curveradii:
             try:
@@ -1046,7 +1050,9 @@ class Gluino(DecoratedLine):
 
         ## Get list of curvature radii in the visible path
         vispath = self.getVisiblePath()
-        curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+        # TODO curveradius is deprecated in pyx 0.14
+        # curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+        curveradii = []
         mincurveradius = None
 
         ## Find the maximum curvature (set None if straight line)
@@ -1190,7 +1196,9 @@ class Gravitino(DecoratedLine):
         if self.inverted:
             sign = -1
         vispath = self.getVisiblePath()
-        curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+        # TODO curveradius is deprecated in pyx 0.14
+        # curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+        curveradii = []
         mincurveradius = None
         for curveradius in curveradii:
             try:

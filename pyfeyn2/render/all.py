@@ -1,5 +1,6 @@
 import shutil
 import tempfile
+import traceback
 
 from matplotlib import pyplot as plt
 from pylatex import Figure, NoEscape, SubFigure
@@ -64,14 +65,16 @@ class AllRender(LatexRender):
                 print("Pyx:")
             PyxRender(fd).render(dirpath + "/pyx.pdf", **dynarg)
         except Exception as e:
-            print("Pyx failed:", e)
+            print("Pyx failed:")
+            print(traceback.format_exc())
 
         try:
             if not subfigure:
                 print("Tikz:")
             TikzFeynmanRender(fd).render(dirpath + "/tikz.pdf", **dynarg)
         except Exception as e:
-            print("Tikz failed:", e)
+            print("Tikz failed:")
+            print(traceback.format_exc())
 
         try:
             if not subfigure:
@@ -79,6 +82,7 @@ class AllRender(LatexRender):
             FeynmpRender(fd).render(dirpath + "/feynmp.pdf", **dynarg)
         except Exception as e:
             print("Feynmp failed:", e)
+            print(traceback.format_exc())
 
         try:
             if not subfigure:
@@ -86,6 +90,7 @@ class AllRender(LatexRender):
             DotRender(fd).render(dirpath + "/dot.pdf", **dynarg)
         except Exception as e:
             print("Dot failed:", e)
+            print(traceback.format_exc())
 
         try:
             if not subfigure:
@@ -93,6 +98,7 @@ class AllRender(LatexRender):
             ASCIIPDFRender(fd).render(dirpath + "/asciipdf.pdf", **dynarg)
         except Exception as e:
             print("ASCIIPDF failed:", e)
+            print(traceback.format_exc())
 
         try:
             if not subfigure:
@@ -101,6 +107,7 @@ class AllRender(LatexRender):
             plt.close()
         except Exception as e:
             print("MPL failed:", e)
+            print(traceback.format_exc())
 
         with self.create(Figure(position="h!")):
 
