@@ -162,7 +162,7 @@ class Propagator(Labeled, Styled, PDG, Bending, Line, Identifiable):
 @dataclass
 class FeynmanDiagram:
     class Meta:
-        name = "feynmandiagram"
+        name = "diagram"
 
     propagators: List[Propagator] = field(
         default_factory=list,
@@ -184,4 +184,54 @@ class FeynmanDiagram:
         for l in self.legs:
             if l.id == id:
                 return l
+        return None
+
+
+@dataclass
+class Meta:
+    class Meta:
+        name = "meta"
+
+    name: Optional[str] = field(
+        default="", metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+    value: Optional[str] = field(
+        default="", metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+
+
+AliasMeta = Meta
+
+
+@dataclass
+class Head:
+    class Meta:
+        name = "head"
+
+    meta: List[AliasMeta] = field(
+        default_factory=list,
+        metadata={"name": "meta", "namespace": ""},
+    )
+
+    description: Optional[str] = field(
+        default="", metadata={"xml_attribute": True, "type": "Element"}
+    )
+
+
+@dataclass
+class FeynML:
+    class Meta:
+        name = "feynml"
+
+    head: List[Head] = field(metadata={"name": "head", "namespace": ""})
+
+    diagrams: List[FeynmanDiagram] = field(
+        default_factory=list,
+        metadata={"name": "diagram", "type": "Element", "namespace": ""},
+    )
+
+    def get_diagram(self, id):
+        for d in self.diagrams:
+            if d.id == id:
+                return d
         return None

@@ -4,10 +4,20 @@ from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
-from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
+# Load an FML file and check that it is the same as the original
+# FeynmanDiagram object
+from pyfeyn2.feynmandiagram import (
+    FeynmanDiagram,
+    FeynML,
+    Head,
+    Leg,
+    Meta,
+    Propagator,
+    Vertex,
+)
 
 
-def test_print_as_xml():
+def test_print_fml():
     fd = FeynmanDiagram()
     v1 = Vertex("v1")
     v2 = Vertex("v2")
@@ -20,17 +30,23 @@ def test_print_as_xml():
     fd.vertices.append(v2)
     fd.legs.append(l1)
 
+    fml = FeynML(
+        head=Head(
+            meta=Meta(name="pyfeyn2", value="test"),
+            description="Simple single test diagram",
+        ),
+        diagrams=[fd],
+    )
     config = SerializerConfig(pretty_print=True)
     serializer = XmlSerializer(config=config)
-    print(serializer.render(fd))
+    print(serializer.render(fml))
 
 
-def test_load_xml():
-    xml_string = Path("tests/simple.xml").read_text()
+def test_load_fml():
+    xml_string = Path("tests/simple.fml").read_text()
     parser = XmlParser()
     fd = parser.from_string(xml_string, FeynmanDiagram)
     print(fd)
 
 
-test_print_as_xml()
-test_load_xml()
+test_print_fml()
