@@ -8,7 +8,7 @@ from pyfeyn2.render.latex import LatexRender
 class MetaPostRender(LatexRender):
     def __init__(
         self,
-        fd,
+        fd=None,
         documentclass="standalone",
         document_options=["preview", "crop"],
         *args,

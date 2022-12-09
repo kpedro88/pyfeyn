@@ -13,7 +13,7 @@ from pyfeyn2.render.render import Render
 class LatexRender(Document, Render):
     def __init__(
         self,
-        fd,
+        fd=None,
         documentclass="standalone",
         document_options=["preview", "crop"],
         *args,

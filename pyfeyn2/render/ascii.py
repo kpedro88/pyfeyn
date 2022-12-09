@@ -168,7 +168,7 @@ namedlines = {
 class ASCIIRender(Render):
     """Renders Feynman diagrams to ASCII art."""
 
-    def __init__(self, fd, *args, **kwargs):
+    def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
     def render(self, file=None, show=True, resolution=100, width=None, height=None):

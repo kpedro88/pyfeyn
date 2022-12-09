@@ -8,7 +8,7 @@ from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Vertex
 
 
 class Render:
-    def __init__(self, fd):
+    def __init__(self, fd=None):
         self.fd = fd
         self.src = ""
 
