@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from decimal import Decimal
 from typing import List, Optional
 
 from pyfeyn2.particles import get_name
@@ -67,14 +66,25 @@ class Labeled:
 
 
 @dataclass
+class Texted:
+    text: Optional[str] = field(
+        default="", metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+
+    def set_text(self, text):
+        self.text = text
+        return self
+
+
+@dataclass
 class Point:
-    x: Optional[Decimal] = field(
+    x: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
-    y: Optional[Decimal] = field(
+    y: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
-    z: Optional[Decimal] = field(
+    z: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
@@ -83,7 +93,7 @@ class Point:
         self.y = float(y)
         return self
 
-    def set_xyz(self, x, y):
+    def set_xyz(self, x, y, z):
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)
@@ -99,7 +109,7 @@ class Styled:
 
 @dataclass
 class Bending:
-    bend: Optional[str] = field(
+    bend: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
@@ -160,6 +170,11 @@ class Propagator(Labeled, Styled, PDG, Bending, Line, Identifiable):
 
 
 @dataclass
+class Label(Identifiable, Point, Texted):
+    pass
+
+
+@dataclass
 class FeynmanDiagram:
     class Meta:
         name = "diagram"
@@ -175,6 +190,10 @@ class FeynmanDiagram:
     legs: List[Leg] = field(
         default_factory=list,
         metadata={"name": "leg", "type": "Element", "namespace": ""},
+    )
+    labels: List[Label] = field(
+        default_factory=list,
+        metadata={"name": "label", "type": "Element", "namespace": ""},
     )
 
     def get_point(self, id):
@@ -200,7 +219,7 @@ class Meta:
     )
 
 
-AliasMeta = Meta
+aliasMeta = Meta
 
 
 @dataclass
@@ -208,7 +227,7 @@ class Head:
     class Meta:
         name = "head"
 
-    meta: List[AliasMeta] = field(
+    metas: List[aliasMeta] = field(
         default_factory=list,
         metadata={"name": "meta", "namespace": ""},
     )
@@ -223,7 +242,9 @@ class FeynML:
     class Meta:
         name = "feynml"
 
-    head: List[Head] = field(metadata={"name": "head", "namespace": ""})
+    head: List[Head] = field(
+        default_factory=list, metadata={"name": "head", "namespace": ""}
+    )
 
     diagrams: List[FeynmanDiagram] = field(
         default_factory=list,

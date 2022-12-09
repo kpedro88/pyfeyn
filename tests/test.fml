@@ -11,10 +11,10 @@
    <vertex id="V0" x="-2.0" y="0.0"/>
    <vertex id="V1" x="2.0" y="0.0"/>
    <leg id="E0" type="fermion" sense="incoming" target="V0" x="-4.0" y="2.0"
-      label="\Pelectron" style="arrow-pos:0.53;"/>
+      label="e-" style="arrow-pos:0.53;"/>
    <leg id="E1" type="fermion" sense="outgoing" target="V0" x="-4.0" y="-2.0"
-      label="\Ppositron" style="arrow-pos:0.53; parallel-arrow-displace:-0.06; parallel-arrow-sense:-1;"/>
-   <propagator id="P2" type="photon" source="V0" target="V1" label="\Pphoton/\PZ"/>
+      label="e+" style="arrow-pos:0.53; parallel-arrow-displace:-0.06; parallel-arrow-sense:-1;"/>
+   <propagator id="P2" type="photon" source="V0" target="V1" label="\gamma/Z"/>
    <vertex id="V5" x="3.0" y="-1.0"/>
    <propagator id="P4" type="fermion" source="V5" target="V1"/>
    <vertex id="V6" x="3.0" y="1.0"/>
@@ -22,8 +22,8 @@
    <propagator id="P7" type="gluon" source="V5" target="V6" bend="0.5"
       label="\Pgluon" style="parallel-arrow-displace:0.2;"/>
    <leg id="E2" type="fermion" sense="incoming" target="V5" x="4.0" y="-2.0"
-      label="\APquark" style="arrow-pos:0.53; parallel-arrow-displace:-0.06; parallel-arrow-sense:-1;"/>
+      label="q" style="arrow-pos:0.53; parallel-arrow-displace:-0.06; parallel-arrow-sense:-1;"/>
    <leg id="E3" type="fermion" sense="outgoing" target="V6" x="4.0" y="2.0"
-      label="\Pquark" style="arrow-pos:0.53;"/>
+      label="q" style="arrow-pos:0.53;"/>
  </diagram>
 </feynml>

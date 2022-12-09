@@ -1,3 +1,5 @@
+import os
+
 import pyx
 from IPython.display import display
 from pyx import *
@@ -22,7 +24,11 @@ class PyxRender(Render):
     def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
-    def render(self, file=None, show=True, resolution=100, width=None, height=None):
+    def render(self, file=None, show=True, resolution=200, width=None, height=None):
+        delete = False
+        if file is None:
+            file = "tmp.pdf"
+            delete = True
         pyxfd = FeynDiagram()
         for v in self.fd.vertices:
             dp = DecoratedPoint(v.x, v.y)
@@ -46,9 +52,11 @@ class PyxRender(Render):
             nl = NamedLine[p.type](Point(src.x, src.y), Point(tar.x, tar.y))
             nl = nl.bend(p.bend)
             nl = self.apply_layout(v.style, nl)
-            nl = nl.addLabel(l.label)
+            nl = nl.addLabel(p.label)
         pyxfd.draw(file)
         wi = WImage(filename=file, resolution=resolution, width=width, height=height)
+        if delete:
+            os.remove(file)
         if show:
             display(wi)
         return wi

@@ -15,6 +15,7 @@ from pyfeyn2.feynmandiagram import (
     Propagator,
     Vertex,
 )
+from pyfeyn2.render.pyx.pyxrender import PyxRender
 
 
 def test_print_fml():
@@ -32,7 +33,7 @@ def test_print_fml():
 
     fml = FeynML(
         head=Head(
-            meta=Meta(name="pyfeyn2", value="test"),
+            metas=Meta(name="pyfeyn2", value="test"),
             description="Simple single test diagram",
         ),
         diagrams=[fd],
@@ -43,10 +44,19 @@ def test_print_fml():
 
 
 def test_load_fml():
-    xml_string = Path("tests/simple.fml").read_text()
+    xml_string = Path("tests/test.fml").read_text()
     parser = XmlParser()
-    fd = parser.from_string(xml_string, FeynmanDiagram)
+    fd = parser.from_string(xml_string, FeynML)
     print(fd)
 
 
+def test_plot_fml():
+    xml_string = Path("tests/test.fml").read_text()
+    parser = XmlParser()
+    fml = parser.from_string(xml_string, FeynML)
+    PyxRender(fml.diagrams[0]).render()
+
+
 test_print_fml()
+test_load_fml()
+test_plot_fml()
