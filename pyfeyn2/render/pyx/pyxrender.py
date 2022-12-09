@@ -181,7 +181,7 @@ class PyxRender(Render):
         ]
 
     def valid_style(self, style: str) -> bool:
-        return super().valid_style(style) or attr.lower() in [
+        return super().valid_style(style) or style.lower() in [
             "arrow-pos",
             "parallel-arrow-sense",
             "parallel-arrow-displace",
