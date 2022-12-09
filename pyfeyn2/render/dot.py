@@ -119,6 +119,9 @@ class DotRender(LatexRender):
     def get_src_dot(self):
         return self.src_dot
 
+    def valid_attribute(self, attr: str) -> bool:
+        return super().valid_attribute(attr) or attr in ["x", "y"]
+
     def valid_type(self, typ):
         if typ.lower() in map_feyn_to_tikz:
             return True

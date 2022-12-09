@@ -30,6 +30,8 @@ class Render:
     def valid_attribute(self, attr: str) -> bool:
         if attr == "id":
             return True
+        if attr == "pdgid":
+            return True
         if attr == "sense":
             return True
         if attr == "target":

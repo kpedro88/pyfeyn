@@ -84,6 +84,9 @@ class TikzFeynmanRender(LatexRender):
         super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
 
+    def valid_attribute(self, attr: str) -> bool:
+        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
+
     def valid_type(self, typ):
         if typ.lower() in type_map:
             return True

@@ -139,6 +139,9 @@ class MPLRender(Render):
         if file is not None:
             plt.savefig(file)
 
+    def valid_attribute(self, attr: str) -> bool:
+        return super().valid_attribute(attr) or attr in ["x", "y"]
+
     def valid_type(self, typ: str) -> bool:
         if typ.lower() in namedlines:
             return True

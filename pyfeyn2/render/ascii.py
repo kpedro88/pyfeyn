@@ -211,6 +211,9 @@ class ASCIIRender(Render):
             print(joined)
         return joined
 
+    def valid_attribute(self, attr: str) -> bool:
+        return super().valid_attribute(attr) or attr in ["x", "y"]
+
     def valid_type(self, typ: str) -> bool:
         if typ.lower() in namedlines:
             return True

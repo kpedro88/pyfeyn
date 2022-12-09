@@ -138,3 +138,21 @@ class AllRender(LatexRender):
         if subfigure:
             super().render(file, show, resolution, width, height)
         shutil.rmtree(self.dirpath)
+
+        renderers = [
+            PyxRender(),
+            TikzFeynmanRender(),
+            FeynmpRender(),
+            DotRender(),
+            ASCIIPDFRender(),
+            MPLRender(),
+        ]
+
+        def valid_style(self, type):
+            return True in [r.valid_style(type) for r in renderers]
+
+        def valid_attribute(self, type):
+            return True in [r.valid_attribute(type) for r in renderers]
+
+        def valid_type(self, type):
+            return True in [r.valid_type(type) for r in renderers]
