@@ -1,5 +1,3 @@
-import dot2tex
-
 from pyfeyn2.render.dot import DotRender, feynman_to_dot
 from tests.test_feynman import test_gluons, test_many_gluons
 

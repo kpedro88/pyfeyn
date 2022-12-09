@@ -131,3 +131,7 @@ dmypy.json
 .vscode
 test.pdf
 docs/source/autoapi
+
+# /pyfeyn2/
+/pyfeyn2/*.pyc
+/pyfeyn2/*~

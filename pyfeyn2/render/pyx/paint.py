@@ -3,11 +3,11 @@
 import pyx
 
 ## Colours
-BLACK = pyx.color.rgb.black
-BLUE = pyx.color.rgb.blue
-GREEN = pyx.color.rgb.green
-RED = pyx.color.rgb.red
-WHITE = pyx.color.rgb.white
+# BLACK = pyx.color.rgb.black
+# BLUE = pyx.color.rgb.blue
+# GREEN = pyx.color.rgb.green
+# RED = pyx.color.rgb.red
+# WHITE = pyx.color.rgb.white
 APRICOT = pyx.color.cmyk.Apricot
 AQUAMARINE = pyx.color.cmyk.Aquamarine
 BITTERSWEET = pyx.color.cmyk.Bittersweet
@@ -100,3 +100,11 @@ THIN3 = pyx.style.linewidth.THin
 THIN4 = pyx.style.linewidth.THIn
 THIN5 = pyx.style.linewidth.THIN
 CLEAR = pyx.style.linewidth.clear
+
+## Text alignment
+TOP = pyx.text.valign.top
+MIDDLE = pyx.text.valign.middle
+BOTTOM = pyx.text.valign.bottom
+LEFT = pyx.text.halign.left
+CENTER = pyx.text.halign.center
+RIGHT = pyx.text.halign.right
