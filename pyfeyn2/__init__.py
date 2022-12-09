@@ -49,4 +49,5 @@ attributes = [
     "style",
     "id",
     "type",
+    "text",
 ]
