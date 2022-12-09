@@ -1,12 +1,12 @@
 """Various blob shapes to represent generic interactions."""
 
 import pyx
-from pyfeyn import config
-from pyfeyn.deco import PointLabel
-from pyfeyn.diagrams import FeynDiagram
-from pyfeyn.paint import *
-from pyfeyn.points import Point
-from pyfeyn.utils import Visible
+
+from pyfeyn2.render.pyx import config
+from pyfeyn2.render.pyx.deco import PointLabel
+from pyfeyn2.render.pyx.diagrams import FeynDiagram
+from pyfeyn2.render.pyx.points import Point
+from pyfeyn2.render.pyx.utils import Visible
 
 
 ## Blob base class

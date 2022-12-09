@@ -1,9 +1,8 @@
 """Classes for the actual diagram containers."""
 
-from distutils.version import StrictVersion as Version
-
 import pyx
-from pyfeyn import config, pyxversion
+
+from pyfeyn2.render.pyx import config
 
 
 ## Diagram class
@@ -74,7 +73,4 @@ class FeynDiagram:
         derived from the file extension."""
         c = self.drawToCanvas()
         if c is not None and outfile is not None:
-            if pyxversion >= Version("0.12"):
-                c.writetofile(outfile, page_bbox=c.bbox().enlarged(enlargement))
-            else:
-                c.writetofile(outfile, bbox=c.bbox().enlarged(enlargement))
+            c.writetofile(outfile, page_bbox=c.bbox().enlarged(enlargement))

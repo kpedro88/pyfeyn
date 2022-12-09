@@ -2,35 +2,19 @@
 
 import math
 
-###########################################################################################
-## Added by George S. Williams to allow PyFeyn to work with PyX versions 0.12.x and 0.11.x
-## Also see changes in class Arrow and class ParallelArrow
-from distutils.version import StrictVersion as Version
-
 import pyx
-from pyfeyn import config, pyxversion
-from pyfeyn.diagrams import FeynDiagram
-from pyfeyn.paint import *
-from pyfeyn.utils import Visible
+
+from pyfeyn2.render.pyx import config
+from pyfeyn2.render.pyx.diagrams import FeynDiagram
+from pyfeyn2.render.pyx.utils import Visible
 
 
 def getarrowpath(
     arrowtopath, selfpos, var1, selfsize, var2, selfconstriction, constrictionlen
 ):
-    if pyxversion >= Version("0.12"):
-        arrowpath = pyx.deco._arrowhead(
-            arrowtopath,
-            selfpos,
-            var1,
-            selfsize,
-            var2,
-            selfconstriction,
-            constrictionlen,
-        )
-    else:
-        arrowpath = pyx.deco._arrowhead(
-            arrowtopath, selfpos, var1, selfsize, var2, constrictionlen
-        )
+    arrowpath = pyx.deco._arrowhead(
+        arrowtopath, selfpos, var1, selfsize, var2, selfconstriction, constrictionlen
+    )
     return arrowpath
 
 
