@@ -3,13 +3,14 @@
 import math
 
 import pyx
-from pyfeyn import config
-from pyfeyn.deco import Arrow, LineLabel, ParallelArrow
-from pyfeyn.diagrams import FeynDiagram
-from pyfeyn.paint import *
-from pyfeyn.points import Point
-from pyfeyn.utils import Visible, defunit
 from pyx import color
+
+from pyfeyn2.render.pyx import config
+from pyfeyn2.render.pyx.deco import Arrow, LineLabel, ParallelArrow, PointLabel
+from pyfeyn2.render.pyx.diagrams import FeynDiagram
+from pyfeyn2.render.pyx.paint import CENTER
+from pyfeyn2.render.pyx.points import Point
+from pyfeyn2.render.pyx.utils import Visible, defunit
 
 
 ## Line base class
@@ -52,6 +53,8 @@ class Line(Visible):
     ):
         """Add a LaTeX label to this line, either via parameters or actually as
         a TeXLabel object."""
+        if text is None:
+            return self
         if config.getOptions().DEBUG:
             print("Adding label: " + text)
         # if text.__class__ == "Label":
@@ -165,6 +168,8 @@ class Line(Visible):
 
     def bend(self, amount):
         """Bend the line to the right by a given distance."""
+        if amount is None:
+            return self
         if amount == 0:
             self.arcthrupoint = None
             return self
@@ -178,7 +183,7 @@ class Line(Visible):
             ny *= -1
         arcpoint = Point(middle.x() + amount * nx, middle.y() + amount * ny)
         if config.getOptions().VDEBUG:
-            FeynDiagram.currenDiagram.currentCanvas.stroke(
+            FeynDiagram.currentDiagram.currentCanvas.stroke(
                 pyx.path.line(middle.x(), middle.y(), arcpoint.x(), arcpoint.y()),
                 [color.rgb.blue],
             )
@@ -186,7 +191,7 @@ class Line(Visible):
         if config.getOptions().DEBUG:
             print(self.getVisiblePath())
         if config.getOptions().VDEBUG:
-            FeynDiagram.currenDiagram.currentCanvas.stroke(
+            FeynDiagram.currentDiagram.currentCanvas.stroke(
                 self.getVisiblePath(), [color.rgb.blue]
             )
         return self
@@ -234,7 +239,7 @@ class Line(Visible):
             circle = pyx.path.circle(*cargs)
             line = pyx.path.line(self.p1.x(), self.p1.y(), arccenter.x(), arccenter.y())
             if config.getOptions().VDEBUG:
-                FeynDiagram.currenDiagram.currentCanvas.stroke(line, [color.rgb.green])
+                FeynDiagram.currentDiagram.currentCanvas.stroke(line, [color.rgb.green])
             ass, bs = circle.intersect(line)
             subpaths = circle.split(ass[0])
             cpath = subpaths[0]
@@ -331,7 +336,7 @@ class Line(Visible):
         p2path = self.p2.getPath()
         vispath = self.getPath()
         if config.getOptions().VDEBUG:
-            FeynDiagram.currenDiagram.currentCanvas.stroke(vispath, [color.rgb.green])
+            FeynDiagram.currentDiagram.currentCanvas.stroke(vispath, [color.rgb.green])
         if p1path:
             ass, bs = p1path.intersect(vispath)
             for b in bs:
@@ -342,13 +347,13 @@ class Line(Visible):
                     subpaths.sort(key=lambda x: pyx.unit.tocm(x.arclen()))
                     vispath = subpaths[-1]
                     if config.getOptions().VDEBUG:
-                        FeynDiagram.currenDiagram.currentCanvas.stroke(
+                        FeynDiagram.currentDiagram.currentCanvas.stroke(
                             subpaths[0], [color.rgb.blue]
                         )
                 if config.getOptions().VDEBUG:
                     for a in ass:
                         ix, iy = p1path.at(a)
-                        FeynDiagram.currenDiagram.currentCanvas.fill(
+                        FeynDiagram.currentDiagram.currentCanvas.fill(
                             pyx.path.circle(ix, iy, 0.05), [color.rgb.green]
                         )
         if p2path:
@@ -361,17 +366,17 @@ class Line(Visible):
                     subpaths.sort(key=lambda x: pyx.unit.tocm(x.arclen()))
                     vispath = subpaths[-1]
                     if config.getOptions().VDEBUG:
-                        FeynDiagram.currenDiagram.currentCanvas.stroke(
+                        FeynDiagram.currentDiagram.currentCanvas.stroke(
                             subpaths[0], [color.rgb.red]
                         )
                 if config.getOptions().VDEBUG:
                     for a in ass:
                         ix, iy = p2path.at(a)
-                        FeynDiagram.currenDiagram.currentCanvas.fill(
+                        FeynDiagram.currentDiagram.currentCanvas.fill(
                             pyx.path.circle(ix, iy, 0.05), [color.rgb.blue]
                         )
         if config.getOptions().VDEBUG:
-            FeynDiagram.currenDiagram.currentCanvas.stroke(vispath, [color.rgb.red])
+            FeynDiagram.currentDiagram.currentCanvas.stroke(vispath, [color.rgb.red])
         # return pyx.path.circle(-2,-1,0.2)
         return vispath
 

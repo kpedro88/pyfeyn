@@ -6,6 +6,7 @@ import pyx
 
 from pyfeyn2.render.pyx import config
 from pyfeyn2.render.pyx.diagrams import FeynDiagram
+from pyfeyn2.render.pyx.paint import CENTER
 from pyfeyn2.render.pyx.utils import Visible
 
 
@@ -32,7 +33,7 @@ class Arrow(pyx.deco.deco, pyx.attr.attr):
         self.angle = angle
         self.constriction = constriction
 
-    def decorate(self, dp, texrunner=pyx.text.defaulttexrunner):
+    def decorate(self, dp):
         """Attach arrow to a path (usually a line)."""
         dp.ensurenormpath()
         constrictionlen = (
@@ -270,7 +271,7 @@ class Label(Visible):
         textattrs = pyx.attr.mergeattrs(
             [pyx.text.vshift.mathaxis, self.size] + self.textattrs
         )
-        t = pyx.text.defaulttexrunner.text(self.x, self.y, self.text, textattrs)
+        t = pyx.text.latexrunner().text(self.x, self.y, self.text, textattrs)
         canvas.insert(t)
 
 
@@ -320,7 +321,7 @@ class PointLabel(Label):
         textattrs = pyx.attr.mergeattrs(
             [pyx.text.vshift.mathaxis, self.size] + self.textattrs
         )
-        t = pyx.text.defaulttexrunner.text(x, y, self.text, textattrs)
+        t = pyx.text.latexrunner().text(x, y, self.text, textattrs)
         canvas.insert(t)
 
 
@@ -403,7 +404,7 @@ class LineLabel(Label):
         textattrs = pyx.attr.mergeattrs(
             [pyx.text.vshift.mathaxis, self.size] + self.textattrs
         )
-        t = pyx.text.defaulttexrunner.text(x, y, self.text, textattrs)
+        t = pyx.text.latexrunner().text(x, y, self.text, textattrs)
         # t.linealign(self.displace,
         #            math.cos(self.angle * math.pi/180),
         #            math.sin(self.angle * math.pi/180))
