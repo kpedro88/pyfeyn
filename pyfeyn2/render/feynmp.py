@@ -11,41 +11,43 @@ from pyfeyn2.render.render import Render
 # converte FeynmanDiagram to tikz-feynman
 
 type_map = {
-    "gluon": "gluon",
-    "curly": "curly",
-    "dbl_curly": "dbl_curly",
-    "dashes": "dashes",
-    "scalar": "scalar",
-    "dashes_arrow": "dashes_arrow",
-    "dbl_dashes": "dbl_dashes",
-    "dbl_dashes_arrow": "dbl_dashes_arrow",
-    "dots": "dots",
-    "dots_arrow": "dots_arrow",
-    "ghost": "ghost",
-    "dbl_dots": "dbl_dots",
-    "dbl_dots_arrow": "dbl_dots_arrow",
-    "phantom": "phantom",
-    "phantom_arrow": "phantom_arrow",
-    "plain": "plain",
-    "plain_arrow": "plain_arrow",
-    "fermion": "fermion",
-    "electron": "electron",
-    "quark": "quark",
-    "double": "double",
-    "dbl_plain": "dbl_plain",
-    "double_arrow": "double_arrow",
-    "dbl_plain_arrow": "dbl_plain_arrow",
-    "heavy": "heavy",
-    "photon": "photon",
-    "boson": "boson",
-    "wiggly": "wiggly",
-    "dbl_wiggly": "dbl_wiggly",
-    "zigzag": "zigzag",
-    "dbl_zigzag": "dbl_zigzag",
-    "higgs": "dashes",
-    "vector": "boson",
-    "slepton": "scalar",
-    "squark": "scalar",
+    "gluon": ["gluon"],
+    "curly": ["curly"],
+    "dbl_curly": ["dbl_curly"],
+    "dashes": ["dashes"],
+    "scalar": ["scalar"],
+    "dashes_arrow": ["dashes_arrow"],
+    "dbl_dashes": ["dbl_dashes"],
+    "dbl_dashes_arrow": ["dbl_dashes_arrow"],
+    "dots": ["dots"],
+    "dots_arrow": ["dots_arrow"],
+    "ghost": ["ghost"],
+    "dbl_dots": ["dbl_dots"],
+    "dbl_dots_arrow": ["dbl_dots_arrow"],
+    "phantom": ["phantom"],
+    "phantom_arrow": ["phantom_arrow"],
+    "plain": ["plain"],
+    "plain_arrow": ["plain_arrow"],
+    "fermion": ["fermion"],
+    "electron": ["electron"],
+    "quark": ["quark"],
+    "double": ["double"],
+    "dbl_plain": ["dbl_plain"],
+    "double_arrow": ["double_arrow"],
+    "dbl_plain_arrow": ["dbl_plain_arrow"],
+    "heavy": ["heavy"],
+    "photon": ["photon"],
+    "boson": ["boson"],
+    "wiggly": ["wiggly"],
+    "dbl_wiggly": ["dbl_wiggly"],
+    "zigzag": ["zigzag"],
+    "dbl_zigzag": ["dbl_zigzag"],
+    "higgs": ["dashes"],
+    "vector": ["boson"],
+    "slepton": ["scalar"],
+    "squark": ["scalar"],
+    "gluino": ["gluon", "plain"],
+    "gaugino": ["photon", "plain"],
 }
 
 
@@ -81,11 +83,13 @@ def feynman_to_feynmp(fd):
         src += "}\n"
 
     for l in incoming:
-        ttype = type_map[l.type]
-        src += f"\t\t\\fmf{{{ttype}}}{{{l.id},{l.target}}}\n"
+        tttype = type_map[l.type]
+        for ttype in tttype:
+            src += f"\t\t\\fmf{{{ttype}}}{{{l.id},{l.target}}}\n"
     for l in outgoing:
-        ttype = type_map[l.type]
-        src += f"\t\t\\fmf{{{ttype}}}{{{l.target},{l.id}}}\n"
+        tttype = type_map[l.type]
+        for ttype in tttype:
+            src += f"\t\t\\fmf{{{ttype}}}{{{l.target},{l.id}}}\n"
 
     for p in fd.propagators:
         ttype = type_map[p.type]

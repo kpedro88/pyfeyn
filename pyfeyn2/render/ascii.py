@@ -81,7 +81,7 @@ class ASCIILine:
 
 class Gluon(ASCIILine):
     def __init__(self):
-        super().__init__(begin="O", end="O", vert=["O"], horz=["O"])
+        super().__init__(begin="*", end="*", vert=["O"], horz=["O"])
 
 
 class Photon(ASCIILine):
@@ -138,18 +138,30 @@ class Higgs(ASCIILine):
         )
 
 
+class Gluino(ASCIILine):
+    def __init__(self):
+        super().__init__(begin="*", end="*", vert=["&"], horz=["&"])
+
+
+class Gaugino(ASCIILine):
+    def __init__(self):
+        super().__init__(begin="*", end="*", vert=["$"], horz=["$"])
+
+
 namedlines = {
-    "gluon": Gluon,
-    "photon": Photon,
-    "vector": Photon,
-    "boson": Photon,
-    "ghost": Ghost,
-    "fermion": Fermion,
-    "ghost": Ghost,
-    "higgs": Higgs,
-    "scalar": Scalar,
-    "slepton": Scalar,
-    "squark": Scalar,
+    "gluon": Gluon(),
+    "photon": Photon(),
+    "vector": Photon(),
+    "boson": Photon(),
+    "ghost": Ghost(),
+    "fermion": Fermion(),
+    "ghost": Ghost(),
+    "higgs": Higgs(),
+    "scalar": Scalar(),
+    "slepton": Scalar(),
+    "squark": Scalar(),
+    "gluino": Gluino(),
+    "gaugino": Gaugino(),
 }
 
 
@@ -198,13 +210,13 @@ class ASCIIRender(Render):
         for p in self.fd.propagators:
             src = self.fd.get_point(p.source)
             tar = self.fd.get_point(p.target)
-            namedlines[p.type]().draw(pane, src, tar, **fmt)
+            namedlines[p.type].draw(pane, src, tar, **fmt)
         for l in self.fd.legs:
             tar = self.fd.get_point(l.target)
             if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
-                namedlines[l.type]().draw(pane, Point(l.x, l.y), tar, **fmt)
+                namedlines[l.type].draw(pane, Point(l.x, l.y), tar, **fmt)
             elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
-                namedlines[l.type]().draw(pane, tar, Point(l.x, l.y), **fmt)
+                namedlines[l.type].draw(pane, tar, Point(l.x, l.y), **fmt)
 
         joined = "\n".join(["".join(row) for row in pane])
         if show:

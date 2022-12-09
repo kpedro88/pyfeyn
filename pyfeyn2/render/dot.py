@@ -90,7 +90,7 @@ def feynman_to_dot(fd):
 class DotRender(LatexRender):
     def __init__(
         self,
-        fd,
+        fd=None,
         documentclass="standalone",
         document_options=["preview", "crop", "tikz"],
         *args,
@@ -109,7 +109,8 @@ class DotRender(LatexRender):
             Command("usetikzlibrary", NoEscape("snakes,arrows,shapes"))
         )
         self.preamble.append(Command("usepackage", NoEscape("amsmath")))
-        self.set_feynman_diagram(fd)
+        if fd is not None:
+            self.set_feynman_diagram(fd)
 
     def set_feynman_diagram(self, fd):
         super().set_feynman_diagram(fd)

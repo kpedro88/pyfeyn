@@ -101,6 +101,10 @@ def wave(xp1, xp2, points=200, rot=3, amp=0.15, line_frac=0.2):
     plt.plot(x, y, "k-")
 
 
+def combine_lines(lines):
+    return lambda *a, **k: [l(*a, **k) for l in lines]
+
+
 namedlines = {
     "straight": line,
     "gluon": spring,
@@ -110,11 +114,13 @@ namedlines = {
     "ghost": dotted,
     "fermion": line,
     "higgs": dashed,
+    "gluino": combine_lines([spring, line]),
+    "gaugino": combine_lines([wave, line]),
 }
 
 
 class MPLRender(Render):
-    def __init__(self, fd, *args, **kwargs):
+    def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
     def render(self, file=None, show=True, width=None, height=None, resolution=100):
