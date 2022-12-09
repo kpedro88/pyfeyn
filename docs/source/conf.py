@@ -92,6 +92,7 @@ highlight_language = "none"
 #
 html_theme = "alabaster"
 html_theme = "sphinx_rtd_theme"
+html_logo = "pyfeyn-logo.svg"
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
