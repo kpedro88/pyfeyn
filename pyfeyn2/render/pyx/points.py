@@ -36,6 +36,8 @@ class Point:
     def addLabel(self, text, displace=0.3, angle=0, size=pyx.text.size.normalsize):
         """Add a LaTeX label to this point, either via parameters or actually as
         a PointLable object."""
+        if text is None:
+            return self
         if config.getOptions().DEBUG:
             print("Adding label: " + text)
         self.labels.append(
@@ -239,7 +241,8 @@ class DecoratedPoint(Point, Visible):
 
     def addFillstyles(self, styles):
         """Add fillstyles to the marker or blob attached to this point."""
-        self.fillstyles.add(styles)
+        if styles is not None:
+            self.fillstyles.add(styles)
         return self
 
     def addFillstyle(self, style):
