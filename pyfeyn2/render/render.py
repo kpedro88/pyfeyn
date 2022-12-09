@@ -28,17 +28,7 @@ class Render:
         return False
 
     def valid_attribute(self, attr: str) -> bool:
-        if attr == "id":
-            return True
-        if attr == "pdgid":
-            return True
-        if attr == "sense":
-            return True
-        if attr == "target":
-            return True
-        if attr == "source":
-            return True
-        if attr == "type":
+        if attr in ["id", "pdgid", "sense", "target", "source", "type"]:
             return True
         return False
 
