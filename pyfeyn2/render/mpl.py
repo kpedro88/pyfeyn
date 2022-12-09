@@ -84,7 +84,6 @@ def wave(xp1, xp2, points=200, rot=3, amp=0.15, line_frac=0.2):
         + (p2[1] - p1[1]) * (n / points)
         + amp * np.sin(w * n) * (0 * np.sin((alpha)) + np.cos((alpha))),
     )
-    print(alpha)
 
     x, y = (
         np.append(np.insert(ret[0], 0, xp1[0]), xp2[0]),
