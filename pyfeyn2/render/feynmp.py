@@ -42,6 +42,10 @@ type_map = {
     "dbl_wiggly": "dbl_wiggly",
     "zigzag": "zigzag",
     "dbl_zigzag": "dbl_zigzag",
+    "higgs": "dashes",
+    "vector": "boson",
+    "slepton": "scalar",
+    "squark": "scalar",
 }
 
 

@@ -106,12 +106,50 @@ class Fermion(ASCIILine):
         )
 
 
+class Scalar(ASCIILine):
+    def __init__(self):
+        super().__init__(
+            begin="*",
+            end="*",
+            left="..<..",
+            right="..>..",
+            up="::^::",
+            down="::v::",
+        )
+
+
+class Ghost(ASCIILine):
+    def __init__(self):
+        super().__init__(
+            begin="*",
+            end="*",
+            vert=":",
+            horz=".",
+        )
+
+
+class Higgs(ASCIILine):
+    def __init__(self):
+        super().__init__(
+            begin="*",
+            end="*",
+            vert="=",
+            horz="H",
+        )
+
+
 namedlines = {
     "gluon": Gluon,
     "photon": Photon,
-    "ghost": Ghost,
+    "vector": Photon,
     "boson": Photon,
+    "ghost": Ghost,
     "fermion": Fermion,
+    "ghost": Ghost,
+    "higgs": Higgs,
+    "scalar": Scalar,
+    "slepton": Scalar,
+    "squark": Scalar,
 }
 
 

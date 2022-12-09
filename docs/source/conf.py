@@ -109,14 +109,19 @@ renders = {
 }
 styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
 types = [
+    # General
     "fermion",
     "boson",
+    "vector",
+    "scalar",
+    # SM
     "photon",
     "higgs",
     "gluon",
     "ghost",
-    "scalar",
-    "vector",
+    # Grav
+    "graviton",
+    # MSSM
     "gluino",
     "squark",
     "slepton",
@@ -124,7 +129,7 @@ types = [
     "neutralino",
     "chargino",
     "higgsino",
-    "graviton",
+    "gravitino",
 ]
 attributes = [
     "x",

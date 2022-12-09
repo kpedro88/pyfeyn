@@ -9,11 +9,16 @@ from pyfeyn2.render.render import Render
 
 # https://tikz.dev/tikz-decorations
 map_feyn_to_tikz = {
-    "photon": "decorate,decoration=snake",
+    "vector": "decorate,decoration=snake",
     "boson": "decorate,decoration=snake",
+    "photon": "decorate,decoration=snake",
     "gluon": "decorate,decoration=coil,aspect=0.3,segment length=1mm",
     "ghost": "dotted",
     "fermion": "->.",
+    "higgs": "densely dashed",
+    "scalar": "densely dashed",
+    "slepton": "densely dashed",
+    "squark": "densely dashed",
 }
 
 

@@ -27,6 +27,8 @@ type_map = {
     "squark": "charged scalar",
     "slepton": "charged scalar",
     "gluino": "plain,gluon",
+    "higgs": "scalar",
+    "vector": "boson",
 }
 
 

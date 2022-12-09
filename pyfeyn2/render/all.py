@@ -58,25 +58,48 @@ class AllRender(LatexRender):
         else:
             dynarg = {"show": False}
 
-        if not subfigure:
-            print("Pyx:")
-        PyxRender(fd).render(dirpath + "/pyx.pdf", **dynarg)
-        if not subfigure:
-            print("Tikz:")
-        TikzFeynmanRender(fd).render(dirpath + "/tikz.pdf", **dynarg)
-        if not subfigure:
-            print("Feynmp:")
-        FeynmpRender(fd).render(dirpath + "/feynmp.pdf", **dynarg)
-        if not subfigure:
-            print("Dot:")
-        DotRender(fd).render(dirpath + "/dot.pdf", **dynarg)
-        if not subfigure:
-            print("ASCIIPDF:")
-        ASCIIPDFRender(fd).render(dirpath + "/asciipdf.pdf", **dynarg)
-        if not subfigure:
-            print("MPL:")
-        MPLRender(fd).render(dirpath + "/mpl.pdf", **dynarg)
-        plt.close()
+        try:
+            if not subfigure:
+                print("Pyx:")
+            PyxRender(fd).render(dirpath + "/pyx.pdf", **dynarg)
+        except Exception as e:
+            print("Pyx failed:", e)
+
+        try:
+            if not subfigure:
+                print("Tikz:")
+            TikzFeynmanRender(fd).render(dirpath + "/tikz.pdf", **dynarg)
+        except Exception as e:
+            print("Tikz failed:", e)
+
+        try:
+            if not subfigure:
+                print("Feynmp:")
+            FeynmpRender(fd).render(dirpath + "/feynmp.pdf", **dynarg)
+        except Exception as e:
+            print("Feynmp failed:", e)
+
+        try:
+            if not subfigure:
+                print("Dot:")
+            DotRender(fd).render(dirpath + "/dot.pdf", **dynarg)
+        except Exception as e:
+            print("Dot failed:", e)
+
+        try:
+            if not subfigure:
+                print("ASCIIPDF:")
+            ASCIIPDFRender(fd).render(dirpath + "/asciipdf.pdf", **dynarg)
+        except Exception as e:
+            print("ASCIIPDF failed:", e)
+
+        try:
+            if not subfigure:
+                print("MPL:")
+            MPLRender(fd).render(dirpath + "/mpl.pdf", **dynarg)
+            plt.close()
+        except Exception as e:
+            print("MPL failed:", e)
 
         with self.create(Figure(position="h!")) as kittens:
 

@@ -13,6 +13,15 @@ def dotted(p1, p2, points=200):
     plt.plot(x, y, "k:")
 
 
+def dashed(p1, p2, points=200):
+    n = np.linspace(0, points, points)
+    x, y = (
+        p1[0] + (p2[0] - p1[0]) * (n / points),
+        p1[1] + (p2[1] - p1[1]) * (n / points),
+    )
+    plt.plot(x, y, "k--")
+
+
 def line(p1, p2, points=200):
     n = np.linspace(0, points, points)
     x, y = (
@@ -97,8 +106,10 @@ namedlines = {
     "gluon": spring,
     "photon": wave,
     "boson": wave,
+    "vector": wave,
     "ghost": dotted,
     "fermion": line,
+    "higgs": dashed,
 }
 
 
