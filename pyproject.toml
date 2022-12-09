@@ -18,6 +18,9 @@ Wand = "*"
 numpy = "*"
 pyx = ">=0.12"
 
+[tool.poetry.scripts]
+mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
+
 [tool.poetry.group.docs]
 optional = true
 

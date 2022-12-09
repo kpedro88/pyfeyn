@@ -4,11 +4,11 @@ import math
 from copy import copy
 
 import pyx
-
-from pyfeyn2.render.pyx import config
-from pyfeyn2.render.pyx.deco import PointLabel
-from pyfeyn2.render.pyx.diagrams import FeynDiagram
-from pyfeyn2.render.pyx.utils import Visible
+from pyfeyn import config
+from pyfeyn.deco import PointLabel
+from pyfeyn.diagrams import FeynDiagram
+from pyfeyn.paint import *
+from pyfeyn.utils import Visible
 
 
 def midpoint(point1, point2):
@@ -27,17 +27,15 @@ def distance(point1, point2):
 class Point:
     """Base class for all pointlike objects in Feynman diagrams."""
 
-    def __init__(self, x, y, blob=None):
+    def __init__(self, x, y, blob=None, labels=[], **kwargs):
         """Constructor."""
         self.setXY(x, y)
         self.setBlob(blob)
-        self.labels = []
+        self.labels = labels
 
     def addLabel(self, text, displace=0.3, angle=0, size=pyx.text.size.normalsize):
         """Add a LaTeX label to this point, either via parameters or actually as
         a PointLable object."""
-        if text is None:
-            return self
         if config.getOptions().DEBUG:
             print("Adding label: " + text)
         self.labels.append(
@@ -167,18 +165,30 @@ class DecoratedPoint(Point, Visible):
 
     def __init__(
         self,
-        xpos,
-        ypos,
+        x=None,
+        y=None,
+        center=None,
         mark=None,
+        fill=[BLACK],
+        stroke=[BLACK],
         blob=None,
-        fill=[pyx.color.rgb.black],
-        stroke=[pyx.color.rgb.black],
+        labels=[],
+        **kwargs
     ):
         """Constructor."""
-        self.setXY(xpos, ypos)
-        self.labels = []
+        xx = 0
+        yy = 0
+        if x is not None and y is not None:
+            xx = x
+            yy = y
+        elif center is not None:
+            xx = center.getX()
+            yy = center.getY()
+        else:
+            raise Exception("No center specified for blob.")
+
+        Point.__init__(self, xx, yy, blob, labels)
         self.setMark(copy(mark))
-        self.setBlob(blob)
         self.layeroffset = 1000
         self.fillstyles = copy(fill)  # lists are mutable --
         self.strokestyles = copy(stroke)  # hence make a copy!
@@ -224,8 +234,7 @@ class DecoratedPoint(Point, Visible):
 
     def setFillstyles(self, styles):
         """Set the fillstyles for the marker or blob attached to this point."""
-        if styles is not None:
-            self.fillstyles = styles
+        self.fillstyles = styles
         return self
 
     def addFillstyles(self, styles):
@@ -397,6 +406,3 @@ TETRASTAR = StarshapeMark(rays=4)
 STAR = StarshapeMark(rays=5)
 HEXASTAR = StarshapeMark(rays=6)
 OCTOSTAR = StarshapeMark(rays=8)
-
-
-NamedMark = {"none": lambda size: None, "circle": CircleMark, "square": SquareMark}

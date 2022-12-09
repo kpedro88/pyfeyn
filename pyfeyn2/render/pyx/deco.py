@@ -2,23 +2,35 @@
 
 import math
 
-import pyx
-
-from pyfeyn2.render.pyx import config
-from pyfeyn2.render.pyx.diagrams import FeynDiagram
-from pyfeyn2.render.pyx.utils import Visible
-
 ###########################################################################################
 ## Added by George S. Williams to allow PyFeyn to work with PyX versions 0.12.x and 0.11.x
 ## Also see changes in class Arrow and class ParallelArrow
+from distutils.version import StrictVersion as Version
+
+import pyx
+from pyfeyn import config, pyxversion
+from pyfeyn.diagrams import FeynDiagram
+from pyfeyn.paint import *
+from pyfeyn.utils import Visible
 
 
 def getarrowpath(
     arrowtopath, selfpos, var1, selfsize, var2, selfconstriction, constrictionlen
 ):
-    arrowpath = pyx.deco._arrowhead(
-        arrowtopath, selfpos, var1, selfsize, var2, selfconstriction, constrictionlen
-    )
+    if pyxversion >= Version("0.12"):
+        arrowpath = pyx.deco._arrowhead(
+            arrowtopath,
+            selfpos,
+            var1,
+            selfsize,
+            var2,
+            selfconstriction,
+            constrictionlen,
+        )
+    else:
+        arrowpath = pyx.deco._arrowhead(
+            arrowtopath, selfpos, var1, selfsize, var2, constrictionlen
+        )
     return arrowpath
 
 
@@ -36,7 +48,7 @@ class Arrow(pyx.deco.deco, pyx.attr.attr):
         self.angle = angle
         self.constriction = constriction
 
-    def decorate(self, dp):
+    def decorate(self, dp, texrunner=pyx.text.defaulttexrunner):
         """Attach arrow to a path (usually a line)."""
         dp.ensurenormpath()
         constrictionlen = (
@@ -242,7 +254,16 @@ class ParallelArrow(Visible):
 class Label(Visible):
     """General label, unattached to any diagram elements"""
 
-    def __init__(self, text, pos=None, x=None, y=None, size=pyx.text.size.normalsize):
+    def __init__(
+        self,
+        text,
+        pos=None,
+        x=None,
+        y=None,
+        size=pyx.text.size.normalsize,
+        halign=CENTER,
+        valign=None,
+    ):
         """Constructor."""
         self.x, self.y = 0, 0
         if x is not None:
@@ -252,6 +273,9 @@ class Label(Visible):
         self.size = size
         self.text = text
         self.textattrs = []
+        self.textattrs.append(halign)
+        if valign is not None:
+            self.textattrs.append(valign)
         self.pos = pos
 
         ## Add this to the current diagram automatically
@@ -260,10 +284,9 @@ class Label(Visible):
     def draw(self, canvas):
         """Draw this label on the supplied canvas."""
         textattrs = pyx.attr.mergeattrs(
-            [pyx.text.halign.center, pyx.text.vshift.mathaxis, self.size]
-            + self.textattrs
+            [pyx.text.vshift.mathaxis, self.size] + self.textattrs
         )
-        t = pyx.text.latexrunner().text(self.x, self.y, self.text, textattrs)
+        t = pyx.text.defaulttexrunner.text(self.x, self.y, self.text, textattrs)
         canvas.insert(t)
 
 
@@ -272,7 +295,14 @@ class PointLabel(Label):
     """Label attached to points on the diagram"""
 
     def __init__(
-        self, point, text, displace=0.3, angle=0, size=pyx.text.size.normalsize
+        self,
+        point,
+        text,
+        displace=0.3,
+        angle=0,
+        size=pyx.text.size.normalsize,
+        halign=CENTER,
+        valign=None,
     ):
         """Constructor."""
         self.size = size
@@ -281,6 +311,9 @@ class PointLabel(Label):
         self.text = text
         self.point = point
         self.textattrs = []
+        self.textattrs.append(halign)
+        if valign is not None:
+            self.textattrs.append(valign)
 
     def getPoint(self):
         """Get the point associated with this label."""
@@ -301,10 +334,9 @@ class PointLabel(Label):
         x = self.point.getX() + self.displace * math.cos(math.radians(self.angle))
         y = self.point.getY() + self.displace * math.sin(math.radians(self.angle))
         textattrs = pyx.attr.mergeattrs(
-            [pyx.text.halign.center, pyx.text.vshift.mathaxis, self.size]
-            + self.textattrs
+            [pyx.text.vshift.mathaxis, self.size] + self.textattrs
         )
-        t = pyx.text.latexrunner().text(x, y, self.text, textattrs)
+        t = pyx.text.defaulttexrunner.text(x, y, self.text, textattrs)
         canvas.insert(t)
 
 
@@ -313,7 +345,15 @@ class LineLabel(Label):
     """Label for Feynman diagram lines"""
 
     def __init__(
-        self, line, text, pos=0.5, displace=0.3, angle=0, size=pyx.text.size.normalsize
+        self,
+        line,
+        text,
+        pos=0.5,
+        displace=0.3,
+        angle=0,
+        size=pyx.text.size.normalsize,
+        halign=CENTER,
+        valign=None,
     ):
         """Constructor."""
         self.pos = pos
@@ -323,6 +363,9 @@ class LineLabel(Label):
         self.text = text
         self.line = line
         self.textattrs = []
+        self.textattrs.append(halign)
+        if valign is not None:
+            self.textattrs.append(valign)
 
     def getLine(self):
         """Get the associated line."""
@@ -374,10 +417,9 @@ class LineLabel(Label):
         x, y = nx, ny
 
         textattrs = pyx.attr.mergeattrs(
-            [pyx.text.halign.center, pyx.text.vshift.mathaxis, self.size]
-            + self.textattrs
+            [pyx.text.vshift.mathaxis, self.size] + self.textattrs
         )
-        t = pyx.text.latexrunner().text(x, y, self.text, textattrs)
+        t = pyx.text.defaulttexrunner.text(x, y, self.text, textattrs)
         # t.linealign(self.displace,
         #            math.cos(self.angle * math.pi/180),
         #            math.sin(self.angle * math.pi/180))
