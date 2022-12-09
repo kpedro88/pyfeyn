@@ -32,8 +32,8 @@ class PDG:
         self._sync_latexname()
         return self
 
-    def set_type(self, type):
-        self.type = type
+    def set_type(self, typ):
+        self.type = typ
         return self
 
 

@@ -57,7 +57,7 @@ class FeynDiagram:
         drawingobjs = self.__objs
         try:
             drawingobjs.sort()
-        except:
+        except Exception:
             pass
 
         ## Draw each object

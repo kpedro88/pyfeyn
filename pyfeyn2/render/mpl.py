@@ -77,13 +77,6 @@ def wave(xp1, xp2, points=200, rot=3, amp=0.15, line_frac=0.2):
 
     n = np.linspace(0, points, points)
     alpha = np.arctan((p2[1] - p1[1]) / np.array([(p2[0] - p1[0])]))
-    scaley = 1
-    scalex = 1
-    if p2[1] < p1[1]:
-        scaley = -1
-    if p2[0] < p1[0]:
-        scalex = -1
-    alphap = alpha + np.pi / 2
     w = rot / points * (2 * np.pi)  # + np.pi / points
     ret = (
         p1[0]

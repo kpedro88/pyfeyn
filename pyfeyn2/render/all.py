@@ -147,13 +147,13 @@ class AllRender(LatexRender):
             super().render(file, show, resolution, width, height)
         shutil.rmtree(self.dirpath)
 
-    def valid_style(self, typ):
-        return True in [r.valid_style(typ) for r in renderers]
+    def valid_style(self, style: str) -> bool:
+        return True in [r.valid_style(style) for r in renderers]
 
-    def valid_attribute(self, typ):
-        return True in [r.valid_attribute(typ) for r in renderers]
+    def valid_attribute(self, attr: str) -> bool:
+        return True in [r.valid_attribute(attr) for r in renderers]
 
-    def valid_type(self, typ):
+    def valid_type(self, typ: str) -> bool:
         return True in [r.valid_type(typ) for r in renderers]
 
 
