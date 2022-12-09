@@ -1,12 +1,9 @@
 import random
-import string
 
-from pylatex import Command, Document, Section, Subsection
-from pylatex.utils import NoEscape, italic
+from pylatex import Command
+from pylatex.utils import NoEscape
 
-from pyfeyn2.render.latex import LatexRender
 from pyfeyn2.render.metapost import MetaPostRender
-from pyfeyn2.render.render import Render
 
 # converte FeynmanDiagram to tikz-feynman
 

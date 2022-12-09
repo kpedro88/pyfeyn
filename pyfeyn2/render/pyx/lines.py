@@ -1,12 +1,11 @@
 """Various particle line types."""
 
-import math
 
 import pyx
 from pyx import color
 
 from pyfeyn2.render.pyx import config
-from pyfeyn2.render.pyx.deco import Arrow, LineLabel, ParallelArrow, PointLabel
+from pyfeyn2.render.pyx.deco import Arrow, LineLabel, ParallelArrow
 from pyfeyn2.render.pyx.diagrams import FeynDiagram
 from pyfeyn2.render.pyx.paint import CENTER
 from pyfeyn2.render.pyx.points import Point
@@ -21,21 +20,21 @@ class Line(Visible):
         self,
         point1,
         point2,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
         self.p1 = point1
         self.p2 = point2
-        self.styles = styles
+        self.styles = styles if styles is not None else []
         self.arcthrupoint = arcthrupoint
         self.is3D = is3D
-        self.arrows = arrows
-        self.labels = labels
+        self.arrows = arrows if arrows is not None else []
+        self.labels = labels if labels is not None else []
 
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
@@ -196,9 +195,9 @@ class Line(Visible):
             )
         return self
 
-    def set3D(self, choice):
+    def set3D(self, is3d):
         """Make this line display in '3D'."""
-        self.is3D = choice
+        self.is3D = is3d
         return self
 
     def getStyles(self, stylelist):
@@ -240,16 +239,16 @@ class Line(Visible):
             line = pyx.path.line(self.p1.x(), self.p1.y(), arccenter.x(), arccenter.y())
             if config.getOptions().VDEBUG:
                 FeynDiagram.currentDiagram.currentCanvas.stroke(line, [color.rgb.green])
-            ass, bs = circle.intersect(line)
+            ass, _ = circle.intersect(line)
             subpaths = circle.split(ass[0])
             cpath = subpaths[0]
             return cpath
 
             ## or, with an arc...
-            arcangle1 = arccenter.arg(self.p1)
-            arcangle2 = arccenter.arg(self.p1) + 360
-            arcargs = (arccenter.x(), arccenter.y(), arcradius, arcangle1, arcangle2)
-            return pyx.path.path(pyx.path.arc(*arcargs))
+            # arcangle1 = arccenter.arg(self.p1)
+            # arcangle2 = arccenter.arg(self.p1) + 360
+            # arcargs = (arccenter.x(), arccenter.y(), arcradius, arcangle1, arcangle2)
+            # return pyx.path.path(pyx.path.arc(*arcargs))
 
         else:
             n13, n23 = None, None
@@ -306,7 +305,7 @@ class Line(Visible):
             arcradius = arccenter.distance(self.arcthrupoint)
             arcangle1 = arccenter.arg(self.p1)
             arcangle2 = arccenter.arg(self.p2)
-            arcangle3 = arccenter.arg(self.arcthrupoint)
+            # arcangle3 = arccenter.arg(self.arcthrupoint)
             arcargs = (arccenter.x(), arccenter.y(), arcradius, arcangle1, arcangle2)
 
             if config.getOptions().DEBUG and arcangle1 == arcangle2:
@@ -424,7 +423,7 @@ class MultiLine(Line):
         path = pyx.deformer.parallel(-n / 2.0 * dist).deform(self.getPath())
         paths = [path]
         defo = pyx.deformer.parallel(dist)
-        for m in range(0, n):
+        for _ in range(0, n):
             path = defo.deform(path)
             paths.append(path)
         styles = self.styles + self.arrows
@@ -609,7 +608,7 @@ class Gluon(DecoratedLine):
         intwindings += 2 * self.extras
         if intwindings % 2 == 0:
             intwindings -= 1
-        deficit = needwindings - intwindings
+        # deficit = needwindings - intwindings
         sign = 1
         if self.inverted:
             sign = -1
@@ -633,9 +632,7 @@ class Gluon(DecoratedLine):
             canvas.stroke(mypath, styles)
         else:
             para = pyx.deformer.parallel(0.001)
-            ass, bs, cs = para.normpath_selfintersections(
-                mypath.normpath(), epsilon=0.01
-            )
+            _, bs, _ = para.normpath_selfintersections(mypath.normpath(), epsilon=0.01)
             coil_params = []
             for b in bs:
                 coil_params.append(b[self.parity3D] - self.skipsize3D)
@@ -782,7 +779,7 @@ class Graviton(DecoratedLine):
                 #    print self.__class__, "- curve radius = ", curveradius
                 if mincurveradius is None or curveradius < mincurveradius:
                     mincurveradius = curveradius
-            except:
+            except Exception:
                 pass
         numhloopcurves = 5
         if mincurveradius is not None:
@@ -1129,7 +1126,7 @@ class Gluino(DecoratedLine):
                     params2.append(b + self.skipsize3D)
                 parity2 = not parity2
             para = pyx.deformer.parallel(0.001)
-            sas, sbs, scs = para.normpath_selfintersections(
+            _, sbs, _ = para.normpath_selfintersections(
                 mypath2.normpath(), epsilon=0.01
             )
             coil_params = []

@@ -1,10 +1,9 @@
 import os
 import re
-from tempfile import mktemp
 
 from IPython.display import display
-from pylatex import Command, Document, Section, Subsection
-from pylatex.utils import NoEscape, italic
+from pylatex import Document
+from pylatex.utils import NoEscape
 from wand.image import Image as WImage
 
 from pyfeyn2.render.render import Render

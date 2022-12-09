@@ -1,8 +1,8 @@
 import copy
 
 import dot2tex
-from pylatex import Command, Document, Section, Subsection
-from pylatex.utils import NoEscape, italic
+from pylatex import Command
+from pylatex.utils import NoEscape
 
 from pyfeyn2.render.latex import LatexRender
 from pyfeyn2.render.render import Render
@@ -28,19 +28,19 @@ def feynman_adjust_points(feyndiag, size=5):
     norm = size
     dot = feynman_to_dot(fd)
     positions = dot_to_positions(dot)
-    max = 0
-    for i, p in positions.items():
-        if p[0] > max:
-            max = p[0]
-        if p[1] > max:
-            max = p[1]
+    mmax = 0
+    for _, p in positions.items():
+        if p[0] > mmax:
+            mmax = p[0]
+        if p[1] > mmax:
+            mmax = p[1]
     for v in fd.vertices:
         if v.id in positions:
-            v.x = positions[v.id][0] / max * norm
-            v.y = positions[v.id][1] / max * norm
+            v.x = positions[v.id][0] / mmax * norm
+            v.y = positions[v.id][1] / mmax * norm
     for l in fd.legs:
-        l.x = positions[l.id][0] / max * norm
-        l.y = positions[l.id][1] / max * norm
+        l.x = positions[l.id][0] / mmax * norm
+        l.y = positions[l.id][1] / mmax * norm
     return fd
 
 

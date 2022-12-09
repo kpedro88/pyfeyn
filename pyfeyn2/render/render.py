@@ -1,9 +1,3 @@
-import io
-
-import PIL
-from IPython.display import display
-from matplotlib import pyplot as plt
-
 from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Vertex
 
 
@@ -18,7 +12,7 @@ class Render:
     def get_src(self):
         return self.src
 
-    def render(self, file=None):
+    def render(self, file=None, show=True, resolution=100, width=None, height=None):
         pass
 
     def valid_style(self, style: str) -> bool:

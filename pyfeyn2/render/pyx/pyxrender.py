@@ -9,14 +9,7 @@ from wand.image import Image as WImage
 from pyfeyn2.render.pyx.deco import Arrow, PointLabel
 from pyfeyn2.render.pyx.diagrams import FeynDiagram
 from pyfeyn2.render.pyx.lines import Line, NamedLine
-from pyfeyn2.render.pyx.points import (
-    SQUARE,
-    CircleMark,
-    DecoratedPoint,
-    NamedMark,
-    Point,
-    SquareMark,
-)
+from pyfeyn2.render.pyx.points import SQUARE, DecoratedPoint, NamedMark, Point
 from pyfeyn2.render.render import Render
 
 
@@ -91,11 +84,11 @@ class PyxRender(Render):
         ):
             try:
                 marktype = NamedMark[styledict["mark-shape"]]
-            except:
+            except Exception:
                 marktype = SQUARE
             try:
                 marksize = float(styledict["mark-size"])
-            except:
+            except Exception:
                 marksize = 0.075
             obj.setMark(marktype(size=marksize))
         if (
@@ -106,19 +99,19 @@ class PyxRender(Render):
         ) and isinstance(obj, Line):
             try:
                 arrsize = pyx.unit.length(float(styledict["arrow-size"]), unit="cm")
-            except:
+            except Exception:
                 arrsize = 6 * pyx.unit.v_pt
             try:
                 arrangle = float(styledict["arrow-angle"])
-            except:
+            except Exception:
                 arrangle = 45
             try:
                 arrconstrict = float(styledict["arrow-constrict"])
-            except:
+            except Exception:
                 arrconstrict = 0.8
             try:
                 arrpos = float(styledict["arrow-pos"])
-            except:
+            except Exception:
                 arrpos = 0.5
             obj.addArrow(arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict))
         if (
@@ -134,31 +127,31 @@ class PyxRender(Render):
                 arrsize = pyx.unit.length(
                     float(styledict["parallel-arrow-size"]), unit="cm"
                 )
-            except:
+            except Exception:
                 arrsize = 6 * pyx.unit.v_pt
             try:
                 arrangle = float(styledict["parallel-arrow-angle"])
-            except:
+            except Exception:
                 arrangle = 45
             try:
                 arrconstrict = float(styledict["parallel-arrow-constrict"])
-            except:
+            except Exception:
                 arrconstrict = 0.8
             try:
                 arrpos = float(styledict["parallel-arrow-pos"])
-            except:
+            except Exception:
                 arrpos = 0.5
             try:
                 arrlen = float(styledict["parallel-arrow-length"])
-            except:
+            except Exception:
                 arrlen = 0.5 * pyx.unit.v_cm
             try:
                 arrdisp = float(styledict["parallel-arrow-displace"])
-            except:
+            except Exception:
                 arrdisp = 0.3
             try:
                 arrsense = int(styledict["parallel-arrow-sense"])
-            except:
+            except Exception:
                 arrsense = +1
             obj.addParallelArrow(
                 arrpos, arrdisp, arrlen, arrsize, arrangle, arrconstrict, arrsense

@@ -147,20 +147,21 @@ class AllRender(LatexRender):
             super().render(file, show, resolution, width, height)
         shutil.rmtree(self.dirpath)
 
-        renderers = [
-            PyxRender(),
-            TikzFeynmanRender(),
-            FeynmpRender(),
-            DotRender(),
-            ASCIIPDFRender(),
-            MPLRender(),
-        ]
+    def valid_style(self, typ):
+        return True in [r.valid_style(typ) for r in renderers]
 
-        def valid_style(self, typ):
-            return True in [r.valid_style(typ) for r in renderers]
+    def valid_attribute(self, typ):
+        return True in [r.valid_attribute(typ) for r in renderers]
 
-        def valid_attribute(self, typ):
-            return True in [r.valid_attribute(typ) for r in renderers]
+    def valid_type(self, typ):
+        return True in [r.valid_type(typ) for r in renderers]
 
-        def valid_type(self, typ):
-            return True in [r.valid_type(typ) for r in renderers]
+
+renderers = [
+    PyxRender(),
+    TikzFeynmanRender(),
+    FeynmpRender(),
+    DotRender(),
+    ASCIIPDFRender(),
+    MPLRender(),
+]

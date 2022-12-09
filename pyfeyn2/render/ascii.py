@@ -1,7 +1,6 @@
 from typing import List
 
 from pyfeyn2.feynmandiagram import Point
-from pyfeyn2.render.latex import LatexRender
 from pyfeyn2.render.render import Render
 
 
@@ -46,8 +45,8 @@ class ASCIILine:
         self.index = 0
 
     def draw(self, pane, isrc, itar, scalex=1, scaley=1, kickx=0, kicky=0):
-        width = len(pane[0])
-        height = len(pane)
+        # width = len(pane[0])
+        # height = len(pane)
         # TODO normalize to width and height as well
         srcx = int((isrc.x + kickx) * scalex)
         srcy = int((isrc.y + kicky) * scaley)
@@ -87,11 +86,6 @@ class Gluon(ASCIILine):
 class Photon(ASCIILine):
     def __init__(self):
         super().__init__(begin="*", end="*", vert=["(", ")"], horz=["~"])
-
-
-class Ghost(ASCIILine):
-    def __init__(self):
-        super().__init__(begin="*", end="*", vert=["."], horz=["."])
 
 
 class Fermion(ASCIILine):
@@ -153,7 +147,6 @@ namedlines = {
     "photon": Photon(),
     "vector": Photon(),
     "boson": Photon(),
-    "ghost": Ghost(),
     "fermion": Fermion(),
     "ghost": Ghost(),
     "higgs": Higgs(),
@@ -198,7 +191,7 @@ class ASCIIRender(Render):
             height = int((maxy - miny + 1) * resolution / 100)
 
         pane = []
-        for i in range(height):
+        for _ in range(height):
             pane.append([" "] * width)
 
         scalex = (width - 1) / (maxx - minx)
