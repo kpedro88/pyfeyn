@@ -1,3 +1,6 @@
+from pathlib import Path
+
+from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.serializers import XmlSerializer
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
@@ -22,4 +25,12 @@ def test_print_as_xml():
     print(serializer.render(fd))
 
 
+def test_load_xml():
+    xml_string = Path("tests/simple.xml").read_text()
+    parser = XmlParser()
+    fd = parser.from_string(xml_string, FeynmanDiagram)
+    print(fd)
+
+
 test_print_as_xml()
+test_load_xml()
