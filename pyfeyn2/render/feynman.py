@@ -36,15 +36,46 @@ class FeynmanRender(Render):
         width=10.0,
         height=10.0,
         clean_up=True,
+        buffer=0.9,
     ):
+        # normaliuze to 1
+        maxx = minx = maxy = miny = 0.0
+        for l in self.fd.legs:
+            if l.x < minx:
+                minx = l.x
+            if l.x > maxx:
+                maxx = l.x
+            if l.y < miny:
+                miny = l.y
+            if l.y > maxy:
+                maxy = l.y
+        for l in self.fd.vertices:
+            if l.x < minx:
+                minx = l.x
+            if l.x > maxx:
+                maxx = l.x
+            if l.y < miny:
+                miny = l.y
+            if l.y > maxy:
+                maxy = l.y
+
+        kickx = -minx
+        kicky = -miny
+        scalex = 1.0 / (maxx - minx) * buffer
+        scaley = 1.0 / (maxy - miny) * buffer
+
         fig = plt.figure(figsize=(width, height))
         ax = fig.add_axes([0, 0, 1, 1], frameon=False)
         diagram = Diagram(ax)
         byid = {}
         for v in self.fd.vertices:
-            byid[v.id] = diagram.vertex(xy=(v.x, v.y))
+            byid[v.id] = diagram.vertex(
+                xy=((v.x + kickx) * scalex, (v.y + kicky) * scaley)
+            )
         for v in self.fd.legs:
-            byid[v.id] = diagram.vertex(xy=(v.x, v.y), marker="")
+            byid[v.id] = diagram.vertex(
+                xy=((v.x + kickx) * scalex, (v.y + kicky) * scaley), marker=""
+            )
 
         for p in self.fd.propagators:
             for style in namedlines[p.type]:

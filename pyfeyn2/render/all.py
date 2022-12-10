@@ -5,6 +5,7 @@ import traceback
 from matplotlib import pyplot as plt
 from pylatex import Figure, NoEscape, SubFigure
 
+import pyfeyn2
 from pyfeyn2.render.asciipdf import ASCIIPDFRender
 from pyfeyn2.render.dot import DotRender
 from pyfeyn2.render.feynmp import FeynmpRender
@@ -60,89 +61,30 @@ class AllRender(LatexRender):
         else:
             dynarg = {"show": False}
 
-        try:
-            if not subfigure:
-                print("Pyx:")
-            PyxRender(fd).render(dirpath + "/pyx.pdf", **dynarg)
-        except Exception as e:
-            print("Pyx failed:")
-            print(traceback.format_exc())
-
-        try:
-            if not subfigure:
-                print("Tikz:")
-            TikzFeynmanRender(fd).render(dirpath + "/tikz.pdf", **dynarg)
-        except Exception as e:
-            print("Tikz failed:")
-            print(traceback.format_exc())
-
-        try:
-            if not subfigure:
-                print("Feynmp:")
-            FeynmpRender(fd).render(dirpath + "/feynmp.pdf", **dynarg)
-        except Exception as e:
-            print("Feynmp failed:", e)
-            print(traceback.format_exc())
-
-        try:
-            if not subfigure:
-                print("Dot:")
-            DotRender(fd).render(dirpath + "/dot.pdf", **dynarg)
-        except Exception as e:
-            print("Dot failed:", e)
-            print(traceback.format_exc())
-
-        try:
-            if not subfigure:
-                print("ASCIIPDF:")
-            ASCIIPDFRender(fd).render(dirpath + "/asciipdf.pdf", **dynarg)
-        except Exception as e:
-            print("ASCIIPDF failed:", e)
-            print(traceback.format_exc())
-
-        try:
-            if not subfigure:
-                print("MPL:")
-            MPLRender(fd).render(dirpath + "/mpl.pdf", **dynarg)
-            plt.close()
-        except Exception as e:
-            print("MPL failed:", e)
-            print(traceback.format_exc())
-
         with self.create(Figure(position="h!")):
+            for i, name in enumerate(pyfeyn2.renders):
+                render = pyfeyn2.renders[name]
+                if name == "ascii":
+                    render = ASCIIPDFRender
+                if name == "all":
+                    continue
+                try:
+                    if not subfigure:
+                        print(name + ":")
+                    render(fd).render(dirpath + "/" + name + ".pdf", **dynarg)
+                    plt.close()
+                except Exception as e:
+                    print(name + " failed:")
+                    print(traceback.format_exc())
+                with self.create(SubFigure(position="b")) as subfig:
+                    subfig.add_image(
+                        dirpath + "/" + name + ".pdf",
+                        width=NoEscape("0.49\\textwidth"),
+                    )
+                    subfig.add_caption(name)
+                if i % 2 == 1:
+                    self.append(NoEscape(r"\\"))
 
-            with self.create(SubFigure(position="b")) as subfig:
-                subfig.add_image(
-                    dirpath + "/pyx.pdf", width=NoEscape("0.49\\textwidth")
-                )
-                subfig.add_caption("Tikz")
-            with self.create(SubFigure(position="b")) as subfig:
-                subfig.add_image(
-                    dirpath + "/tikz.pdf", width=NoEscape("0.49\\textwidth")
-                )
-                subfig.add_caption("Tikz")
-            self.append(NoEscape(r"\\"))
-            with self.create(SubFigure(position="b")) as subfig:
-                subfig.add_image(
-                    dirpath + "/feynmp.pdf", width=NoEscape("0.49\\textwidth")
-                )
-                subfig.add_caption("FeynMP")
-            with self.create(SubFigure(position="b")) as subfig:
-                subfig.add_image(
-                    dirpath + "/dot.pdf", width=NoEscape("0.49\\textwidth")
-                )
-                subfig.add_caption("Dot")
-            self.append(NoEscape(r"\\"))
-            with self.create(SubFigure(position="b")) as subfig:
-                subfig.add_image(
-                    dirpath + "/asciipdf.pdf", width=NoEscape("0.49\\textwidth")
-                )
-                subfig.add_caption("ASCIIPDF")
-            with self.create(SubFigure(position="b")) as subfig:
-                subfig.add_image(
-                    dirpath + "/mpl.pdf", width=NoEscape("0.49\\textwidth")
-                )
-                subfig.add_caption("MPL")
         if subfigure:
             super().render(file, show, resolution, width, height)
         shutil.rmtree(self.dirpath)
