@@ -124,7 +124,7 @@ class MPLRender(Render):
             idtopos[l.id] = (l.x, l.y)
 
         for p in self.fd.propagators:
-            namedlines[l.type](idtopos[p.source], idtopos[p.target])
+            namedlines[p.type](idtopos[p.source], idtopos[p.target])
         for l in self.fd.legs:
             if l.sense == "incoming":
                 namedlines[l.type](idtopos[l.id], idtopos[l.target])
