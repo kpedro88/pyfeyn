@@ -8,15 +8,16 @@ repository = "https://github.com/APN-Pucky/pyfeyn2"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pydot = "*"
 particle = "*"
 xsdata = {version = "*", extras = ["cli","lxml","soap"]}
 pylatex = "*"
 dot2tex = "*"
-matplotlib = "*"
+matplotlib = ">=1.4.0"
 Wand = "*"
-numpy = "*"
+numpy = ">=1.6"
 pyx = ">=0.12"
+pydot = "*"
+feynman=">=2.0.0"
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"

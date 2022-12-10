@@ -126,9 +126,9 @@ class MPLRender(Render):
         for p in self.fd.propagators:
             namedlines[p.type](idtopos[p.source], idtopos[p.target])
         for l in self.fd.legs:
-            if l.sense == "incoming":
+            if l.sense[:2] == "in":
                 namedlines[l.type](idtopos[l.id], idtopos[l.target])
-            elif l.sense == "outgoing":
+            elif l.sense[:3] == "out":
                 namedlines[l.type](idtopos[l.target], idtopos[l.id])
             else:
                 raise Exception("Unknown sense")

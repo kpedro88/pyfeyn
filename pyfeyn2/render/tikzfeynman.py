@@ -71,9 +71,9 @@ def feynman_to_tikz_feynman(fd):
         src += f"\t\t({p.source}) -- [{style}] ({p.target}),\n"
     for l in fd.legs:
         style = stylize_connect(l)
-        if l.sense == "incoming":
+        if l.sense[:2] == "in":
             src += f"\t\t({l.id}) -- [{style}] ({l.target}),\n"
-        elif l.sense == "outgoing":
+        elif l.sense[:3] == "out":
             src += f"\t\t({l.target}) -- [{style}] ({l.id}),\n"
         else:
             raise Exception("Unknown sense")

@@ -1,5 +1,6 @@
 from pyfeyn2.render.ascii import ASCIIRender
 from pyfeyn2.render.dot import DotRender
+from pyfeyn2.render.feynman import FeynmanRender
 from pyfeyn2.render.feynmp import FeynmpRender
 from pyfeyn2.render.mpl import MPLRender
 from pyfeyn2.render.pyx.pyxrender import PyxRender
@@ -9,9 +10,10 @@ renders = {
     "pyx": PyxRender,
     "dot": DotRender,
     "ascii": ASCIIRender,
-    "mpl": MPLRender,
     "feynmp": FeynmpRender,
+    "feynman": FeynmanRender,
     "tikzfeynman": TikzFeynmanRender,
+    "mpl": MPLRender,
 }
 styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
 types = [

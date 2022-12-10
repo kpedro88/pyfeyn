@@ -160,12 +160,12 @@ for s in types:
     for n, r in renders.items():
         arr += [f"|{n}.type.{s}|"]
     type_tab[f":ref:`/feynml/attributes/type/{s}.ipynb`"] = arr
-    io.write(
-        "shared/type/" + s + ".rst",
-        doc.array_table({**original, f":ref:`{s}`": arr}, tabs=0, init=True),
-    )
+    # io.write(
+    #    "shared/type/" + s + ".rst",
+    #    doc.array_table({**original, f":ref:`{s}`": arr}, tabs=0, init=True),
+    # )
 
-attr_tab = {":ref:`attribute`": [v for v in renders.keys()]}
+attr_tab = {":ref:`attributes`": [v for v in renders.keys()]}
 for s in attributes:
     for n, r in renders.items():
         attr_tab[f":ref:`{s}`"] = (
