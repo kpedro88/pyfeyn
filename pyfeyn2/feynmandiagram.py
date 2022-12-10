@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pyfeyn2.particles import get_name
 
@@ -24,8 +24,8 @@ class PDG:
         if self.pdgid is not None:
             self.latexname = get_name(self.pdgid)
 
-    def __post_init__(self):
-        self._sync_latexname()
+    # def __post_init__(self):
+    #    self._sync_latexname()
 
     def set_pdgid(self, pdgid):
         self.pdgid = pdgid
@@ -43,12 +43,12 @@ id = 0
 @dataclass
 class Identifiable:
     id: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
     def __post_init__(self):
         global id
-        if self.id == "":
+        if self.id is None:
             # use some global counter to generate unique id
             self.id = self.__class__.__name__ + str(id)
             id = id + 1
@@ -57,7 +57,7 @@ class Identifiable:
 @dataclass
 class Labeled:
     label: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
     def set_label(self, label):
@@ -150,7 +150,18 @@ class Vertex(Labeled, Styled, Point, Identifiable):
 
 
 @dataclass
-class Leg(Labeled, Styled, PDG, Bending, Point, Targeting, Identifiable):
+class Connector(Labeled, Styled, Bending, PDG, Identifiable):
+    edge_label: Optional[str] = field(
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+    momentum: Optional[str] = field(
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+    pass
+
+
+@dataclass
+class Leg(Point, Targeting, Connector):
     sense: str = field(
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
@@ -165,12 +176,12 @@ class Leg(Labeled, Styled, PDG, Bending, Point, Targeting, Identifiable):
 
 
 @dataclass
-class Propagator(Labeled, Styled, PDG, Bending, Line, Identifiable):
+class Propagator(Line, Connector):
     pass
 
 
 @dataclass
-class Label(Identifiable, Point, Texted):
+class Label(Point, Texted, Identifiable):
     pass
 
 
@@ -195,6 +206,20 @@ class FeynmanDiagram:
         default_factory=list,
         metadata={"name": "label", "type": "Element", "namespace": ""},
     )
+
+    def add(self, *all: List[Union[Propagator, Vertex, Leg, Label]]):
+        for any in all:
+            if isinstance(any, Propagator):
+                self.propagators.append(any)
+            elif isinstance(any, Vertex):
+                self.vertices.append(any)
+            elif isinstance(any, Leg):
+                self.legs.append(any)
+            elif isinstance(any, Label):
+                self.labels.append(any)
+            else:
+                raise Exception("Unknown type: " + str(type(any)) + " " + str(any))
+        return self
 
     def get_point(self, id):
         for v in self.vertices:

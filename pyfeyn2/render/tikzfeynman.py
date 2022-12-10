@@ -1,6 +1,9 @@
+from typing import Union
+
 from pylatex import Command
 from pylatex.utils import NoEscape
 
+from pyfeyn2.feynmandiagram import Connector, Leg, Propagator, Vertex
 from pyfeyn2.render.latex import LatexRender
 from pyfeyn2.render.render import Render
 
@@ -9,8 +12,8 @@ from pyfeyn2.render.render import Render
 type_map = {
     "gluon": "gluon",
     "ghost": "ghost",
-    "photon": "boson",
-    "boson": "boson",
+    "photon": "photon",
+    "boson": "photon",
     "fermion": "fermion",
     "anti fermion": "anti fermion",
     "charged boson": "charged boson",
@@ -32,23 +35,46 @@ type_map = {
 }
 
 
+def stylize_connect(c: Connector):
+    style = ""
+    style += type_map[c.type]
+
+    if c.edge_label is not None:
+        style += ",edge label=" + c.edge_label
+    # if c.edge_label_ is not None: style += ",edge label'=" + c.edge_label_
+    if c.momentum is not None:
+        style += ",momentum=" + c.momentum
+    # if c.momentum_ is not None: style += ",momentum'=" + c.momentum_
+
+    return style
+
+
+def stylize_node(v: Vertex):
+    style = ""
+    if v.label is not None:
+        style += "label=" + v.label
+    return style
+
+
 def feynman_to_tikz_feynman(fd):
     src = "\\begin{tikzpicture}\n"
     src += "\\begin{feynman}\n"
     for v in fd.vertices:
-        src += f"\t\\vertex ({v.id}) [label={v.label}] at ({v.x},{v.y});\n"
+        style = stylize_node(v)
+        src += f"\t\\vertex ({v.id}) [{style}] at ({v.x},{v.y});\n"
     for l in fd.legs:
-        src += f"\t\\vertex ({l.id}) [label={l.label}] at ({l.x},{l.y});\n"
+        style = stylize_node(l)
+        src += f"\t\\vertex ({l.id}) [{style}] at ({l.x},{l.y});\n"
     src += "\t\\diagram*{\n"
     for p in fd.propagators:
-        ttype = type_map[p.type]
-        src += f"\t\t({p.source}) -- [{ttype}] ({p.target}),\n"
+        style = stylize_connect(p)
+        src += f"\t\t({p.source}) -- [{style}] ({p.target}),\n"
     for l in fd.legs:
-        ttype = type_map[l.type]
+        style = stylize_connect(l)
         if l.sense == "incoming":
-            src += f"\t\t({l.id}) -- [{ttype}] ({l.target}),\n"
+            src += f"\t\t({l.id}) -- [{style}] ({l.target}),\n"
         elif l.sense == "outgoing":
-            src += f"\t\t({l.target}) -- [{ttype}] ({l.id}),\n"
+            src += f"\t\t({l.target}) -- [{style}] ({l.id}),\n"
         else:
             raise Exception("Unknown sense")
     src += "\t};\n"

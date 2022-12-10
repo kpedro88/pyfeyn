@@ -4,9 +4,12 @@ import dot2tex
 from pylatex import Command
 from pylatex.utils import NoEscape
 
+from pyfeyn2.feynmandiagram import Connector, Vertex
 from pyfeyn2.render.latex import LatexRender
 from pyfeyn2.render.render import Render
 
+# workaround for dot2tex bug in math mode labels
+REPLACE_THIS_WITH_A_BACKSLASH = "¬"
 # https://tikz.dev/tikz-decorations
 map_feyn_to_tikz = {
     "vector": "decorate,decoration=snake",
@@ -21,6 +24,16 @@ map_feyn_to_tikz = {
     "squark": "densely dashed",
     "zigzag": "decorate,decoration=zigzag",
 }
+
+
+def stylize_connect(c: Connector) -> str:
+    style = 'style="{}",texmode="raw"'.format(map_feyn_to_tikz[c.type])
+    if c.label is None:
+        label = ""
+    else:
+        label = c.label.replace("\\", REPLACE_THIS_WITH_A_BACKSLASH)
+    style += f',label="{label}"'
+    return style
 
 
 def feynman_adjust_points(feyndiag, size=5):
@@ -50,7 +63,9 @@ def dot_to_positions(dot):
 
 
 def dot_to_tikz(dot):
-    return dot2tex.dot2tex(dot, format="tikz", figonly=True)
+    ret = dot2tex.dot2tex(dot, format="tikz", figonly=True)
+    ret = ret.replace(REPLACE_THIS_WITH_A_BACKSLASH, "\\")
+    return ret
 
 
 def feynman_to_dot(fd):
@@ -65,18 +80,20 @@ def feynman_to_dot(fd):
         if l.x is not None and l.y is not None:
             src += f'\t\t{l.id} [ pos="{l.x},{l.y}!"];\n'
     for p in fd.propagators:
-        src += 'edge [style="{}"];\n'.format(map_feyn_to_tikz[p.type])
+        style = stylize_connect(p)
+        src += "edge [{}];\n".format(style)
         src += f"\t\t{p.source} -- {p.target};\n"
     rank_in = "{rank=min; "
     rank_out = "{rank=max; "
 
     for l in fd.legs:
+        style = stylize_connect(l)
         if l.sense == "incoming":
-            src += 'edge [style="{}"];\n'.format(map_feyn_to_tikz[l.type])
+            src += "edge [{}];\n".format(style)
             src += f"\t\t{l.id} -- {l.target};\n"
             rank_in += f"{l.id} "
         elif l.sense == "outgoing":
-            src += 'edge [style="{}"];\n'.format(map_feyn_to_tikz[l.type])
+            src += "edge [{}];\n".format(style)
             src += f"\t\t{l.target} -- {l.id};\n"
             rank_out += f"{l.id} ;"
         else:
@@ -122,12 +139,13 @@ class DotRender(LatexRender):
         super().set_feynman_diagram(fd)
         self.src_dot = feynman_to_dot(fd)
         self.set_src_diag(dot_to_tikz(self.src_dot))
+        self.src_dot = self.src_diag.replace(REPLACE_THIS_WITH_A_BACKSLASH, "\\")
 
     def get_src_dot(self):
         return self.src_dot
 
     def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y"]
+        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
 
     def valid_type(self, typ):
         if typ.lower() in map_feyn_to_tikz:

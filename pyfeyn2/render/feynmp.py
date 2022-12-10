@@ -3,6 +3,7 @@ import random
 from pylatex import Command
 from pylatex.utils import NoEscape
 
+from pyfeyn2.feynmandiagram import Connector
 from pyfeyn2.render.metapost import MetaPostRender
 
 # converte FeynmanDiagram to tikz-feynman
@@ -48,6 +49,13 @@ type_map = {
 }
 
 
+def stylize_line(c: Connector) -> str:
+    style = ""
+    if c.label is not None:
+        style += f",label={c.label}"
+    return style
+
+
 def feynman_to_feynmp(fd):
     letters = "abcdefghijklmnopqrstuvwxyz"
     result_str = "".join(random.choice(letters) for i in range(10))
@@ -55,15 +63,12 @@ def feynman_to_feynmp(fd):
     src += "\\begin{fmfgraph*}(120,80)\n"
     incoming = []
     outgoing = []
+    # Collect incoming and outgoing legs
     for l in fd.legs:
         if l.sense == "incoming":
             incoming += [l]
-            # src += f"\t\t\\fmfleft{{{l.id}}}\n"
-            # src += f"\t\t\\fmf{{{ttype}}}{{{l.id},{l.target}}}\n"
         elif l.sense == "outgoing":
             outgoing += [l]
-            # src += f"\t\t\\fmfright{{{l.id}}}\n"
-            # src += f"\t\t\\fmf{{{ttype}}}{{{l.target},{l.id}}}\n"
         else:
             raise Exception("Unknown sense")
     if len(incoming) > 0:
@@ -81,17 +86,28 @@ def feynman_to_feynmp(fd):
 
     for l in incoming:
         tttype = type_map[l.type]
+        style = stylize_line(l)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}}}{{{l.id},{l.target}}}\n"
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{l.id},{l.target}}}\n"
+            style = ""
     for l in outgoing:
         tttype = type_map[l.type]
+        style = stylize_line(l)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}}}{{{l.target},{l.id}}}\n"
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{l.target},{l.id}}}\n"
+            style = ""
 
     for p in fd.propagators:
         tttype = type_map[p.type]
+        style = stylize_line(p)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}}}{{{p.source},{p.target}}}\n"
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{p.source},{p.target}}}\n"
+            style = ""
+
+    # Add labels
+    for v in fd.vertices:
+        if v.label is not None:
+            src += f"\t\t\\fmflabel{{{v.label}}}{{{v.id}}}\n"
     src += "\\end{fmfgraph*}\n"
     src += "\\end{fmffile}\n"
     return src
@@ -124,7 +140,7 @@ class FeynmpRender(MetaPostRender):
         self.set_src_diag(NoEscape(feynman_to_feynmp(fd)))
 
     def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in []
+        return super().valid_attribute(attr) or attr in ["label"]
 
     def valid_type(self, typ: str):
         if typ.lower() in type_map:
