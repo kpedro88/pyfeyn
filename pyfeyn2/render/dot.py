@@ -12,13 +12,14 @@ map_feyn_to_tikz = {
     "vector": "decorate,decoration=snake",
     "boson": "decorate,decoration=snake",
     "photon": "decorate,decoration=snake",
-    "gluon": "decorate,decoration=coil,aspect=0.3,segment length=1mm",
+    "gluon": "decorate,decoration={coil,aspect=0.3,segment length=1mm}",
     "ghost": "dotted",
-    "fermion": "->.",
+    "fermion": "decorate,postaction={decorate,draw,red,decoration={markings,mark=at position 0.5 with {\\arrow{>}}}}",
     "higgs": "densely dashed",
     "scalar": "densely dashed",
     "slepton": "densely dashed",
     "squark": "densely dashed",
+    "zigzag": "decorate,decoration=zigzag",
 }
 
 
@@ -111,6 +112,9 @@ class DotRender(LatexRender):
             Command("usetikzlibrary", NoEscape("snakes,arrows,shapes"))
         )
         self.preamble.append(Command("usepackage", NoEscape("amsmath")))
+        self.preamble.append(
+            Command("usetikzlibrary", NoEscape("decorations.markings"))
+        )
         if fd is not None:
             self.set_feynman_diagram(fd)
 
