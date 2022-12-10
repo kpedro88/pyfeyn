@@ -1,4 +1,5 @@
-from typing import List
+import copy
+from typing import Iterable, List
 
 from pyfeyn2.feynmandiagram import Point
 from pyfeyn2.render.render import Render
@@ -19,30 +20,34 @@ class ASCIILine:
         self.begin = begin
         self.end = end
 
-        if not isinstance(left, List):
+        if not isinstance(left, Iterable):
             left = [left]
         self.left = left
-        if not isinstance(up, List):
+        if not isinstance(up, Iterable):
             up = [up]
         self.up = up
-        if not isinstance(right, List):
+        if not isinstance(right, Iterable):
             right = [right]
         self.right = right
-        if not isinstance(down, List):
+        if not isinstance(down, Iterable):
             down = [down]
         self.down = down
 
         if vert is not None:
-            if not isinstance(vert, List):
+            if not isinstance(vert, Iterable):
                 vert = [vert]
             self.down = vert
             self.up = vert
         if horz is not None:
-            if not isinstance(horz, List):
+            if not isinstance(horz, Iterable):
                 self.horz = [horz]
             self.right = horz
             self.left = horz
         self.index = 0
+
+    def inc_index(self) -> bool:
+        self.index += 1
+        return True
 
     def draw(self, pane, isrc, itar, scalex=1, scaley=1, kickx=0, kicky=0):
         # width = len(pane[0])
@@ -60,18 +65,21 @@ class ASCIILine:
                     if srcx > tarx
                     else self.right[self.index % len(self.right)]
                 )
-                self.index += 1
+                if not self.inc_index():
+                    return
         else:
             for i in range(srcy, tary, 1 if srcy < tary else -1):
                 pane[i][round(srcx + (tarx - srcx) * (i - srcy) / (-srcy + tary))] = (
-                    self.up[self.index % len(self.up)]
+                    self.down[self.index % len(self.up)]
                     if srcy < tary
-                    else self.down[self.index % len(self.down)]
+                    else self.up[self.index % len(self.down)]
                 )
-
-                self.index += 1
+                if not self.inc_index():
+                    return
         # pane[tary][tarx] = self.vert[self.index % len(self.vert)]
-        self.index += 1
+
+        if not self.inc_index():
+            return
         if self.begin is not None and self.begin != "":
             pane[srcy][srcx] = self.begin
         if self.end is not None and self.end != "":
@@ -142,6 +150,70 @@ class Gaugino(ASCIILine):
         super().__init__(begin="*", end="*", vert=["$"], horz=["$"])
 
 
+def remove_tex(s):
+    return (
+        s.replace("$", "")
+        .replace("{", "")
+        .replace("}", "")
+        .replace("\\(", "")
+        .replace("\\)", "")
+        .replace("\\", "")
+        .replace("^", "")
+    )
+
+
+class Label(ASCIILine):
+    def __init__(self, label, rm_tex=True):
+        if rm_tex:
+            self.label = remove_tex(label)
+        else:
+            self.label = label
+        super().__init__(begin=None, end=None, vert=self.label, horz=self.label)
+
+    def inc_index(self) -> bool:
+        ret = super().inc_index()
+        if self.index > len(self.label) - 1:
+            return False
+        return ret
+
+    def draw(self, pane, isrc, itar, scalex=1, scaley=1, kickx=0, kicky=0):
+        jsrc = copy.copy(isrc)
+        jtar = copy.copy(itar)
+
+        # reduce length to 1/3 in the middle
+        jsrc.x = (itar.x - isrc.x) / 3.0 + isrc.x
+        jsrc.y = (itar.y - isrc.y) / 3.0 + isrc.y
+        jtar.x = (itar.x - isrc.x) / 3.0 * 2.0 + isrc.x
+        jtar.y = (itar.y - isrc.y) / 3.0 * 2.0 + isrc.y
+
+        ## shift the line
+        shift = 3.0
+        # horizonral
+        if abs(isrc.x - itar.x) > abs(isrc.y - itar.y):
+            # left to right -> shift up
+            if isrc.x < itar.x:
+                jsrc.y -= shift / scaley
+                jtar.y -= shift / scaley
+            # right to left -> shift down
+            else:
+                jsrc.y += shift / scaley
+                jtar.y += shift / scaley
+
+        # vertical
+        else:
+            # up to down -> shift left
+            if isrc.y < itar.y:
+                jsrc.x -= shift / scalex
+                jtar.x -= shift / scalex
+            # down to up -> shift right
+            else:
+                jsrc.x += shift / scalex
+                jtar.x += shift / scalex
+
+        super().draw(pane, jsrc, jtar, scalex, scaley, kickx, kicky)
+        self.index = 0
+
+
 namedlines = {
     "gluon": Gluon(),
     "photon": Photon(),
@@ -186,30 +258,36 @@ class ASCIIRender(Render):
                 maxy = l.y
 
         if width is None:
-            width = int((maxx - minx + 1) * resolution / 100)
+            width = int((maxx - minx + 1) * resolution / 10)
         if height is None:
-            height = int((maxy - miny + 1) * resolution / 100)
+            height = int((maxy - miny + 1) * resolution / 10)
 
         pane = []
         for _ in range(height):
             pane.append([" "] * width)
 
         scalex = (width - 1) / (maxx - minx)
-        scaley = (height - 1) / (maxy - miny)
+        scaley = -(height - 1) / (maxy - miny)
         kickx = -minx
-        kicky = -miny
+        kicky = -maxy
         fmt = {"scalex": scalex, "kickx": kickx, "scaley": scaley, "kicky": kicky}
 
         for p in self.fd.propagators:
             src = self.fd.get_point(p.source)
             tar = self.fd.get_point(p.target)
             namedlines[p.type].draw(pane, src, tar, **fmt)
+            if p.label is not None:
+                Label(p.label).draw(pane, src, tar, **fmt)
         for l in self.fd.legs:
             tar = self.fd.get_point(l.target)
             if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
                 namedlines[l.type].draw(pane, Point(l.x, l.y), tar, **fmt)
+                if l.label is not None:
+                    Label(l.label).draw(pane, Point(l.x, l.y), tar, **fmt)
             elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
                 namedlines[l.type].draw(pane, tar, Point(l.x, l.y), **fmt)
+                if l.label is not None:
+                    Label(l.label).draw(pane, tar, Point(l.x, l.y), **fmt)
 
         joined = "\n".join(["".join(row) for row in pane])
         if show:
@@ -217,7 +295,7 @@ class ASCIIRender(Render):
         return joined
 
     def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y"]
+        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
 
     def valid_type(self, typ: str) -> bool:
         if typ.lower() in namedlines:
