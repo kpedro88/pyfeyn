@@ -14,10 +14,12 @@ class LatexRender(Document, Render):
         self,
         fd=None,
         documentclass="standalone",
-        document_options=["preview", "crop"],
+        document_options=None,
         *args,
         **kwargs,
     ):
+        if document_options is None:
+            document_options = ["preview", "crop"]
         super().__init__(
             *args,
             documentclass=documentclass,

@@ -8,12 +8,12 @@ from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
 
 renders = {
     "pyx": PyxRender,
-    "dot": DotRender,
-    "ascii": ASCIIRender,
     "feynmp": FeynmpRender,
+    "tikz": TikzFeynmanRender,
+    "dot": DotRender,
     "feynman": FeynmanRender,
-    "tikzfeynman": TikzFeynmanRender,
     "mpl": MPLRender,
+    "ascii": ASCIIRender,
 }
 styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
 types = [
