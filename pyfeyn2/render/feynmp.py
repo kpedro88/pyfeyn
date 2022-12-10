@@ -89,8 +89,9 @@ def feynman_to_feynmp(fd):
             src += f"\t\t\\fmf{{{ttype}}}{{{l.target},{l.id}}}\n"
 
     for p in fd.propagators:
-        ttype = type_map[p.type]
-        src += f"\t\t\\fmf{{{ttype}}}{{{p.source},{p.target}}}\n"
+        tttype = type_map[p.type]
+        for ttype in tttype:
+            src += f"\t\t\\fmf{{{ttype}}}{{{p.source},{p.target}}}\n"
     src += "\\end{fmfgraph*}\n"
     src += "\\end{fmffile}\n"
     return src
