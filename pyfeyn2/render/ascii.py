@@ -1,4 +1,5 @@
 import copy
+import re
 from typing import Iterable, List
 
 from pyfeyn2.feynmandiagram import Point
@@ -151,6 +152,9 @@ class Gaugino(ASCIILine):
 
 
 def remove_tex(s):
+    s = s.replace("\\bar", "_")
+    s = s.replace("\\tilde", "~")
+    s = re.sub(r"\\[a-zA-Z]+", "", s)
     return (
         s.replace("$", "")
         .replace("{", "")
@@ -214,6 +218,14 @@ class Label(ASCIILine):
         self.index = 0
 
 
+class Phantom(ASCIILine):
+    def __init__(self):
+        super().__init__(begin=None, end=None, vert="", horz="")
+
+    def draw(self, pane, isrc, itar, scalex=1, scaley=1, kickx=0, kicky=0):
+        pass
+
+
 namedlines = {
     "gluon": Gluon(),
     "photon": Photon(),
@@ -227,6 +239,7 @@ namedlines = {
     "squark": Scalar(),
     "gluino": Gluino(),
     "gaugino": Gaugino(),
+    "phantom": Phantom(),
 }
 
 
@@ -257,10 +270,18 @@ class ASCIIRender(Render):
             if l.y > maxy:
                 maxy = l.y
 
+        shift = 2
+        # maxx = maxx + shift
+        maxy = maxy + shift
+        # minx = minx - shift
+        miny = miny - shift
+
         if width is None:
-            width = int((maxx - minx + 1) * resolution / 10)
+            width = int((maxx - minx) * resolution / 10)
         if height is None:
-            height = int((maxy - miny + 1) * resolution / 10)
+            height = int(
+                (maxy - miny) * resolution / 10 / 2
+            )  # divide by two to make it look better due to aspect ratio
 
         pane = []
         for _ in range(height):

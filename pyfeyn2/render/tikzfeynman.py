@@ -32,6 +32,7 @@ type_map = {
     "gluino": "plain,gluon",
     "higgs": "scalar",
     "vector": "boson",
+    "phantom": "draw=none",
 }
 
 
@@ -39,8 +40,8 @@ def stylize_connect(c: Connector):
     style = ""
     style += type_map[c.type]
 
-    if c.edge_label is not None:
-        style += ",edge label=" + c.edge_label
+    if c.label is not None:
+        style += ",edge label=" + c.label
     # if c.edge_label_ is not None: style += ",edge label'=" + c.edge_label_
     if c.momentum is not None:
         style += ",momentum=" + c.momentum
@@ -63,7 +64,7 @@ def feynman_to_tikz_feynman(fd):
         style = stylize_node(v)
         src += f"\t\\vertex ({v.id}) [{style}] at ({v.x},{v.y});\n"
     for l in fd.legs:
-        style = stylize_node(l)
+        # style = stylize_node(l)
         src += f"\t\\vertex ({l.id}) [{style}] at ({l.x},{l.y});\n"
     src += "\t\\diagram*{\n"
     for p in fd.propagators:

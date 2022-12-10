@@ -69,6 +69,8 @@ extensions = [
     "autoapi.extension",
 ]
 
+# nbsphinx_execute = "always"
+
 napoleon_use_ivar = True
 autoapi_type = "python"
 autoapi_dirs = ["../../" + project]
@@ -167,11 +169,14 @@ for s in types:
 
 attr_tab = {":ref:`attributes`": [v for v in renders.keys()]}
 for s in attributes:
+    arr = []
     for n, r in renders.items():
-        attr_tab[f":ref:`{s}`"] = (
-            [] if f":ref:`{s}`" not in attr_tab else attr_tab[f":ref:`{s}`"]
-        )
-        attr_tab[f":ref:`{s}`"] += [f"|{n}.attribute.{s}|"]
+        arr += [f"|{n}.attribute.{s}|"]
+    attr_tab[f":ref:`{s}`"] = arr
+    io.write(
+        "shared/attribute/" + s + ".rst",
+        doc.array_table({**original, f":ref:`{s}`": arr}, tabs=0, init=True),
+    )
 
 
 io.write("shared/style_tab.rst", doc.array_table(style_tab, tabs=0, init=True))

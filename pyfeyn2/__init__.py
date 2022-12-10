@@ -38,6 +38,8 @@ types = [
     "chargino",
     "higgsino",
     "gravitino",
+    # util
+    "phantom",
 ]
 attributes = [
     "x",
@@ -52,4 +54,6 @@ attributes = [
     "id",
     "type",
     "text",
+    "momentum",
+    "tension",
 ]

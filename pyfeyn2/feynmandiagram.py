@@ -88,6 +88,11 @@ class Point:
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
+    def set_point(self, p):
+        self.x = float(p.x)
+        self.y = float(p.y)
+        return self
+
     def set_xy(self, x, y):
         self.x = float(x)
         self.y = float(y)
@@ -151,12 +156,24 @@ class Vertex(Labeled, Styled, Point, Identifiable):
 
 @dataclass
 class Connector(Labeled, Styled, Bending, PDG, Identifiable):
-    edge_label: Optional[str] = field(
-        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
-    )
     momentum: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    tension: Optional[float] = field(
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+    length: Optional[float] = field(
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+
+    def set_tension(self, tension):
+        self.tension = tension
+        return self
+
+    def set_length(self, length):
+        self.length = length
+        return self
+
     pass
 
 

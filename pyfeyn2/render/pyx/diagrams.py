@@ -3,6 +3,7 @@
 import pyx
 
 from pyfeyn2.render.pyx import config
+from pyfeyn2.render.pyx.utils import Visible
 
 
 ## Diagram class
@@ -33,7 +34,8 @@ class FeynDiagram:
                 # print "offset =", obj.layeroffset
                 offset = obj.layeroffset
             self.highestautolayer += 1
-            obj.setDepth(self.highestautolayer + offset)
+            if isinstance(obj, Visible):
+                obj.setDepth(self.highestautolayer + offset)
             if config.getOptions().DEBUG:
                 print(
                     "Object %s layer = %d + %d = %d"

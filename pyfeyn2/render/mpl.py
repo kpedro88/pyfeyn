@@ -109,6 +109,7 @@ namedlines = {
     "higgs": dashed,
     "gluino": combine_lines([spring, line]),
     "gaugino": combine_lines([wave, line]),
+    "phantom": lambda *a, **k: None,
 }
 
 

@@ -23,6 +23,7 @@ map_feyn_to_tikz = {
     "slepton": "densely dashed",
     "squark": "densely dashed",
     "zigzag": "decorate,decoration=zigzag",
+    "phantom": "draw=none",
 }
 
 
@@ -32,13 +33,19 @@ def stylize_connect(c: Connector) -> str:
         label = ""
     else:
         label = c.label.replace("\\", REPLACE_THIS_WITH_A_BACKSLASH)
+    if c.length is not None:
+        style += f",len={c.length}"
     style += f',label="{label}"'
     return style
 
 
-def feynman_adjust_points(feyndiag, size=5):
+def feynman_adjust_points(feyndiag, size=5, delete_vertices=True):
     # deepcopy
     fd = copy.deepcopy(feyndiag)
+    if delete_vertices:
+        for v in fd.vertices:
+            v.x = None
+            v.y = None
     norm = size
     dot = feynman_to_dot(fd)
     positions = dot_to_positions(dot)
@@ -77,6 +84,9 @@ def feynman_to_dot(fd):
     # src += "mode=hier;\n"
     src += 'node [style="invis"];\n'
     for l in fd.legs:
+        if l.x is not None and l.y is not None:
+            src += f'\t\t{l.id} [ pos="{l.x},{l.y}!"];\n'
+    for l in fd.vertices:
         if l.x is not None and l.y is not None:
             src += f'\t\t{l.id} [ pos="{l.x},{l.y}!"];\n'
     for p in fd.propagators:
@@ -139,7 +149,7 @@ class DotRender(LatexRender):
         super().set_feynman_diagram(fd)
         self.src_dot = feynman_to_dot(fd)
         self.set_src_diag(dot_to_tikz(self.src_dot))
-        self.src_dot = self.src_diag.replace(REPLACE_THIS_WITH_A_BACKSLASH, "\\")
+        self.src_dot = self.src_dot.replace(REPLACE_THIS_WITH_A_BACKSLASH, "\\")
 
     def get_src_dot(self):
         return self.src_dot

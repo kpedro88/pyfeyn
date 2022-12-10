@@ -21,6 +21,7 @@ namedlines = {
         {"style": "wiggly", "arrow": False},
         {"style": "simple", "arrow": False},
     ],
+    "phantom": [],
 }
 
 

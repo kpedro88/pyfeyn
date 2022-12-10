@@ -53,6 +53,8 @@ def stylize_line(c: Connector) -> str:
     style = ""
     if c.label is not None:
         style += f",label={c.label}"
+    if c.tension is not None:
+        style += f",tension={c.tension}"
     return style
 
 
