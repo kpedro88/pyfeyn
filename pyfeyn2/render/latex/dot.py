@@ -155,7 +155,7 @@ class DotRender(LatexRender):
 
     @staticmethod
     def valid_attribute( attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
+        return super(DotRender,DotRender).valid_attribute(attr) or attr in ["x", "y", "label"]
 
     @staticmethod
     def valid_type( typ):

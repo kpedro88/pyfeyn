@@ -115,11 +115,15 @@ class TikzFeynmanRender(LatexRender):
 
     @staticmethod
     def valid_styles(style: str) -> bool:
-        return super().valid_styles(style) or style in ["color", "opacity"]
+        return super(TikzFeynmanRender, TikzFeynmanRender).valid_styles(
+            style
+        ) or style in ["color", "opacity"]
 
     @staticmethod
     def valid_attribute(attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
+        return super(TikzFeynmanRender, TikzFeynmanRender).valid_attribute(
+            attr
+        ) or attr in ["x", "y", "label"]
 
     @staticmethod
     def valid_type(typ):

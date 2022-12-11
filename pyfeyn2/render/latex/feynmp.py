@@ -142,11 +142,13 @@ class FeynmpRender(MetaPostRender):
         self.set_src_diag(NoEscape(feynman_to_feynmp(fd)))
 
     @staticmethod
-    def valid_attribute( attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["label"]
+    def valid_attribute(attr: str) -> bool:
+        return super(FeynmpRender, FeynmpRender).valid_attribute(attr) or attr in [
+            "label"
+        ]
 
     @staticmethod
-    def valid_type( typ: str):
+    def valid_type(typ: str):
         if typ.lower() in type_map:
             return True
         return False

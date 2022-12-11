@@ -169,10 +169,10 @@ class ASCIIRender(Render):
 
     @staticmethod
     def valid_attribute( attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
+        return super(ASCIIRender,ASCIIRender).valid_attribute(attr) or attr in ["x", "y", "label"]
 
     @staticmethod
     def valid_type( typ: str) -> bool:
-        if typ.lower() in self.namedlines:
+        if typ.lower() in ASCIIRender.namedlines:
             return True
         return False

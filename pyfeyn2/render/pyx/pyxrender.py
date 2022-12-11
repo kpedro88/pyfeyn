@@ -173,7 +173,7 @@ class PyxRender(Render):
 
     @staticmethod
     def valid_attribute(attr: str) -> bool:
-        return super().valid_attribute(attr) or attr.lower() in [
+        return super(PyxRender,PyxRender).valid_attribute(attr) or attr.lower() in [
             "style",
             "type",
             "bend",
@@ -184,7 +184,7 @@ class PyxRender(Render):
 
     @staticmethod
     def valid_style(style: str) -> bool:
-        return super().valid_style(style) or style.lower() in [
+        return super(PyxRender,PyxRender).valid_style(style) or style.lower() in [
             "arrow-pos",
             "parallel-arrow-sense",
             "parallel-arrow-displace",

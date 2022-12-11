@@ -83,12 +83,12 @@ class AllRender(LatexRender):
 
     @staticmethod
     def valid_style( style: str) -> bool:
-        return True in [r().valid_style(style) for r in pyfeyn2.renders.values()]
+        return True in [r.valid_style(style) for r in pyfeyn2.renders.values()]
 
     @staticmethod
     def valid_attribute( attr: str) -> bool:
-        return True in [r().valid_attribute(attr) for r in pyfeyn2.renders.values()]
+        return True in [r.valid_attribute(attr) for r in pyfeyn2.renders.values()]
 
     @staticmethod
     def valid_type( typ: str) -> bool:
-        return True in [r().valid_type(typ) for r in pyfeyn2.renders.values()]
+        return True in [r.valid_type(typ) for r in pyfeyn2.renders.values()]

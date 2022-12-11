@@ -141,7 +141,7 @@ class MPLRender(Render):
 
     @staticmethod
     def valid_attribute(attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y"]
+        return super(MPLRender,MPLRender).valid_attribute(attr) or attr in ["x", "y"]
 
     @staticmethod
     def valid_type(typ: str) -> bool:
