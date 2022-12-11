@@ -15,8 +15,14 @@ class ASCIIPDFRender(PlainPDFRender, ASCIIRender):
 
     def render(
         self,
-        *args,
-        **kwargs,
+        file=None,
+        show=True,
+        resolution=100,
+        width=None,
+        height=None,
+        clean_up=True,
     ):
-        ASCIIRender.render(self, *args, **kwargs)
-        return PlainPDFRender.render(self, *args, **kwargs)
+        ASCIIRender.render(self, file, show, resolution, width, height, clean_up)
+        return PlainPDFRender.render(
+            self, file, show, resolution, width, height, clean_up
+        )

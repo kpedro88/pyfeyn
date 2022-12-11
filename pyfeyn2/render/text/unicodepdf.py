@@ -54,8 +54,14 @@ class UnicodePDFRender(PlainPDFRender, UnicodeRender):
 
     def render(
         self,
-        *args,
-        **kwargs,
+        file=None,
+        show=True,
+        resolution=100,
+        width=None,
+        height=None,
+        clean_up=True,
     ):
-        UnicodeRender.render(self, *args, **kwargs)
-        return PlainPDFRender.render(self, *args, **kwargs)
+        UnicodeRender.render(self, file, show, resolution, width, height, clean_up)
+        return PlainPDFRender.render(
+            self, file, show, resolution, width, height, clean_up
+        )
