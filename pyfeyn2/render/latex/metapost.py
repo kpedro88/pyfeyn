@@ -2,7 +2,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from pyfeyn2.render.latex import LatexRender
+from pyfeyn2.render.latex.latex import LatexRender
 
 
 class MetaPostRender(LatexRender):

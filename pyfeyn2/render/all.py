@@ -6,13 +6,13 @@ from matplotlib import pyplot as plt
 from pylatex import Figure, NoEscape, SubFigure
 
 import pyfeyn2
-from pyfeyn2.render.asciipdf import ASCIIPDFRender
-from pyfeyn2.render.dot import DotRender
-from pyfeyn2.render.feynmp import FeynmpRender
 from pyfeyn2.render.latex import LatexRender
-from pyfeyn2.render.mpl import MPLRender
+from pyfeyn2.render.latex.dot import DotRender
+from pyfeyn2.render.latex.feynmp import FeynmpRender
+from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
+from pyfeyn2.render.mpl.mpl import MPLRender
 from pyfeyn2.render.pyx.pyxrender import PyxRender
-from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
+from pyfeyn2.render.text.asciipdf import ASCIIPDFRender
 
 
 class AllRender(LatexRender):
@@ -64,8 +64,6 @@ class AllRender(LatexRender):
         with self.create(Figure(position="h!")):
             for i, name in enumerate(pyfeyn2.renders):
                 render = pyfeyn2.renders[name]
-                if name == "ascii":
-                    render = ASCIIPDFRender
                 if name == "all":
                     continue
                 try:

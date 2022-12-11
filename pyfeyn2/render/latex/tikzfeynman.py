@@ -4,7 +4,7 @@ from pylatex import Command
 from pylatex.utils import NoEscape
 
 from pyfeyn2.feynmandiagram import Connector, Leg, Propagator, Vertex
-from pyfeyn2.render.latex import LatexRender
+from pyfeyn2.render.latex.latex import LatexRender
 from pyfeyn2.render.render import Render
 
 # converte FeynmanDiagram to tikz-feynman

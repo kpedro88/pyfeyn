@@ -19,6 +19,8 @@ pyx = ">=0.12"
 pydot = "*"
 feynman=">=2.0.0"
 cssutils= "*"
+pylatexenc = "*"
+pygments = "*"
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"

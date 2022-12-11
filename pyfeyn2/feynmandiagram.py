@@ -192,6 +192,10 @@ class Connector(Labeled, Bending, PDG, Styled, Identifiable):
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
+    def set_momentum(self, momentum):
+        self.momentum = momentum
+        return self
+
     def set_tension(self, tension):
         self.tension = tension
         return self

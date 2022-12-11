@@ -151,28 +151,30 @@ class Gaugino(ASCIILine):
         super().__init__(begin="*", end="*", vert=["$"], horz=["$"])
 
 
-def remove_tex(s):
-    s = s.replace("\\bar", "_")
-    s = s.replace("\\tilde", "~")
-    s = re.sub(r"\\[a-zA-Z]+", "", s)
-    return (
-        s.replace("$", "")
-        .replace("{", "")
-        .replace("}", "")
-        .replace("\\(", "")
-        .replace("\\)", "")
-        .replace("\\", "")
-        .replace("^", "")
-    )
-
-
 class Label(ASCIILine):
-    def __init__(self, label, rm_tex=True):
-        if rm_tex:
-            self.label = remove_tex(label)
+    def __init__(self, label, handle_tex=True):
+        if handle_tex:
+            self.label = self.handle_tex(label)
         else:
             self.label = label
         super().__init__(begin=None, end=None, vert=self.label, horz=self.label)
+
+    def handle_tex(self, s):
+        """
+        Remove TeX commands from a string to pure ASCII.
+        """
+        s = s.replace("\\bar", "_")
+        s = s.replace("\\tilde", "~")
+        s = re.sub(r"\\[a-zA-Z]+", "", s)
+        return (
+            s.replace("$", "")
+            .replace("{", "")
+            .replace("}", "")
+            .replace("\\(", "")
+            .replace("\\)", "")
+            .replace("\\", "")
+            .replace("^", "")
+        )
 
     def inc_index(self) -> bool:
         ret = super().inc_index()
@@ -226,25 +228,25 @@ class Phantom(ASCIILine):
         pass
 
 
-namedlines = {
-    "gluon": Gluon(),
-    "photon": Photon(),
-    "vector": Photon(),
-    "boson": Photon(),
-    "fermion": Fermion(),
-    "ghost": Ghost(),
-    "higgs": Higgs(),
-    "scalar": Scalar(),
-    "slepton": Scalar(),
-    "squark": Scalar(),
-    "gluino": Gluino(),
-    "gaugino": Gaugino(),
-    "phantom": Phantom(),
-}
-
-
 class ASCIIRender(Render):
     """Renders Feynman diagrams to ASCII art."""
+
+    namedlines = {
+        "gluon": Gluon,
+        "photon": Photon,
+        "vector": Photon,
+        "boson": Photon,
+        "fermion": Fermion,
+        "ghost": Ghost,
+        "higgs": Higgs,
+        "scalar": Scalar,
+        "slepton": Scalar,
+        "squark": Scalar,
+        "gluino": Gluino,
+        "gaugino": Gaugino,
+        "phantom": Phantom,
+        "label": Label,
+    }
 
     def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
@@ -296,29 +298,40 @@ class ASCIIRender(Render):
         for p in self.fd.propagators:
             src = self.fd.get_point(p.source)
             tar = self.fd.get_point(p.target)
-            namedlines[p.type].draw(pane, src, tar, **fmt)
+            self.namedlines[p.type]().draw(pane, src, tar, **fmt)
             if p.label is not None:
-                Label(p.label).draw(pane, src, tar, **fmt)
+                self.namedlines["label"](p.label).draw(pane, src, tar, **fmt)
         for l in self.fd.legs:
             tar = self.fd.get_point(l.target)
             if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
-                namedlines[l.type].draw(pane, Point(l.x, l.y), tar, **fmt)
+                self.namedlines[l.type]().draw(pane, Point(l.x, l.y), tar, **fmt)
                 if l.label is not None:
-                    Label(l.label).draw(pane, Point(l.x, l.y), tar, **fmt)
+                    self.namedlines["label"](l.label).draw(
+                        pane, Point(l.x, l.y), tar, **fmt
+                    )
             elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
-                namedlines[l.type].draw(pane, tar, Point(l.x, l.y), **fmt)
+                self.namedlines[l.type]().draw(pane, tar, Point(l.x, l.y), **fmt)
                 if l.label is not None:
-                    Label(l.label).draw(pane, tar, Point(l.x, l.y), **fmt)
+                    self.namedlines["label"](l.label).draw(
+                        pane, tar, Point(l.x, l.y), **fmt
+                    )
 
-        joined = "\n".join(["".join(row) for row in pane])
+        joined = "\n".join(["".join(row) for row in pane]) + "\n"
+        self.set_src_txt(joined)
         if show:
             print(joined)
         return joined
+
+    def get_src_txt(self):
+        return self.src_txt
+
+    def set_src_txt(self, src_txt):
+        self.src_txt = src_txt
 
     def valid_attribute(self, attr: str) -> bool:
         return super().valid_attribute(attr) or attr in ["x", "y", "label"]
 
     def valid_type(self, typ: str) -> bool:
-        if typ.lower() in namedlines:
+        if typ.lower() in self.namedlines:
             return True
         return False

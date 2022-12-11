@@ -24,7 +24,7 @@ from pyfeyn2 import feynmandiagram
 from pyfeyn2.render.ascii import ASCIIRender
 from pyfeyn2.render.dot import DotRender
 from pyfeyn2.render.feynmp import FeynmpRender
-from pyfeyn2.render.mpl import MPLRender
+from pyfeyn2.render.mpl.mpl import MPLRender
 from pyfeyn2.render.pyx.pyxrender import PyxRender
 from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
 

@@ -4,7 +4,7 @@ from pylatex import Command
 from pylatex.utils import NoEscape
 
 from pyfeyn2.feynmandiagram import Connector
-from pyfeyn2.render.metapost import MetaPostRender
+from pyfeyn2.render.latex.metapost import MetaPostRender
 
 # converte FeynmanDiagram to tikz-feynman
 

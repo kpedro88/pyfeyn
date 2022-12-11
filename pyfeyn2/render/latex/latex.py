@@ -52,7 +52,12 @@ class LatexRender(Document, Render):
             delete = True
             file = "tmp"
         file = re.sub("\.pdf$", "", file.strip())
-        self.generate_pdf(file, clean_tex=clean_up)
+        self.generate_pdf(
+            file,
+            clean_tex=clean_up,
+            compiler="lualatex",
+            compiler_args=["-shell-escape"],
+        )
         wi = WImage(
             filename=file + ".pdf", resolution=resolution, width=width, height=height
         )

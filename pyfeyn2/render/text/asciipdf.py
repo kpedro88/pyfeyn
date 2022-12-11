@@ -1,0 +1,22 @@
+from pyfeyn2.render.text.ascii import ASCIIRender
+from pyfeyn2.render.text.plainpdf import PlainPDFRender
+
+
+class ASCIIPDFRender(PlainPDFRender, ASCIIRender):
+    """Renders Feynman diagrams as ASCII art to PDF."""
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        ASCIIRender.__init__(self, *args, **kwargs)
+        PlainPDFRender.__init__(self, *args, **kwargs)
+
+    def render(
+        self,
+        *args,
+        **kwargs,
+    ):
+        ASCIIRender.render(self, *args, **kwargs)
+        return PlainPDFRender.render(self, *args, **kwargs)

@@ -12,6 +12,9 @@ class Render:
     def get_src(self):
         return self.src
 
+    def set_src(self, src):
+        self.src = src
+
     def render(self, file=None, show=True, resolution=100, width=None, height=None):
         pass
 
