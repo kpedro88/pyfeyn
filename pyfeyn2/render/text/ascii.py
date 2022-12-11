@@ -167,10 +167,12 @@ class ASCIIRender(Render):
     def set_src_txt(self, src_txt):
         self.src_txt = src_txt
 
-    def valid_attribute(self, attr: str) -> bool:
+    @staticmethod
+    def valid_attribute( attr: str) -> bool:
         return super().valid_attribute(attr) or attr in ["x", "y", "label"]
 
-    def valid_type(self, typ: str) -> bool:
+    @staticmethod
+    def valid_type( typ: str) -> bool:
         if typ.lower() in self.namedlines:
             return True
         return False

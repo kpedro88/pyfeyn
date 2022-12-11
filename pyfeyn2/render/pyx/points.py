@@ -28,8 +28,10 @@ def distance(point1, point2):
 class Point:
     """Base class for all pointlike objects in Feynman diagrams."""
 
-    def __init__(self, x, y, blob=None, labels=[], **kwargs):
+    def __init__(self, x, y, blob=None, labels=None, **kwargs):
         """Constructor."""
+        if labels is None:
+            labels = []
         self.setXY(x, y)
         self.setBlob(blob)
         self.labels = labels

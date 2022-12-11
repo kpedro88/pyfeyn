@@ -1,4 +1,5 @@
 from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
+import abc
 
 
 class Render:
@@ -15,16 +16,31 @@ class Render:
     def set_src(self, src):
         self.src = src
 
-    def render(self, file=None, show=True, resolution=100, width=None, height=None):
-        pass
+    @abc.abstractmethod
+    def render(
+        self,
+        file=None,
+        show=True,
+        resolution=100,
+        width=None,
+        height=None,
+        clean_up=True,
+    ):
+        """
+        Render the diagram.
+        """
+        return
 
-    def valid_style(self, style: str) -> bool:
+    @staticmethod
+    def valid_style(style: str) -> bool:
         return False
 
-    def valid_type(self, typ: str) -> bool:
+    @staticmethod
+    def valid_type(typ: str) -> bool:
         return False
 
-    def valid_attribute(self, attr: str) -> bool:
+    @staticmethod
+    def valid_attribute(attr: str) -> bool:
         if attr in ["id", "pdgid", "sense", "target", "source", "type"]:
             return True
         return False

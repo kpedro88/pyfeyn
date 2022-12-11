@@ -165,12 +165,14 @@ class PyxRender(Render):
                 obj.set3D(True)
         return obj
 
-    def valid_type(self, typ: str):
+    @staticmethod
+    def valid_type(typ: str):
         if typ.lower() in NamedLine:
             return True
         return False
 
-    def valid_attribute(self, attr: str) -> bool:
+    @staticmethod
+    def valid_attribute(attr: str) -> bool:
         return super().valid_attribute(attr) or attr.lower() in [
             "style",
             "type",
@@ -180,7 +182,8 @@ class PyxRender(Render):
             "y",
         ]
 
-    def valid_style(self, style: str) -> bool:
+    @staticmethod
+    def valid_style(style: str) -> bool:
         return super().valid_style(style) or style.lower() in [
             "arrow-pos",
             "parallel-arrow-sense",

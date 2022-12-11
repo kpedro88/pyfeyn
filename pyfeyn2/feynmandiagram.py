@@ -261,18 +261,18 @@ class FeynmanDiagram:
         metadata={"name": "label", "type": "Element", "namespace": ""},
     )
 
-    def add(self, *all: List[Union[Propagator, Vertex, Leg, Label]]):
-        for any in all:
-            if isinstance(any, Propagator):
-                self.propagators.append(any)
-            elif isinstance(any, Vertex):
-                self.vertices.append(any)
-            elif isinstance(any, Leg):
-                self.legs.append(any)
-            elif isinstance(any, Label):
-                self.labels.append(any)
+    def add(self, *fd_all: List[Union[Propagator, Vertex, Leg, Label]]):
+        for a in fd_all:
+            if isinstance(a, Propagator):
+                self.propagators.append(a)
+            elif isinstance(a, Vertex):
+                self.vertices.append(a)
+            elif isinstance(a, Leg):
+                self.legs.append(a)
+            elif isinstance(a, Label):
+                self.labels.append(a)
             else:
-                raise Exception("Unknown type: " + str(type(any)) + " " + str(any))
+                raise Exception("Unknown type: " + str(type(a)) + " " + str(a))
         return self
 
     def get_point(self, id):
