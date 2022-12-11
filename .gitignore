@@ -137,3 +137,4 @@ docs/source/autoapi
 /pyfeyn2/*~
 
 *.pygtex
+pyfeyn-logo.svg

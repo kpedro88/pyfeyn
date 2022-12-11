@@ -6,13 +6,7 @@ from matplotlib import pyplot as plt
 from pylatex import Figure, NoEscape, SubFigure
 
 import pyfeyn2
-from pyfeyn2.render.latex import LatexRender
-from pyfeyn2.render.latex.dot import DotRender
-from pyfeyn2.render.latex.feynmp import FeynmpRender
-from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
-from pyfeyn2.render.mpl.mpl import MPLRender
-from pyfeyn2.render.pyx.pyxrender import PyxRender
-from pyfeyn2.render.text.asciipdf import ASCIIPDFRender
+from pyfeyn2.render.latex.latex import LatexRender
 
 
 class AllRender(LatexRender):
@@ -88,20 +82,10 @@ class AllRender(LatexRender):
         shutil.rmtree(self.dirpath)
 
     def valid_style(self, style: str) -> bool:
-        return True in [r.valid_style(style) for r in renderers]
+        return True in [r().valid_style(style) for r in pyfeyn2.renders.values()]
 
     def valid_attribute(self, attr: str) -> bool:
-        return True in [r.valid_attribute(attr) for r in renderers]
+        return True in [r().valid_attribute(attr) for r in pyfeyn2.renders.values()]
 
     def valid_type(self, typ: str) -> bool:
-        return True in [r.valid_type(typ) for r in renderers]
-
-
-renderers = [
-    PyxRender(),
-    TikzFeynmanRender(),
-    FeynmpRender(),
-    DotRender(),
-    ASCIIPDFRender(),
-    MPLRender(),
-]
+        return True in [r().valid_type(typ) for r in pyfeyn2.renders.values()]

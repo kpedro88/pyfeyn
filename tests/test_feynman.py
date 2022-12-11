@@ -1,5 +1,4 @@
 from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
-from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
 
 
 def test_gluons():
