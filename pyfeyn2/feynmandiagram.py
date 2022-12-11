@@ -1,3 +1,4 @@
+import logging
 from dataclasses import MISSING, Field, dataclass, field
 from typing import Any, List, Optional, Union
 
@@ -5,6 +6,10 @@ import cssutils
 from xsdata.formats.converter import Converter, converter
 
 from pyfeyn2.particles import get_name
+
+# We don't want to see the cssutils warnings, since we have custom properties
+cssutils.log.setLevel(logging.CRITICAL)
+
 
 # from pyfeyn2.propagator import Propagator
 # from pyfeyn2.vertex import Vertex

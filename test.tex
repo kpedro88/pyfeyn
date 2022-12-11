@@ -1,0 +1,31 @@
+\documentclass[preview,crop,tikz]{standalone}%
+\usepackage[T1]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{lmodern}%
+\usepackage{textcomp}%
+\usepackage{lastpage}%
+%
+\RequirePackage{luatex85}%
+\usepackage[compat=1.1.0]{tikz-feynman}%
+%
+\begin{document}%
+\normalsize%
+\begin{tikzpicture}
+\begin{feynman}
+	\vertex (v1) [] at (-1.0,0.0);
+	\vertex (v2) [] at (1.0,0.0);
+	\vertex (l1) [] at (-2.0,1.0);
+	\vertex (l2) [] at (-2.0,-1.0);
+	\vertex (l3) [] at (2.0,1.0);
+	\vertex (l4) [] at (2.0,-1.0);
+	\diagram*{
+		(v1) -- [gluon,opacity=,] (v2),
+		(l1) -- [gluon,opacity=,] (v1),
+		(l2) -- [gluon,opacity=,] (v1),
+		(v2) -- [gluon,opacity=,] (l3),
+		(v2) -- [gluon,opacity=,] (l4),
+	};
+\end{feynman}
+\end{tikzpicture}
+%
+\end{document}

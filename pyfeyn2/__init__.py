@@ -1,3 +1,5 @@
+from importlib.metadata import version
+
 from pyfeyn2.render.latex.dot import DotRender
 from pyfeyn2.render.latex.feynmp import FeynmpRender
 from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
@@ -8,6 +10,11 @@ from pyfeyn2.render.text.ascii import ASCIIRender
 from pyfeyn2.render.text.asciipdf import ASCIIPDFRender
 from pyfeyn2.render.text.unicode import UnicodeRender
 from pyfeyn2.render.text.unicodepdf import UnicodePDFRender
+
+package = "pyfeyn2"
+
+__version__ = version(package)
+
 
 renders = {
     "pyx": PyxRender,
