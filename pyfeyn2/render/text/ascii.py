@@ -1,7 +1,3 @@
-import copy
-import re
-from typing import Iterable, List
-
 from pyfeyn2.feynmandiagram import Point
 from pyfeyn2.render.render import Render
 from pyfeyn2.render.text.label import Label

@@ -1,6 +1,6 @@
 import logging
-from dataclasses import MISSING, Field, dataclass, field
-from typing import Any, List, Optional, Union
+from dataclasses import dataclass, field
+from typing import List, Optional, Union
 
 import cssutils
 from xsdata.formats.converter import Converter, converter

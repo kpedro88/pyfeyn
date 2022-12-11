@@ -1,6 +1,3 @@
-from typing import Iterable, List
-
-
 class ASCIILine:
     def __init__(
         self,
