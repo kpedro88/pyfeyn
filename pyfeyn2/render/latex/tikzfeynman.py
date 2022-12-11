@@ -45,9 +45,9 @@ def stylize_connect(c: Connector):
     # if c.edge_label_ is not None: style += ",edge label'=" + c.edge_label_
     if c.momentum is not None:
         style += ",momentum=" + c.momentum
-    if c.style.opacity is not None:
+    if c.style.opacity is not None and c.style.opacity != "":
         style += ",opacity=" + str(c.style.opacity)
-    if c.style.color is not None:
+    if c.style.color is not None and c.style.color != "":
         style += "," + str(c.style.color)
 
     return style

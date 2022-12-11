@@ -6,9 +6,7 @@ from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
 from pyfeyn2.render.mpl.feynmanrender import FeynmanRender
 from pyfeyn2.render.mpl.mpl import MPLRender
 from pyfeyn2.render.pyx.pyxrender import PyxRender
-from pyfeyn2.render.text.ascii import ASCIIRender
 from pyfeyn2.render.text.asciipdf import ASCIIPDFRender
-from pyfeyn2.render.text.unicode import UnicodeRender
 from pyfeyn2.render.text.unicodepdf import UnicodePDFRender
 
 package = "pyfeyn2"
