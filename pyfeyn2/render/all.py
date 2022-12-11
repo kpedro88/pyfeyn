@@ -65,7 +65,7 @@ class AllRender(LatexRender):
                         print(name + ":")
                     render(fd).render(dirpath + "/" + name + ".pdf", **dynarg)
                     plt.close()
-                except Exception as e:
+                except Exception:
                     print(name + " failed:")
                     print(traceback.format_exc())
                 with self.create(SubFigure(position="b")) as subfig:
@@ -81,11 +81,14 @@ class AllRender(LatexRender):
             super().render(file, show, resolution, width, height)
         shutil.rmtree(self.dirpath)
 
-    def valid_style(self, style: str) -> bool:
-        return True in [r().valid_style(style) for r in pyfeyn2.renders.values()]
+    @staticmethod
+    def valid_style( style: str) -> bool:
+        return True in [r.valid_style(style) for r in pyfeyn2.renders.values()]
 
-    def valid_attribute(self, attr: str) -> bool:
-        return True in [r().valid_attribute(attr) for r in pyfeyn2.renders.values()]
+    @staticmethod
+    def valid_attribute( attr: str) -> bool:
+        return True in [r.valid_attribute(attr) for r in pyfeyn2.renders.values()]
 
-    def valid_type(self, typ: str) -> bool:
-        return True in [r().valid_type(typ) for r in pyfeyn2.renders.values()]
+    @staticmethod
+    def valid_type( typ: str) -> bool:
+        return True in [r.valid_type(typ) for r in pyfeyn2.renders.values()]

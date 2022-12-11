@@ -108,7 +108,15 @@ class ASCIIRender(Render):
     def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
-    def render(self, file=None, show=True, resolution=100, width=None, height=None):
+    def render(
+        self,
+        file=None,
+        show=True,
+        resolution=100,
+        width=None,
+        height=None,
+        clean_up=True,
+    ):
         minx, miny, maxx, maxy = self.fd.get_bounding_box()
 
         shift = 2
@@ -167,10 +175,16 @@ class ASCIIRender(Render):
     def set_src_txt(self, src_txt):
         self.src_txt = src_txt
 
-    def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
+    @staticmethod
+    def valid_attribute(attr: str) -> bool:
+        return super(ASCIIRender, ASCIIRender).valid_attribute(attr) or attr in [
+            "x",
+            "y",
+            "label",
+        ]
 
-    def valid_type(self, typ: str) -> bool:
-        if typ.lower() in self.namedlines:
+    @staticmethod
+    def valid_type(typ: str) -> bool:
+        if typ.lower() in ASCIIRender.namedlines:
             return True
         return False

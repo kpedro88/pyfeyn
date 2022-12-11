@@ -113,13 +113,20 @@ class TikzFeynmanRender(LatexRender):
         super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
 
-    def valid_styles(self, style: str) -> bool:
-        return super().valid_styles(style) or style in ["color", "opacity"]
+    @staticmethod
+    def valid_styles(style: str) -> bool:
+        return super(TikzFeynmanRender, TikzFeynmanRender).valid_styles(
+            style
+        ) or style in ["color", "opacity"]
 
-    def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
+    @staticmethod
+    def valid_attribute(attr: str) -> bool:
+        return super(TikzFeynmanRender, TikzFeynmanRender).valid_attribute(
+            attr
+        ) or attr in ["x", "y", "label"]
 
-    def valid_type(self, typ):
+    @staticmethod
+    def valid_type(typ):
         if typ.lower() in type_map:
             return True
         return False

@@ -17,7 +17,7 @@ class PyxRender(Render):
     def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
-    def render(self, file=None, show=True, resolution=200, width=None, height=None):
+    def render(self, file=None, show=True, resolution=200, width=None, height=None,clean_up=False):
         delete = False
         if file is None:
             file = "tmp.pdf"
@@ -52,6 +52,9 @@ class PyxRender(Render):
             os.remove(file)
         if show:
             display(wi)
+        if clean_up:
+            # TODO: clean up
+            pass
         return wi
 
     def apply_layout(self, stylestring, obj):
@@ -165,13 +168,15 @@ class PyxRender(Render):
                 obj.set3D(True)
         return obj
 
-    def valid_type(self, typ: str):
+    @staticmethod
+    def valid_type(typ: str):
         if typ.lower() in NamedLine:
             return True
         return False
 
-    def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr.lower() in [
+    @staticmethod
+    def valid_attribute(attr: str) -> bool:
+        return super(PyxRender,PyxRender).valid_attribute(attr) or attr.lower() in [
             "style",
             "type",
             "bend",
@@ -180,8 +185,9 @@ class PyxRender(Render):
             "y",
         ]
 
-    def valid_style(self, style: str) -> bool:
-        return super().valid_style(style) or style.lower() in [
+    @staticmethod
+    def valid_style(style: str) -> bool:
+        return super(PyxRender,PyxRender).valid_style(style) or style.lower() in [
             "arrow-pos",
             "parallel-arrow-sense",
             "parallel-arrow-displace",

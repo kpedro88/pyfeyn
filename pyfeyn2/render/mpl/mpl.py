@@ -117,7 +117,15 @@ class MPLRender(Render):
     def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
-    def render(self, file=None, show=True, width=None, height=None, resolution=100):
+    def render(
+        self,
+        file=None,
+        show=True,
+        width=None,
+        height=None,
+        resolution=100,
+        clean_up=False,
+    ):
         idtopos = {}
         for v in self.fd.vertices:
             idtopos[v.id] = (v.x, v.y)
@@ -138,11 +146,15 @@ class MPLRender(Render):
             plt.show()
         if file is not None:
             plt.savefig(file)
+        if clean_up:
+            plt.close()
 
-    def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y"]
+    @staticmethod
+    def valid_attribute(attr: str) -> bool:
+        return super(MPLRender, MPLRender).valid_attribute(attr) or attr in ["x", "y"]
 
-    def valid_type(self, typ: str) -> bool:
+    @staticmethod
+    def valid_type(typ: str) -> bool:
         if typ.lower() in namedlines:
             return True
         return False

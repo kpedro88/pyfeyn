@@ -37,8 +37,8 @@ class FeynmanRender(Render):
         width=10.0,
         height=10.0,
         clean_up=True,
-        buffer=0.9,
     ):
+        buffer = 0.9
         # normaliuze to 1
         maxx = minx = maxy = miny = 0.0
         for l in self.fd.legs:
@@ -105,11 +105,15 @@ class FeynmanRender(Render):
             plt.show()
         if file is not None:
             plt.savefig(file)
+        if clean_up:
+            plt.close()
 
-    def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["x", "y", "label"]
+    @staticmethod
+    def valid_attribute(attr: str) -> bool:
+        return super(FeynmanRender,FeynmanRender).valid_attribute(attr) or attr in ["x", "y", "label"]
 
-    def valid_type(self, typ: str) -> bool:
+    @staticmethod
+    def valid_type(typ: str) -> bool:
         if typ.lower() in namedlines:
             return True
         return False

@@ -1,4 +1,3 @@
-import random
 import uuid
 
 from pylatex import Command
@@ -142,10 +141,14 @@ class FeynmpRender(MetaPostRender):
         super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_feynmp(fd)))
 
-    def valid_attribute(self, attr: str) -> bool:
-        return super().valid_attribute(attr) or attr in ["label"]
+    @staticmethod
+    def valid_attribute(attr: str) -> bool:
+        return super(FeynmpRender, FeynmpRender).valid_attribute(attr) or attr in [
+            "label"
+        ]
 
-    def valid_type(self, typ: str):
+    @staticmethod
+    def valid_type(typ: str):
         if typ.lower() in type_map:
             return True
         return False

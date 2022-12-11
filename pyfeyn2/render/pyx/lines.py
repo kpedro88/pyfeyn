@@ -404,11 +404,11 @@ class MultiLine(Line):
         point2,
         n=5,
         dist=0.2,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
@@ -441,11 +441,11 @@ class Scalar(Line):
         point1,
         point2,
         linestyle=pyx.style.linestyle.dashed,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         Line.__init__(self, point1, point2, styles, arcthrupoint, is3D, arrows, labels)
@@ -480,11 +480,11 @@ class Ghost(Scalar):
         point1,
         point2,
         linestyle=pyx.style.linestyle.dotted,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         Scalar.__init__(
@@ -505,11 +505,11 @@ class DecoratedLine(Line):
         extras,
         invert,
         linetype,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
@@ -571,11 +571,11 @@ class Gluon(DecoratedLine):
         frequency=1.3,
         extras=0,
         invert=False,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
@@ -660,11 +660,11 @@ class Vector(DecoratedLine):
         frequency=1.0,
         extras=0,
         invert=False,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
@@ -731,11 +731,11 @@ class Graviton(DecoratedLine):
         frequency=0.6,
         extras=0,
         invert=False,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
@@ -868,11 +868,11 @@ class Gaugino(DecoratedLine):
         frequency=1.0,
         extras=0,
         invert=False,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
@@ -1003,11 +1003,11 @@ class Gluino(DecoratedLine):
         frequency=1.2,
         extras=0,
         invert=False,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
@@ -1157,11 +1157,11 @@ class Gravitino(DecoratedLine):
         frequency=0.6,
         extras=0,
         invert=False,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
