@@ -109,25 +109,7 @@ class ASCIIRender(Render):
         super().__init__(fd, *args, **kwargs)
 
     def render(self, file=None, show=True, resolution=100, width=None, height=None):
-        maxx = minx = maxy = miny = 0
-        for l in self.fd.legs:
-            if l.x < minx:
-                minx = l.x
-            if l.x > maxx:
-                maxx = l.x
-            if l.y < miny:
-                miny = l.y
-            if l.y > maxy:
-                maxy = l.y
-        for l in self.fd.vertices:
-            if l.x < minx:
-                minx = l.x
-            if l.x > maxx:
-                maxx = l.x
-            if l.y < miny:
-                miny = l.y
-            if l.y > maxy:
-                maxy = l.y
+        minx, miny, maxx, maxy = self.fd.get_bounding_box()
 
         shift = 2
         # maxx = maxx + shift

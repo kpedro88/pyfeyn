@@ -284,6 +284,23 @@ class FeynmanDiagram:
                 return l
         return None
 
+    def get_bounding_box(self):
+        min_x = 0
+        min_y = 0
+        max_x = 0
+        max_y = 0
+        for v in self.vertices:
+            min_x = min(min_x, v.x)
+            min_y = min(min_y, v.y)
+            max_x = max(max_x, v.x)
+            max_y = max(max_y, v.y)
+        for l in self.legs:
+            min_x = min(min_x, l.x)
+            min_y = min(min_y, l.y)
+            max_x = max(max_x, l.x)
+            max_y = max(max_y, l.y)
+        return min_x, min_y, max_x, max_y
+
 
 @dataclass
 class Meta:

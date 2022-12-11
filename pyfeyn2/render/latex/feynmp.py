@@ -1,4 +1,5 @@
 import random
+import uuid
 
 from pylatex import Command
 from pylatex.utils import NoEscape
@@ -59,8 +60,8 @@ def stylize_line(c: Connector) -> str:
 
 
 def feynman_to_feynmp(fd):
-    letters = "abcdefghijklmnopqrstuvwxyz"
-    result_str = "".join(random.choice(letters) for i in range(10))
+    # get random alphanumeric string
+    result_str = uuid.uuid4().hex
     src = "\\begin{fmffile}{tmp-" + result_str + "}\n"
     src += "\\begin{fmfgraph*}(120,80)\n"
     incoming = []

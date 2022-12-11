@@ -4,9 +4,8 @@ import dot2tex
 from pylatex import Command
 from pylatex.utils import NoEscape
 
-from pyfeyn2.feynmandiagram import Connector, Vertex
+from pyfeyn2.feynmandiagram import Connector
 from pyfeyn2.render.latex.latex import LatexRender
-from pyfeyn2.render.render import Render
 
 # workaround for dot2tex bug in math mode labels
 REPLACE_THIS_WITH_A_BACKSLASH = "¬"
