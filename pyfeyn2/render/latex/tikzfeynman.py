@@ -123,7 +123,7 @@ class TikzFeynmanRender(LatexRender):
     def valid_attribute(attr: str) -> bool:
         return super(TikzFeynmanRender, TikzFeynmanRender).valid_attribute(
             attr
-        ) or attr in ["x", "y", "label"]
+        ) or attr in ["x", "y", "label","style"]
 
     @staticmethod
     def valid_type(typ):
