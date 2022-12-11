@@ -19,7 +19,8 @@ class Label(ASCIILine):
             ),
         )
 
-    def handle_tex(self, s):
+    @staticmethod
+    def handle_tex(s):
         """
         Remove TeX commands from a string to pure ASCII.
         """

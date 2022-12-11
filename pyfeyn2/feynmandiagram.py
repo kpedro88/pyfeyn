@@ -133,10 +133,12 @@ class Styled:
 
 
 class CSSConverter(Converter):
-    def deserialize(self, value: str, **kwargs) -> CSSString:
+    @staticmethod
+    def deserialize(value: str, **kwargs) -> CSSString:
         return cssutils.parseStyle(value)
 
-    def serialize(self, value: CSSString, **kwargs) -> str:
+    @staticmethod
+    def serialize(value: CSSString, **kwargs) -> str:
         return value.cssText.replace("\n", " ")
 
 

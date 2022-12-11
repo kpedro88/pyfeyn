@@ -6,7 +6,8 @@ from pyfeyn2.render.text.style import Compass
 
 
 class ULabel(Label):
-    def handle_tex(self, s):
+    @staticmethod
+    def handle_tex(s):
         """
         Converts LaTeX to unicode.
         """
