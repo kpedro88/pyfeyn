@@ -1278,11 +1278,11 @@ class Phantom(DecoratedLine):
         frequency=1.0,
         extras=0,
         invert=False,
-        styles=[],
+        styles=None,
         arcthrupoint=None,
         is3D=False,
-        arrows=[],
-        labels=[],
+        arrows=None,
+        labels=None,
         **kwargs
     ):
         """Constructor."""
