@@ -1,5 +1,5 @@
-from pyfeyn2.render.dot import feynman_adjust_points
-from pyfeyn2.render.tikzfeynman import TikzFeynmanRender
+from pyfeyn2.render.latex.dot import feynman_adjust_points
+from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
 from tests.test_feynman import test_gluons, test_many_gluons
 
 
