@@ -61,7 +61,7 @@ class UnicodePDFRender(PlainPDFRender, UnicodeRender):
         height=None,
         clean_up=True,
     ):
-        UnicodeRender.render(self, file, show, resolution, width, height, clean_up)
+        UnicodeRender.render(self, file, show, resolution, width, height)
         return PlainPDFRender.render(
             self, file, show, resolution, width, height, clean_up
         )
