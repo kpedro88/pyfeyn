@@ -15,7 +15,13 @@ renders = {
     "mpl": MPLRender,
     "ascii": ASCIIRender,
 }
-styles = ["arrow-pos", "parallel-arrow-sense", "parallel-arrow-displace"]
+styles = [
+    "color",
+    "opacity",
+    "arrow-pos",
+    "parallel-arrow-sense",
+    "parallel-arrow-displace",
+]
 types = [
     # General
     "fermion",

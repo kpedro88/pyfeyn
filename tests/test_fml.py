@@ -63,6 +63,8 @@ def test_fml_css():
     fml = parser.from_string(xml_string, FeynML)
     for l in fml.diagrams[0].legs:
         if l.id == "E1":
+            if l.style is None:
+                continue
             # print(l.raw_style)
             print("NE", l.style.getPropertyValue("arrow-pos"))
             print("NE", l.style.opacity)

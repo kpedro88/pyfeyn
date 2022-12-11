@@ -25,7 +25,7 @@ class PyxRender(Render):
         pyxfd = FeynDiagram()
         for v in self.fd.vertices:
             dp = DecoratedPoint(v.x, v.y)
-            dp = self.apply_layout(v.style, dp)
+            dp = self.apply_layout(v.raw_style(), dp)
             if v.label is not None:
                 dp.setFillstyles(PointLabel(dp, v.label, displace=3, angle=90))
             pyxfd.add(dp)
@@ -36,7 +36,7 @@ class PyxRender(Render):
             elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
                 nl = NamedLine[l.type](Point(tar.x, tar.y), Point(l.x, l.y))
             nl = nl.bend(l.bend)
-            nl = self.apply_layout(v.style, nl)
+            nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(l.label)
 
         for p in self.fd.propagators:
@@ -44,7 +44,7 @@ class PyxRender(Render):
             tar = self.fd.get_point(p.target)
             nl = NamedLine[p.type](Point(src.x, src.y), Point(tar.x, tar.y))
             nl = nl.bend(p.bend)
-            nl = self.apply_layout(v.style, nl)
+            nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(p.label)
         pyxfd.draw(file)
         wi = WImage(filename=file, resolution=resolution, width=width, height=height)

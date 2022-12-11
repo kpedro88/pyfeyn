@@ -2,6 +2,7 @@ from dataclasses import MISSING, Field, dataclass, field
 from typing import Any, List, Optional, Union
 
 import cssutils
+from xsdata.formats.converter import Converter, converter
 
 from pyfeyn2.particles import get_name
 
@@ -107,60 +108,34 @@ class Point:
         return self
 
 
-class CSSStyleField(Field):
-    def __init__(
-        self,
-        default=MISSING,
-        default_factory=MISSING,
-        init=True,
-        repr=True,
-        hash=None,
-        compare=True,
-        metadata=None,
-    ):
-        super().__init__(default, default_factory, init, repr, hash, compare, metadata)
-        # self.type = cssutils.css.CSSStyleDeclaration
-
-    def __getitem__(self, instance, owner):
-        print("Getting style", instance, owner)
-        pass
-        # super().__get__(instance,owner)
-        # if instance is None:
-        #    return self.default
-        # return super().__get__(instance, owner)
-
-
-class Wrapper:
-    def __init__(self, base_obj, *args, **kwargs):
-        self.__dict__["base_obj"] = base_obj
-
-    def __getattr__(self, name):
-        return getattr(self.base_obj, name)
-
-    def __setattr__(self, name, val):
-        self.base_obj[name] = val
-
-    def __str__(self):
-        print("Str: ", self.base_obj.cssText)
-        return self.base_obj.cssText.replace("\n", " ")
+CSSString = cssutils.css.CSSStyleDeclaration
 
 
 @dataclass
-class Styled(Identifiable):
-    style: Optional[str] = field(
-        default=None,
+class Styled:
+    style: CSSString = field(
+        default_factory=lambda: cssutils.parseStyle(""),
         metadata={"name": "style", "xml_attribute": True, "type": "Attribute"},
     )
-    # style = None
-    def __post_init__(self):
-        super().__post_init__()
+
+    def raw_style(self):
+        return self.style.cssText.replace("\n", " ")
+
+    def put_style(self, key, value):
         if self.style is not None:
-            tmp = cssutils.parseStyle(self.style)
-            tmp.width = "30%"
-            self.style = Wrapper(tmp)
-            print("Parsing style: ", self.style)
-        else:
-            self.style = None
+            self.style.setProperty(key, value)
+        return self
+
+
+class CSSConverter(Converter):
+    def deserialize(self, value: str, **kwargs) -> CSSString:
+        return cssutils.parseStyle(value)
+
+    def serialize(self, value: CSSString, **kwargs) -> str:
+        return value.cssText.replace("\n", " ")
+
+
+converter.register_converter(CSSString, CSSConverter())
 
 
 @dataclass
@@ -201,12 +176,12 @@ class Line(Targeting, Sourcing):
 
 
 @dataclass
-class Vertex(Labeled, Point, Styled):
+class Vertex(Labeled, Point, Styled, Identifiable):
     pass
 
 
 @dataclass
-class Connector(Labeled, Bending, PDG, Styled):
+class Connector(Labeled, Bending, PDG, Styled, Identifiable):
     momentum: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )

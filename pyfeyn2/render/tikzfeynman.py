@@ -46,8 +46,9 @@ def stylize_connect(c: Connector):
     if c.momentum is not None:
         style += ",momentum=" + c.momentum
     if c.style.opacity is not None:
-        style += ",opacity=" + str(c.style.get("opacity"))
-    # if c.momentum_ is not None: style += ",momentum'=" + c.momentum_
+        style += ",opacity=" + str(c.style.opacity)
+    if c.style.color is not None:
+        style += "," + str(c.style.color)
 
     return style
 
@@ -114,6 +115,9 @@ class TikzFeynmanRender(LatexRender):
     def set_feynman_diagram(self, fd):
         super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
+
+    def valid_styles(self, style: str) -> bool:
+        return super().valid_styles(style) or style in ["color", "opacity"]
 
     def valid_attribute(self, attr: str) -> bool:
         return super().valid_attribute(attr) or attr in ["x", "y", "label"]
