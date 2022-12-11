@@ -18,6 +18,7 @@ numpy = ">=1.6"
 pyx = ">=0.12"
 pydot = "*"
 feynman=">=2.0.0"
+cssutils= "*"
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"

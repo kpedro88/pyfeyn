@@ -1,5 +1,7 @@
-from dataclasses import dataclass, field
-from typing import List, Optional, Union
+from dataclasses import MISSING, Field, dataclass, field
+from typing import Any, List, Optional, Union
+
+import cssutils
 
 from pyfeyn2.particles import get_name
 
@@ -16,7 +18,7 @@ class PDG:
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
     latexname: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
     def _sync_latexname(self):
@@ -105,11 +107,60 @@ class Point:
         return self
 
 
+class CSSStyleField(Field):
+    def __init__(
+        self,
+        default=MISSING,
+        default_factory=MISSING,
+        init=True,
+        repr=True,
+        hash=None,
+        compare=True,
+        metadata=None,
+    ):
+        super().__init__(default, default_factory, init, repr, hash, compare, metadata)
+        # self.type = cssutils.css.CSSStyleDeclaration
+
+    def __getitem__(self, instance, owner):
+        print("Getting style", instance, owner)
+        pass
+        # super().__get__(instance,owner)
+        # if instance is None:
+        #    return self.default
+        # return super().__get__(instance, owner)
+
+
+class Wrapper:
+    def __init__(self, base_obj, *args, **kwargs):
+        self.__dict__["base_obj"] = base_obj
+
+    def __getattr__(self, name):
+        return getattr(self.base_obj, name)
+
+    def __setattr__(self, name, val):
+        self.base_obj[name] = val
+
+    def __str__(self):
+        print("Str: ", self.base_obj.cssText)
+        return self.base_obj.cssText.replace("\n", " ")
+
+
 @dataclass
-class Styled:
+class Styled(Identifiable):
     style: Optional[str] = field(
-        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+        default=None,
+        metadata={"name": "style", "xml_attribute": True, "type": "Attribute"},
     )
+    # style = None
+    def __post_init__(self):
+        super().__post_init__()
+        if self.style is not None:
+            tmp = cssutils.parseStyle(self.style)
+            tmp.width = "30%"
+            self.style = Wrapper(tmp)
+            print("Parsing style: ", self.style)
+        else:
+            self.style = None
 
 
 @dataclass
@@ -150,12 +201,12 @@ class Line(Targeting, Sourcing):
 
 
 @dataclass
-class Vertex(Labeled, Styled, Point, Identifiable):
+class Vertex(Labeled, Point, Styled):
     pass
 
 
 @dataclass
-class Connector(Labeled, Styled, Bending, PDG, Identifiable):
+class Connector(Labeled, Bending, PDG, Styled):
     momentum: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
