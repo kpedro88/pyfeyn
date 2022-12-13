@@ -34,6 +34,16 @@ poetry shell
 *   <https://pyfeyn2.readthedocs.io/en/stable/>
 *   <https://apn-pucky.github.io/pyfeyn2/index.html>
 
+## Similar Feynman diagram rendering project:
+
+*  <https://github.com/ndeutschmann/qgraf-xml-drawer>
+*  <https://github.com/GkAntonius/feynman>
+*  <https://github.com/JP-Ellis/tikz-feynman>
+*  <https://pyfeyn.hepforge.org/> 
+*  <https://feynml.hepforge.org/>
+
+Several of these are integrated into pyfeyn2.
+
 ## Troubleshooting
 
 *   [ImageMagick security policy 'PDF' blocking conversion]( https://stackoverflow.com/questions/52998331/imagemagick-security-policy-pdf-blocking-conversion )
