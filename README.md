@@ -6,7 +6,7 @@ PyFeyn is a Python-language based system for drawing Feynman diagrams. It was in
 
 [![PyPI version][pypi image]][pypi link] [![PyPI version][pypi versions]][pypi link]  ![downloads](https://img.shields.io/pypi/dm/smpl.svg)
 
-| [Stable][doc stable]        | [Unstable][doc test]           |
+| [Stable][doc stable]        | [Test][doc test]           |
 | ------------- |:-------------:|
 | [![workflow][a s image]][a s link]   | [![test][a t image]][a t link]     |
 | [![Coverage Status][c s i]][c s l]   | [![Coverage Status][c t i]][c t l] |
@@ -54,8 +54,8 @@ poetry shell
 
 [a s image]: https://github.com/APN-Pucky/pyfeyn2/actions/workflows/stable.yml/badge.svg
 [a s link]: https://github.com/APN-Pucky/pyfeyn2/actions/workflows/stable.yml
-[a t link]: https://github.com/APN-Pucky/pyfeyn2/actions/workflows/unstable.yml
-[a t image]: https://github.com/APN-Pucky/pyfeyn2/actions/workflows/unstable.yml/badge.svg
+[a t link]: https://github.com/APN-Pucky/pyfeyn2/actions/workflows/test.yml
+[a t image]: https://github.com/APN-Pucky/pyfeyn2/actions/workflows/test.yml/badge.svg
 
 [cc s q i]: https://app.codacy.com/project/badge/Grade/135bae47c6344ab0bfb180135ea1db44?branch=stable
 [cc s q l]: https://www.codacy.com/gh/APN-Pucky/pyfeyn2/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=APN-Pucky/pyfeyn2&amp;utm_campaign=Badge_Grade?branch=stable
