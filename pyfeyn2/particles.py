@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from particle import PDGID
+from particle import PDGID, Particle
 from particle.converters.bimap import DirectionalMaps
 
 PDG2LaTeXNameMap, LaTeX2PDGNameMap = DirectionalMaps(
@@ -31,3 +31,21 @@ def get_name(pid: int) -> str:
     global PDG2LaTeXNameMap
     pdgid = PDG2LaTeXNameMap[pid]
     return pdgid
+
+
+def get_particle(**kwargs) -> Particle:
+    try:
+        (particle,) = Particle.finditer(
+            **kwargs
+        )  # throws an error if < 1 or > 1 particle is found
+        return particle
+    except ValueError:
+        return None
+
+
+def get_either_particle(**kwargs) -> Particle:
+    for k, v in kwargs.items():
+        p = get_particle(**{k: v})
+        if p is not None:
+            return p
+    return None

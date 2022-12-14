@@ -3,9 +3,10 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
 import cssutils
+from particle import Particle
 from xsdata.formats.converter import Converter, converter
 
-from pyfeyn2.particles import get_name
+from pyfeyn2.particles import get_either_particle, get_name
 
 # We don't want to see the cssutils warnings, since we have custom properties
 cssutils.log.setLevel(logging.CRITICAL)
@@ -14,45 +15,14 @@ cssutils.log.setLevel(logging.CRITICAL)
 # from pyfeyn2.propagator import Propagator
 # from pyfeyn2.vertex import Vertex
 
-
-@dataclass
-class PDG:
-    pdgid: Optional[int] = field(
-        default=21, metadata={"xml_attribute": True, "type": "Attribute"}
-    )
-    type: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
-    )
-    latexname: Optional[str] = field(
-        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
-    )
-
-    def _sync_latexname(self):
-        """Sync the latexname with the pdgid"""
-        if self.pdgid is not None:
-            self.latexname = get_name(self.pdgid)
-
-    # def __post_init__(self):
-    #    self._sync_latexname()
-
-    def set_pdgid(self, pdgid):
-        self.pdgid = pdgid
-        self._sync_latexname()
-        return self
-
-    def set_type(self, typ):
-        self.type = typ
-        return self
-
-
+# Global counter for unique ids
 id = 0
 
 
 @dataclass
 class Identifiable:
-    id: Optional[str] = field(
-        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
-    )
+    id: Optional[str] = field(default=None, metadata={"name": "id", "namespace": ""})
+    id2: Optional[str] = field(default=None, metadata={"name": "id2", "namespace": ""})
 
     def __post_init__(self):
         global id
@@ -60,6 +30,59 @@ class Identifiable:
             # use some global counter to generate unique id
             self.id = self.__class__.__name__ + str(id)
             id = id + 1
+
+
+@dataclass
+class PDG(Identifiable):
+    pdgid: Optional[int] = field(default=None, metadata={})
+    name: Optional[str] = field(default=None, metadata={})
+    type: Optional[str] = field(
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+
+    # TODO check SUSY
+    particle: Optional[Particle] = field(default=None, metadata={"type": "Ignore"})
+
+    def _sync(self):
+        """Sync the particle with the pdgid, name etc."""
+        if self.pdgid is not None:
+            self.particle = Particle.from_pdgid(self.pdgid)
+            self.name = self.particle.name
+        elif self.name is not None:
+            self.particle = get_either_particle(
+                name=self.name,
+                evtgen_name=self.name,
+                programmatic_name=self.name,
+                html_name=self.name,
+                latex=self.name,
+            )
+            if self.particle is None:
+                raise ValueError(f"Particle {self.name} not found")
+            self.pdgid = self.particle.pdgid
+
+        if self.pdgid is not None and self.type is None:
+            # TODO infere type from pdgid
+            if self.pdgid in range(1, 7):
+                self.type = "fermion"
+            elif self.pdgid == 22:
+                self.type = "photon"
+            elif self.pdgid == 21:
+                self.type = "gluon"
+            else:
+                raise NotImplementedError("Inferring type from pdgid not implemented")
+
+    def __post_init__(self):
+        super().__post_init__()
+        self._sync()
+
+    def set_pdgid(self, pdgid):
+        self.pdgid = pdgid
+        self._sync()
+        return self
+
+    def set_type(self, typ):
+        self.type = typ
+        return self
 
 
 @dataclass
@@ -154,9 +177,7 @@ class Bending:
 
 @dataclass
 class Targeting:
-    target: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
-    )
+    target: Optional[str] = field(default="", metadata={})
 
     def set_target(self, target):
         self.target = target.id
@@ -165,9 +186,7 @@ class Targeting:
 
 @dataclass
 class Sourcing:
-    source: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
-    )
+    source: Optional[str] = field(default="", metadata={})
 
     def set_source(self, source):
         self.source = source.id
@@ -188,10 +207,8 @@ class Vertex(Labeled, Point, Styled, Identifiable):
 
 
 @dataclass
-class Connector(Labeled, Bending, PDG, Styled, Identifiable):
-    momentum: Optional[str] = field(
-        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
-    )
+class Connector(Labeled, Bending, Styled, PDG):
+    momentum: Optional[str] = field(default=None, metadata={})
     tension: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
@@ -216,9 +233,7 @@ class Connector(Labeled, Bending, PDG, Styled, Identifiable):
 
 @dataclass
 class Leg(Point, Targeting, Connector):
-    sense: str = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
-    )
+    sense: str = field(default="", metadata={})
 
     def set_incoming(self):
         self.sense = "incoming"

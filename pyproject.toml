@@ -38,9 +38,9 @@ sphinx-autoapi = "*"
 sphinx_autobuild = "*"
 sphinx_math_dollar = "*"
 myst-parser  = "*"
-smpl = ">=1.0.0"
 toml = "*"
-#smpl = {path = "/home/apn/git/smpl", develop = true}
+#smpl = ">=1.0.0"
+smpl = {path = "/home/apn/git/smpl", develop = true}
 #smpl = {git = "https://github.com/APN-Pucky/smpl.git", branch = "master"}
 
 [tool.poetry.group.dev]
