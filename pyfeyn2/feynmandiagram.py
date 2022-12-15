@@ -50,9 +50,9 @@ class PDG(Identifiable):
             self.name = self.particle.name
         elif self.name is not None:
             self.particle = get_either_particle(
+                programmatic_name=self.name,
                 name=self.name,
                 evtgen_name=self.name,
-                programmatic_name=self.name,
                 html_name=self.name,
                 latex=self.name,
             )
@@ -233,7 +233,7 @@ class Connector(Labeled, Bending, Styled, PDG):
 
 @dataclass
 class Leg(Point, Targeting, Connector):
-    sense: str = field(default="", metadata={})
+    sense: str = field(default=None, metadata={})
 
     def set_incoming(self):
         self.sense = "incoming"
