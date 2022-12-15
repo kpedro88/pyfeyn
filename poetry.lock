@@ -596,6 +596,19 @@ optional = false
 python-versions = ">=2.7"
 
 [[package]]
+name = "graphviz"
+version = "0.20.1"
+description = "Simple Python interface for Graphviz"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+dev = ["flake8", "pep8-naming", "tox (>=3)", "twine", "wheel"]
+docs = ["sphinx (>=5)", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
+test = ["coverage", "mock (>=4)", "pytest (>=7)", "pytest-cov", "pytest-mock (>=3)"]
+
+[[package]]
 name = "hepunits"
 version = "2.3.0"
 description = "Units and constants in the HEP system of units"
@@ -1916,6 +1929,21 @@ python-versions = ">=3.6"
 plugins = ["importlib-metadata"]
 
 [[package]]
+name = "pyhepmc"
+version = "2.9.0"
+description = "Pythonic interface to the HepMC3 C++ library licensed under LGPL-v3."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+numpy = "*"
+
+[package.extras]
+doc = ["ipykernel", "ipython", "nbsphinx", "sphinx", "sphinx-rtd-theme"]
+test = ["particle", "pytest"]
+
+[[package]]
 name = "pylatex"
 version = "1.4.1"
 description = "A Python library for creating LaTeX files and snippets"
@@ -2875,7 +2903,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "90c6418463f7ecf533c26c1585cb34091fc0b7bc67fcd0ce894b24785297d7cf"
+content-hash = "6f0ebfbf7e62207316dc10565f7444123fca0bb1a05886afff12eb859b251da3"
 
 [metadata.files]
 alabaster = [
@@ -3372,6 +3400,10 @@ gprof2dot = [
     {file = "gprof2dot-2022.7.29-py2.py3-none-any.whl", hash = "sha256:f165b3851d3c52ee4915eb1bd6cca571e5759823c2cd0f71a79bda93c2dc85d6"},
     {file = "gprof2dot-2022.7.29.tar.gz", hash = "sha256:45b4d298bd36608fccf9511c3fd88a773f7a1abc04d6cd39445b11ba43133ec5"},
 ]
+graphviz = [
+    {file = "graphviz-0.20.1-py3-none-any.whl", hash = "sha256:587c58a223b51611c0cf461132da386edd896a029524ca61a1462b880bf97977"},
+    {file = "graphviz-0.20.1.zip", hash = "sha256:8c58f14adaa3b947daf26c19bc1e98c4e0702cdc31cf99153e6f06904d492bf8"},
+]
 hepunits = [
     {file = "hepunits-2.3.0-py3-none-any.whl", hash = "sha256:7a48643261e7bf74f91b7a9338be15e555711f1dde8f1d02c7607925a1716c69"},
     {file = "hepunits-2.3.0.tar.gz", hash = "sha256:33b9ae9a8b7b3af355141a74901cb5aa557dce2e4c9992a0a30ef0443a1b2206"},
@@ -3664,7 +3696,6 @@ lxml = [
     {file = "lxml-4.9.2-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:b9cc34af337a97d470040f99ba4282f6e6bac88407d021688a5d585e44a23184"},
     {file = "lxml-4.9.2-cp310-cp310-win32.whl", hash = "sha256:d02a5399126a53492415d4906ab0ad0375a5456cc05c3fc0fc4ca11771745cda"},
     {file = "lxml-4.9.2-cp310-cp310-win_amd64.whl", hash = "sha256:a38486985ca49cfa574a507e7a2215c0c780fd1778bb6290c21193b7211702ab"},
-    {file = "lxml-4.9.2-cp311-cp311-macosx_10_15_universal2.whl", hash = "sha256:6943826a0374fb135bb11843594eda9ae150fba9d1d027d2464c713da7c09afe"},
     {file = "lxml-4.9.2-cp311-cp311-manylinux_2_12_i686.manylinux2010_i686.manylinux_2_24_i686.whl", hash = "sha256:c83203addf554215463b59f6399835201999b5e48019dc17f182ed5ad87205c9"},
     {file = "lxml-4.9.2-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_24_aarch64.whl", hash = "sha256:2a87fa548561d2f4643c99cd13131acb607ddabb70682dcf1dff5f71f781a4bf"},
     {file = "lxml-4.9.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:d6b430a9938a5a5d85fc107d852262ddcd48602c120e3dbb02137c83d212b380"},
@@ -4174,6 +4205,30 @@ pydot = [
 pygments = [
     {file = "Pygments-2.13.0-py3-none-any.whl", hash = "sha256:f643f331ab57ba3c9d89212ee4a2dabc6e94f117cf4eefde99a0574720d14c42"},
     {file = "Pygments-2.13.0.tar.gz", hash = "sha256:56a8508ae95f98e2b9bdf93a6be5ae3f7d8af858b43e02c5a2ff083726be40c1"},
+]
+pyhepmc = [
+    {file = "pyhepmc-2.9.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:32bf233b1341187bd4c6729ce03e6f3c634b3c371df141dd07b32849fdb5aa1c"},
+    {file = "pyhepmc-2.9.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:bf012a3dd9a8645336c2afd79ed48777023c9b360ed7e4d032b039c204109635"},
+    {file = "pyhepmc-2.9.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:09cdf12230686daf1ff0c33925638c11d93d05f3de9e0f7fb822aeb5695aee74"},
+    {file = "pyhepmc-2.9.0-cp310-cp310-win_amd64.whl", hash = "sha256:fbd2c196c541b2006adab3e1788d6d1b826489e242c6018405d54a3bef71c910"},
+    {file = "pyhepmc-2.9.0-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:cd984fdafde835c42c26c0484fd908c031958275db174e8d13a62a767913c9be"},
+    {file = "pyhepmc-2.9.0-cp37-cp37m-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:d4bcfbda5ffcf7aaed73d2326f2f8f526a1af33014997fcd068137aa407bccb5"},
+    {file = "pyhepmc-2.9.0-cp37-cp37m-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:365387bb62fb4ddc05474c4a7ff31da40bd0bc3584b266c3f8f5e076a93d3a5a"},
+    {file = "pyhepmc-2.9.0-cp37-cp37m-win32.whl", hash = "sha256:5d4767345d5418636f9c5d22ec87520188cdf00b5a9abf65d6077cb09ca8251a"},
+    {file = "pyhepmc-2.9.0-cp37-cp37m-win_amd64.whl", hash = "sha256:230488ee44de55ed0feac7a384316426aa88dc0420efd91173e01040d7ea3383"},
+    {file = "pyhepmc-2.9.0-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:19ab461f7dcbfbb3abe5021f17481bf1517097c630575f45a745f2192c9d0e2b"},
+    {file = "pyhepmc-2.9.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:ab73a5510b95a65810c9c109a8fe5de7be203004a9adcc8eb7e1260eb355d593"},
+    {file = "pyhepmc-2.9.0-cp38-cp38-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:42338dec375cec71d334dfb8df091d673b810b2c478233e462877bb3a2b048c0"},
+    {file = "pyhepmc-2.9.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:1dca87fbe91be4176a679fb9ce75356c8f48a51df8b9beed141ba7c075ee30bf"},
+    {file = "pyhepmc-2.9.0-cp38-cp38-win32.whl", hash = "sha256:6133c98e51bb0a98b14aaf5b0a4eb41bbb81e421cd693196f7522c20f61e45d0"},
+    {file = "pyhepmc-2.9.0-cp38-cp38-win_amd64.whl", hash = "sha256:a0fc4e9a0595a96044a5a9a1114ba578b6df12724515f914fdcfbcd41300316c"},
+    {file = "pyhepmc-2.9.0-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:976a73fc21cc56b43f977ac2da48015f13a8a8305fa2c0f37fd0948d0d911b36"},
+    {file = "pyhepmc-2.9.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:4c01a2517e3d1aee5ce7439231de92cd973da230f2ef9168cfe500fa809b072f"},
+    {file = "pyhepmc-2.9.0-cp39-cp39-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:002b429c74b540e754fd5f2e4d5203eed27e6bcaabb7de0ae269817ab3597ef7"},
+    {file = "pyhepmc-2.9.0-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:725b7ac497d4ed1e124f7b459b1f3f4fa697e94c4ad413394d9d801f9667e544"},
+    {file = "pyhepmc-2.9.0-cp39-cp39-win32.whl", hash = "sha256:9791c9857a8441de2fcea1f0e2750dbcd0accb912f1fecc3a9537ea749d25bf6"},
+    {file = "pyhepmc-2.9.0-cp39-cp39-win_amd64.whl", hash = "sha256:150f536f99cc59f6668f2ad0dd6373dc8371634ff0f2db80f5b5e197c7dc92de"},
+    {file = "pyhepmc-2.9.0.tar.gz", hash = "sha256:cb7ca20c5936825656db53e96151e19a01cc4e07c25e32b89d433dd563eedd0d"},
 ]
 pylatex = [
     {file = "PyLaTeX-1.4.1.tar.gz", hash = "sha256:d3c12efb8b260771260443dce78d1e9089c09f9d0b92e6273dfca0bf5e7302fb"},
