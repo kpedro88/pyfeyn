@@ -1,5 +1,3 @@
-import copy
-
 from pyfeyn2.interface.dot import dot_to_positions, feynman_to_dot
 
 
