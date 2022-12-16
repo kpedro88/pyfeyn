@@ -54,7 +54,7 @@ class PDG(Identifiable):
                 name=self.name,
                 evtgen_name=self.name,
                 html_name=self.name,
-                latex=self.name,
+                latex_name=self.name,
             )
             if self.particle is None:
                 raise ValueError(f"Particle {self.name} not found")
@@ -68,8 +68,18 @@ class PDG(Identifiable):
                 self.type = "photon"
             elif self.pdgid == 21:
                 self.type = "gluon"
+            elif self.pdgid in range(11, 19):
+                self.type = "fermion"
+            elif abs(self.pdgid) == 24:
+                self.type = "boson"
+            elif self.pdgid == 23:
+                self.type = "boson"
+            elif self.pdgid == 25:
+                self.type = "scalar"
             else:
-                raise NotImplementedError("Inferring type from pdgid not implemented")
+                raise NotImplementedError(
+                    f"Inferring type from pdgid not implemented for pdgid {self.pdgid} "
+                )
 
     def __post_init__(self):
         super().__post_init__()

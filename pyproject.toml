@@ -23,6 +23,7 @@ pylatexenc = "*"
 pygments = "*"
 pyhepmc = "*"
 graphviz = "*"
+ipyparallel = "*"
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
