@@ -36,11 +36,11 @@ poetry shell
 
 ## Similar Feynman diagram rendering project:
 
-*  <https://github.com/ndeutschmann/qgraf-xml-drawer>
-*  <https://github.com/GkAntonius/feynman>
-*  <https://github.com/JP-Ellis/tikz-feynman>
-*  <https://pyfeyn.hepforge.org/> 
-*  <https://feynml.hepforge.org/>
+*   <https://github.com/ndeutschmann/qgraf-xml-drawer>
+*   <https://github.com/GkAntonius/feynman>
+*   <https://github.com/JP-Ellis/tikz-feynman>
+*   <https://pyfeyn.hepforge.org/> 
+*   <https://feynml.hepforge.org/>
 
 Several of these are integrated into pyfeyn2.
 
