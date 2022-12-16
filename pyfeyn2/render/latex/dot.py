@@ -1,7 +1,11 @@
 import copy
 
 import dot2tex
-from pyfeyn2.interface.dot import REPLACE_THIS_WITH_A_BACKSLASH, dot_to_tikz, feynman_to_dot
+from pyfeyn2.interface.dot import (
+    REPLACE_THIS_WITH_A_BACKSLASH,
+    dot_to_tikz,
+    feynman_to_dot,
+)
 from pylatex import Command
 from pylatex.utils import NoEscape
 
@@ -25,6 +29,7 @@ map_feyn_to_tikz = {
     "phantom": "draw=none",
 }
 
+
 def stylize_connect(c: Connector) -> str:
     style = 'style="{}",texmode="raw"'.format(map_feyn_to_tikz[c.type])
     if c.label is None:
@@ -35,6 +40,7 @@ def stylize_connect(c: Connector) -> str:
         style += f",len={c.length}"
     style += f',label="{label}"'
     return style
+
 
 class DotRender(LatexRender):
     def __init__(
@@ -68,7 +74,9 @@ class DotRender(LatexRender):
 
     def set_feynman_diagram(self, fd):
         super().set_feynman_diagram(fd)
-        self.src_dot = feynman_to_dot(fd,styler=stylize_connect,resubstituteslash=False)
+        self.src_dot = feynman_to_dot(
+            fd, styler=stylize_connect, resubstituteslash=False
+        )
         self.set_src_diag(dot_to_tikz(self.src_dot))
         self.src_dot = self.src_dot.replace(REPLACE_THIS_WITH_A_BACKSLASH, "\\")
 
@@ -76,11 +84,15 @@ class DotRender(LatexRender):
         return self.src_dot
 
     @staticmethod
-    def valid_attribute( attr: str) -> bool:
-        return super(DotRender,DotRender).valid_attribute(attr) or attr in ["x", "y", "label"]
+    def valid_attribute(attr: str) -> bool:
+        return super(DotRender, DotRender).valid_attribute(attr) or attr in [
+            "x",
+            "y",
+            "label",
+        ]
 
     @staticmethod
-    def valid_type( typ):
+    def valid_type(typ):
         if typ.lower() in map_feyn_to_tikz:
             return True
         return False
