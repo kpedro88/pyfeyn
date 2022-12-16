@@ -16,7 +16,7 @@ cssutils.log.setLevel(logging.CRITICAL)
 # from pyfeyn2.vertex import Vertex
 
 # Global counter for unique ids
-id = 0
+global_id = 0
 
 
 @dataclass
@@ -25,11 +25,11 @@ class Identifiable:
     id2: Optional[str] = field(default=None, metadata={"name": "id2", "namespace": ""})
 
     def __post_init__(self):
-        global id
+        global global_id
         if self.id is None:
             # use some global counter to generate unique id
-            self.id = self.__class__.__name__ + str(id)
-            id = id + 1
+            self.id = self.__class__.__name__ + str(global_id)
+            global_id = global_id + 1
 
 
 @dataclass
