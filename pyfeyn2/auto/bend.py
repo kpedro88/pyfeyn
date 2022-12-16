@@ -2,12 +2,9 @@ import copy
 
 
 # TODO bend legs?
-def auto_bend(ifd, deepcopy=False):
+def auto_bend(ifd):
     """Automatically bend lines to avoid overlaps."""
-    if deepcopy:
-        fd = copy.deepcopy(ifd)
-    else:
-        fd = ifd
+    fd = ifd
     objs = fd.propagators
     duplications = [0] * len(objs)
     for i, pa in enumerate(objs):
