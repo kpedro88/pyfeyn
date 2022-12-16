@@ -75,7 +75,7 @@ class PDG(Identifiable):
             elif self.pdgid == 23:
                 self.type = "boson"
             elif self.pdgid == 25:
-                self.type = "scalar"
+                self.type = "higgs"
             else:
                 raise NotImplementedError(
                     f"Inferring type from pdgid not implemented for pdgid {self.pdgid} "
@@ -300,7 +300,7 @@ class FeynmanDiagram:
                 raise Exception("Unknown type: " + str(type(a)) + " " + str(a))
         return self
 
-    def get_point(self, id):
+    def get_vertex(self, id):
         for v in self.vertices:
             if v.id == id:
                 return v

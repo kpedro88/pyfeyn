@@ -46,6 +46,18 @@ def stylize_connect(c: Connector):
         style += ",opacity=" + str(c.style.opacity)
     if c.style.color is not None and c.style.color != "":
         style += "," + str(c.style.color)
+    if c.bend is not None and c.bend:
+        if c.style.getProperty("bend-direction") is not None:
+            style += ",bend " + str(c.style.getProperty("bend-direction").value)
+        if ( c.style.getProperty("bend-loop") is not None):
+            style += (
+                ",loop , in="
+                + str(c.style.getProperty("bend-in").value)
+                + ", out="
+                + str(c.style.getProperty("bend-out").value)
+                + ", min distance="
+                + str(c.style.getProperty("bend-min-distance").value)
+            )
 
     return style
 
@@ -57,25 +69,34 @@ def stylize_node(v: Vertex):
     return style
 
 
+def get_line(source_id, target_id, style):
+    # Fix self-loop
+    if source_id == target_id:
+        return f"\t\t({source_id}) -- [{style}] ({target_id}clone),\n"
+    else:
+        return f"\t\t({source_id}) -- [{style}] ({target_id}),\n"
+
+
 def feynman_to_tikz_feynman(fd):
     src = "\\begin{tikzpicture}\n"
     src += "\\begin{feynman}\n"
     for v in fd.vertices:
         style = stylize_node(v)
         src += f"\t\\vertex ({v.id}) [{style}] at ({v.x},{v.y});\n"
+        src += f"\t\\vertex ({v.id}clone) [{style}] at ({v.x},{v.y});\n"
     for l in fd.legs:
         # style = stylize_node(l)
         src += f"\t\\vertex ({l.id}) [{style}] at ({l.x},{l.y});\n"
     src += "\t\\diagram*{\n"
     for p in fd.propagators:
         style = stylize_connect(p)
-        src += f"\t\t({p.source}) -- [{style}] ({p.target}),\n"
+        src += get_line(p.source, p.target, style)
     for l in fd.legs:
         style = stylize_connect(l)
         if l.sense[:2] == "in":
-            src += f"\t\t({l.id}) -- [{style}] ({l.target}),\n"
+            src += get_line(l.id, l.target, style)
         elif l.sense[:3] == "out":
-            src += f"\t\t({l.target}) -- [{style}] ({l.id}),\n"
+            src += get_line(l.target, l.id, style)
         else:
             raise Exception("Unknown sense")
     src += "\t};\n"
@@ -123,7 +144,7 @@ class TikzFeynmanRender(LatexRender):
     def valid_attribute(attr: str) -> bool:
         return super(TikzFeynmanRender, TikzFeynmanRender).valid_attribute(
             attr
-        ) or attr in ["x", "y", "label","style","momentum"]
+        ) or attr in ["x", "y", "label", "style", "momentum"]
 
     @staticmethod
     def valid_type(typ):

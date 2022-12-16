@@ -17,7 +17,15 @@ class PyxRender(Render):
     def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
-    def render(self, file=None, show=True, resolution=200, width=None, height=None,clean_up=False):
+    def render(
+        self,
+        file=None,
+        show=True,
+        resolution=200,
+        width=None,
+        height=None,
+        clean_up=False,
+    ):
         delete = False
         if file is None:
             file = "tmp.pdf"
@@ -30,7 +38,7 @@ class PyxRender(Render):
                 dp.setFillstyles(PointLabel(dp, v.label, displace=3, angle=90))
             pyxfd.add(dp)
         for l in self.fd.legs:
-            tar = self.fd.get_point(l.target)
+            tar = self.fd.get_vertex(l.target)
             if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
                 nl = NamedLine[l.type](Point(l.x, l.y), Point(tar.x, tar.y))
             elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
@@ -40,8 +48,8 @@ class PyxRender(Render):
             nl = nl.addLabel(l.label)
 
         for p in self.fd.propagators:
-            src = self.fd.get_point(p.source)
-            tar = self.fd.get_point(p.target)
+            src = self.fd.get_vertex(p.source)
+            tar = self.fd.get_vertex(p.target)
             nl = NamedLine[p.type](Point(src.x, src.y), Point(tar.x, tar.y))
             nl = nl.bend(p.bend)
             nl = self.apply_layout(v.raw_style(), nl)
@@ -176,7 +184,7 @@ class PyxRender(Render):
 
     @staticmethod
     def valid_attribute(attr: str) -> bool:
-        return super(PyxRender,PyxRender).valid_attribute(attr) or attr.lower() in [
+        return super(PyxRender, PyxRender).valid_attribute(attr) or attr.lower() in [
             "style",
             "type",
             "bend",
@@ -187,7 +195,7 @@ class PyxRender(Render):
 
     @staticmethod
     def valid_style(style: str) -> bool:
-        return super(PyxRender,PyxRender).valid_style(style) or style.lower() in [
+        return super(PyxRender, PyxRender).valid_style(style) or style.lower() in [
             "arrow-pos",
             "parallel-arrow-sense",
             "parallel-arrow-displace",
