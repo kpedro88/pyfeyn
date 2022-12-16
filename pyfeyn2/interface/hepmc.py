@@ -15,3 +15,4 @@ def event_to_feynml(event):
             pass
         else:   
             # Propagator
+            pass
