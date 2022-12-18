@@ -1,6 +1,6 @@
 import pyhepmc
 
-from pyfeyn2.interface.hepmc import event_to_feynman, event_to_feynml
+from pyfeyn2.interface.hepmc import event_to_feynman
 
 
 def test_hepmc():

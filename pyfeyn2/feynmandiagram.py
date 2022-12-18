@@ -242,7 +242,7 @@ class Line(Targeting, Sourcing):
         return self
 
 
-@withify
+@withify()
 @dataclass
 class Vertex(Labeled, Point, Styled, Identifiable):
     pass
@@ -276,7 +276,7 @@ class Connector(Labeled, Bending, Styled, PDG):
     set_length = deprecated(with_length)
 
 
-@withify
+@withify()
 @dataclass
 class Leg(Point, Targeting, Connector):
     sense: str = field(default=None, metadata={})
@@ -302,19 +302,19 @@ class Leg(Point, Targeting, Connector):
     set_outgoing = deprecated(with_outgoing)
 
 
-@withify
+@withify()
 @dataclass
 class Propagator(Line, Connector):
     pass
 
 
-@withify
+@withify()
 @dataclass
 class Label(Point, Texted, Identifiable):
     pass
 
 
-@withify
+@withify()
 @dataclass
 class FeynmanDiagram:
     class Meta:
