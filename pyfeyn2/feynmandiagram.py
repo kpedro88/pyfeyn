@@ -35,7 +35,6 @@ class Identifiable:
             global_id = global_id + 1
 
 
-@withify
 @dataclass
 class PDG(Identifiable):
     pdgid: Optional[int] = field(default=None, metadata={})
@@ -110,7 +109,6 @@ class PDG(Identifiable):
     set_name = deprecated(with_name)
 
 
-@withify
 @dataclass
 class Labeled:
     label: Optional[str] = field(
@@ -299,7 +297,7 @@ class Leg(Point, Targeting, Connector):
         self.sense = "outgoing"
         return self
 
-    set_external = deprecated(with_externaö)
+    set_external = deprecated(with_external)
     set_incoming = deprecated(with_incoming)
     set_outgoing = deprecated(with_outgoing)
 
