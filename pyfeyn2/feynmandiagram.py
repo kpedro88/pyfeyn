@@ -1,4 +1,5 @@
 import logging
+import warnings
 from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
@@ -77,9 +78,10 @@ class PDG(Identifiable):
             elif self.pdgid == 25:
                 self.type = "higgs"
             else:
-                raise NotImplementedError(
+                warnings.warn(
                     f"Inferring type from pdgid not implemented for pdgid {self.pdgid} "
                 )
+                self.type = "line"
 
     def __post_init__(self):
         super().__post_init__()
@@ -87,6 +89,11 @@ class PDG(Identifiable):
 
     def set_pdgid(self, pdgid):
         self.pdgid = pdgid
+        self._sync()
+        return self
+
+    def set_name(self, name):
+        self.name = name
         self._sync()
         return self
 

@@ -30,6 +30,7 @@ type_map = {
     "higgs": "scalar",
     "vector": "boson",
     "phantom": "draw=none",
+    "line": "plain",
 }
 
 
@@ -49,7 +50,7 @@ def stylize_connect(c: Connector):
     if c.bend is not None and c.bend:
         if c.style.getProperty("bend-direction") is not None:
             style += ",bend " + str(c.style.getProperty("bend-direction").value)
-        if ( c.style.getProperty("bend-loop") is not None):
+        if c.style.getProperty("bend-loop") is not None:
             style += (
                 ",loop , in="
                 + str(c.style.getProperty("bend-in").value)

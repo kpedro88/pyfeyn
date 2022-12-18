@@ -2,7 +2,6 @@ import copy
 
 import dot2tex
 
-
 REPLACE_THIS_WITH_A_BACKSLASH = "¬"
 
 
@@ -56,7 +55,8 @@ def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
 
 
 def dot_to_positions(dot):
-    return dot2tex.dot2tex(dot, format="positions")
+    ret = dot2tex.dot2tex(dot, format="positions")
+    return ret
 
 
 def dot_to_tikz(dot):
