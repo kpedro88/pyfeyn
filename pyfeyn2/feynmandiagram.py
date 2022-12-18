@@ -252,6 +252,14 @@ class Connector(Labeled, Bending, Styled, PDG):
 class Leg(Point, Targeting, Connector):
     sense: str = field(default=None, metadata={})
 
+    external: Optional[str] = field(
+        default=None, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+
+    def set_external(self, external):
+        self.external = external
+        return self
+
     def set_incoming(self):
         self.sense = "incoming"
         return self
@@ -315,6 +323,17 @@ class FeynmanDiagram:
             if l.id == id:
                 return l
         return None
+
+    def get_connections(self, vertex):
+        return [
+            p
+            for p in self.propagators
+            if p.source == vertex.id or p.target == vertex.id
+        ] + [l for l in self.legs if l.target == vertex.id]
+
+    def remove_propagator(self, propagator):
+        self.propagators.remove(propagator)
+        return self
 
     def get_bounding_box(self):
         min_x = 0

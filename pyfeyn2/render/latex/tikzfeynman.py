@@ -1,7 +1,7 @@
 from pylatex import Command
 from pylatex.utils import NoEscape
 
-from pyfeyn2.feynmandiagram import Connector, Vertex
+from pyfeyn2.feynmandiagram import Connector, Leg, Vertex
 from pyfeyn2.render.latex.latex import LatexRender
 
 # converte FeynmanDiagram to tikz-feynman
@@ -66,8 +66,16 @@ def stylize_connect(c: Connector):
 def stylize_node(v: Vertex):
     style = ""
     if v.label is not None:
-        style += "label=" + v.label
-    return style
+        style += "label=" + v.label + ","
+
+    return style[:-1]
+
+
+def stylize_leg_node(l: Leg):
+    style = ""
+    if l.external is not None:
+        style += "label=" + l.external + ","
+    return style[:-1]
 
 
 def get_line(source_id, target_id, style):
@@ -86,7 +94,7 @@ def feynman_to_tikz_feynman(fd):
         src += f"\t\\vertex ({v.id}) [{style}] at ({v.x},{v.y});\n"
         src += f"\t\\vertex ({v.id}clone) [{style}] at ({v.x},{v.y});\n"
     for l in fd.legs:
-        # style = stylize_node(l)
+        style = stylize_leg_node(l)
         src += f"\t\\vertex ({l.id}) [{style}] at ({l.x},{l.y});\n"
     src += "\t\\diagram*{\n"
     for p in fd.propagators:
