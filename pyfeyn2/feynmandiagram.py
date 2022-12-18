@@ -4,10 +4,12 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
 import cssutils
+from deprecated import deprecated
 from particle import Particle
 from xsdata.formats.converter import Converter, converter
 
 from pyfeyn2.particles import get_either_particle, get_name
+from pyfeyn2.util import withify
 
 # We don't want to see the cssutils warnings, since we have custom properties
 cssutils.log.setLevel(logging.CRITICAL)
@@ -33,6 +35,7 @@ class Identifiable:
             global_id = global_id + 1
 
 
+@withify
 @dataclass
 class PDG(Identifiable):
     pdgid: Optional[int] = field(default=None, metadata={})
@@ -87,30 +90,39 @@ class PDG(Identifiable):
         super().__post_init__()
         self._sync()
 
-    def set_pdgid(self, pdgid):
+    def with_pdgid(self, pdgid):
         self.pdgid = pdgid
         self._sync()
         return self
 
-    def set_name(self, name):
+    def with_name(self, name):
         self.name = name
         self._sync()
         return self
 
-    def set_type(self, typ):
+    # TODO: remove these deprecated methods
+    def with_type(self, typ):
         self.type = typ
         return self
 
+    set_pdgid = deprecated(with_pdgid)
+    set_type = deprecated(with_type)
+    set_name = deprecated(with_name)
 
+
+@withify
 @dataclass
 class Labeled:
     label: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    def set_label(self, label):
+    # TODO: remove these deprecated methods
+    def with_label(self, label):
         self.label = label
         return self
+
+    set_label = deprecated(with_label)
 
 
 @dataclass
@@ -119,9 +131,12 @@ class Texted:
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    def set_text(self, text):
+    # TODO: remove these deprecated methods
+    def with_text(self, text):
         self.text = text
         return self
+
+    set_text = deprecated(with_text)
 
 
 @dataclass
@@ -136,21 +151,26 @@ class Point:
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    def set_point(self, p):
+    def with_point(self, p):
         self.x = float(p.x)
         self.y = float(p.y)
         return self
 
-    def set_xy(self, x, y):
+    def with_xy(self, x, y):
         self.x = float(x)
         self.y = float(y)
         return self
 
-    def set_xyz(self, x, y, z):
+    def with_xyz(self, x, y, z):
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)
         return self
+
+    # TODO: remove these deprecated methods
+    set_point = deprecated(with_point)
+    set_xy = deprecated(with_xy)
+    set_xyz = deprecated(with_xyz)
 
 
 CSSString = cssutils.css.CSSStyleDeclaration
@@ -196,18 +216,24 @@ class Bending:
 class Targeting:
     target: Optional[str] = field(default="", metadata={})
 
-    def set_target(self, target):
+    # TODO: remove these deprecated methods
+    def with_target(self, target):
         self.target = target.id
         return self
+
+    set_target = deprecated(with_target)
 
 
 @dataclass
 class Sourcing:
     source: Optional[str] = field(default="", metadata={})
 
-    def set_source(self, source):
+    # TODO: remove these deprecated methods
+    def with_source(self, source):
         self.source = source.id
         return self
+
+    set_source = deprecated(with_source)
 
 
 @dataclass
@@ -218,6 +244,7 @@ class Line(Targeting, Sourcing):
         return self
 
 
+@withify
 @dataclass
 class Vertex(Labeled, Point, Styled, Identifiable):
     pass
@@ -233,21 +260,25 @@ class Connector(Labeled, Bending, Styled, PDG):
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    def set_momentum(self, momentum):
+    # TODO: remove these deprecated methods
+    def with_momentum(self, momentum):
         self.momentum = momentum
         return self
 
-    def set_tension(self, tension):
+    def with_tension(self, tension):
         self.tension = tension
         return self
 
-    def set_length(self, length):
+    def with_length(self, length):
         self.length = length
         return self
 
-    pass
+    set_momentum = deprecated(with_momentum)
+    set_tension = deprecated(with_tension)
+    set_length = deprecated(with_length)
 
 
+@withify
 @dataclass
 class Leg(Point, Targeting, Connector):
     sense: str = field(default=None, metadata={})
@@ -256,29 +287,36 @@ class Leg(Point, Targeting, Connector):
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    def set_external(self, external):
+    def with_external(self, external):
         self.external = external
         return self
 
-    def set_incoming(self):
+    def with_incoming(self):
         self.sense = "incoming"
         return self
 
-    def set_outgoing(self):
+    def with_outgoing(self):
         self.sense = "outgoing"
         return self
 
+    set_external = deprecated(with_externaö)
+    set_incoming = deprecated(with_incoming)
+    set_outgoing = deprecated(with_outgoing)
 
+
+@withify
 @dataclass
 class Propagator(Line, Connector):
     pass
 
 
+@withify
 @dataclass
 class Label(Point, Texted, Identifiable):
     pass
 
 
+@withify
 @dataclass
 class FeynmanDiagram:
     class Meta:
