@@ -16,7 +16,7 @@ cssutils.log.setLevel(logging.CRITICAL)
 # from pyfeyn2.vertex import Vertex
 
 # Global counter for unique ids
-id = 0
+global_id = 0
 
 
 @dataclass
@@ -25,11 +25,11 @@ class Identifiable:
     # id2: Optional[str] = field(default=None, metadata={"name": "id2", "namespace": ""})
 
     def __post_init__(self):
-        global id
+        global global_id
         if self.id is None:
             # use some global counter to generate unique id
-            self.id = self.__class__.__name__ + str(id)
-            id = id + 1
+            self.id = self.__class__.__name__ + str(global_id)
+            global_id = global_id + 1
 
 
 @dataclass
@@ -54,7 +54,7 @@ class PDG(Identifiable):
                 name=self.name,
                 evtgen_name=self.name,
                 html_name=self.name,
-                latex=self.name,
+                latex_name=self.name,
             )
             if self.particle is None:
                 raise ValueError(f"Particle {self.name} not found")
@@ -68,8 +68,18 @@ class PDG(Identifiable):
                 self.type = "photon"
             elif self.pdgid == 21:
                 self.type = "gluon"
+            elif self.pdgid in range(11, 19):
+                self.type = "fermion"
+            elif abs(self.pdgid) == 24:
+                self.type = "boson"
+            elif self.pdgid == 23:
+                self.type = "boson"
+            elif self.pdgid == 25:
+                self.type = "higgs"
             else:
-                raise NotImplementedError("Inferring type from pdgid not implemented")
+                raise NotImplementedError(
+                    f"Inferring type from pdgid not implemented for pdgid {self.pdgid} "
+                )
 
     def __post_init__(self):
         super().__post_init__()
@@ -290,7 +300,7 @@ class FeynmanDiagram:
                 raise Exception("Unknown type: " + str(type(a)) + " " + str(a))
         return self
 
-    def get_point(self, id):
+    def get_vertex(self, id):
         for v in self.vertices:
             if v.id == id:
                 return v

@@ -143,13 +143,13 @@ class ASCIIRender(Render):
         fmt = {"scalex": scalex, "kickx": kickx, "scaley": scaley, "kicky": kicky}
 
         for p in self.fd.propagators:
-            src = self.fd.get_point(p.source)
-            tar = self.fd.get_point(p.target)
+            src = self.fd.get_vertex(p.source)
+            tar = self.fd.get_vertex(p.target)
             self.namedlines[p.type]().draw(pane, src, tar, **fmt)
             if p.label is not None:
                 self.namedlines["label"](p.label).draw(pane, src, tar, **fmt)
         for l in self.fd.legs:
-            tar = self.fd.get_point(l.target)
+            tar = self.fd.get_vertex(l.target)
             if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
                 self.namedlines[l.type]().draw(pane, Point(l.x, l.y), tar, **fmt)
                 if l.label is not None:

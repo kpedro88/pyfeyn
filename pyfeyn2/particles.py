@@ -43,9 +43,21 @@ def get_particle(**kwargs) -> Particle:
         return None
 
 
-def get_either_particle(**kwargs) -> Particle:
+name_cache = {}
+
+
+def get_either_particle(cache=True, **kwargs) -> Particle:
+    global name_cache
+    if cache:
+        if str(kwargs) in name_cache:
+            return name_cache[str(kwargs)]
     for k, v in kwargs.items():
         p = get_particle(**{k: v})
         if p is not None:
+            if cache:
+                name_cache[str(kwargs)] = p
             return p
+
+    if cache:
+        name_cache[str(kwargs)] = None
     return None

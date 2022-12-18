@@ -21,6 +21,9 @@ feynman=">=2.0.0"
 cssutils= "*"
 pylatexenc = "*"
 pygments = "*"
+pyhepmc = "*"
+graphviz = "*"
+ipyparallel = "*"
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
