@@ -22,7 +22,7 @@ id = 0
 @dataclass
 class Identifiable:
     id: Optional[str] = field(default=None, metadata={"name": "id", "namespace": ""})
-    id2: Optional[str] = field(default=None, metadata={"name": "id2", "namespace": ""})
+    # id2: Optional[str] = field(default=None, metadata={"name": "id2", "namespace": ""})
 
     def __post_init__(self):
         global id
