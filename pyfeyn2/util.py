@@ -4,7 +4,7 @@ def withify(prefix="with_", sufix="", override=False):
 
     def _withify(cls):
         inst = cls()
-        for k in inst.____annotations__.keys():
+        for k in inst.__annotations__.keys():
             fun = prefix + k + sufix
             if override or not hasattr(cls, fun):
 
