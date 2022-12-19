@@ -202,7 +202,7 @@ class CSSSheetConverter(Converter):
 
     @staticmethod
     def serialize(value: CSSSheet, **kwargs) -> str:
-        return value.cssText.decode("utf-8")#.replace("\n", " ")
+        return value.cssText.decode("utf-8")  # .replace("\n", " ")
 
 
 converter.register_converter(CSSString, CSSStringConverter())
@@ -290,6 +290,7 @@ class Vertex(Labeled, Point, Styled, Identifiable):
     pass
 
 
+@withify()
 @dataclass
 class Connector(Labeled, Bending, Styled, PDG):
     momentum: Optional[str] = field(default=None, metadata={})
@@ -439,14 +440,21 @@ class FeynmanDiagram:
             max_y = max(max_y, l.y)
         return min_x, min_y, max_x, max_y
 
-    def with_rule(self, rule: str):
+    def add_rule(self, rule: str):
         self.sheet.add(rule)
         return self
 
-    def with_rules(self, rules: str):
+    def add_rules(self, rules: str):
         self.sheet = cssutils.parseString(
             self.sheet.cssText.decode("utf-8") + "\n" + rules
         )
+        return self
+
+    def with_rule(self, rule: str):
+        return self.with_rules(rule)
+
+    def with_rules(self, rules: str):
+        self.sheet = cssutils.parseString(rules)
         return self
 
     def _get_rule_style(self, selectorText: str) -> cssutils.css.CSSStyleDeclaration:
@@ -463,12 +471,13 @@ class FeynmanDiagram:
         cssstr = ""
         cssstr += self._get_rule_style(type(obj).__name__.lower()).cssText + ";"
         clazzes = []
-        if obj.clazz:
-            clazzes += obj.clazz.split()
         # pdgid is a special case of a class
         if isinstance(obj, PDG):
             if obj.pdgid:
                 clazzes += ["pdgid" + str(int(obj.pdgid))]
+        if obj.clazz:
+            clazzes += obj.clazz.split()
+
         # first pure classes
         for clazz in clazzes:
             # css class
