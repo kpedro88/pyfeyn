@@ -468,7 +468,7 @@ class FeynmanDiagram:
         # pdgid is a special case of a class
         if isinstance(obj, PDG):
             if obj.pdgid:
-                clazzes += "pdgid" + obj.pdgid
+                clazzes += ["pdgid" + str(int(obj.pdgid))]
         # first pure classes
         for clazz in clazzes:
             # css class
