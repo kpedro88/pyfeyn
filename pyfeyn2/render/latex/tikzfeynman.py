@@ -1,7 +1,7 @@
 from pylatex import Command
 from pylatex.utils import NoEscape
 
-from pyfeyn2.feynmandiagram import Connector, Leg, Vertex
+from pyfeyn2.feynmandiagram import Connector, FeynmanDiagram, Leg, Vertex
 from pyfeyn2.render.latex.latex import LatexRender
 
 # converte FeynmanDiagram to tikz-feynman
@@ -34,33 +34,34 @@ type_map = {
 }
 
 
-def stylize_connect(c: Connector):
-    style = ""
-    style += type_map[c.type]
+def stylize_connect(fd: FeynmanDiagram, c: Connector):
+    style = fd.get_style(c)
+    ret = ""
+    ret += type_map[c.type]
 
     if c.label is not None:
-        style += ",edge label=" + c.label
+        ret += ",edge label=" + c.label
     # if c.edge_label_ is not None: style += ",edge label'=" + c.edge_label_
     if c.momentum is not None:
-        style += ",momentum=" + c.momentum
-    if c.style.opacity is not None and c.style.opacity != "":
-        style += ",opacity=" + str(c.style.opacity)
-    if c.style.color is not None and c.style.color != "":
-        style += "," + str(c.style.color)
+        ret += ",momentum=" + c.momentum
+    if style.opacity is not None and style.opacity != "":
+        ret += ",opacity=" + str(style.opacity)
+    if style.color is not None and style.color != "":
+        ret += "," + str(style.color)
     if c.bend is not None and c.bend:
-        if c.style.getProperty("bend-direction") is not None:
-            style += ",bend " + str(c.style.getProperty("bend-direction").value)
-        if c.style.getProperty("bend-loop") is not None:
-            style += (
+        if style.getProperty("bend-direction") is not None:
+            ret += ",bend " + str(c.style.getProperty("bend-direction").value)
+        if style.getProperty("bend-loop") is not None:
+            ret += (
                 ",loop , in="
-                + str(c.style.getProperty("bend-in").value)
+                + str(style.getProperty("bend-in").value)
                 + ", out="
-                + str(c.style.getProperty("bend-out").value)
+                + str(style.getProperty("bend-out").value)
                 + ", min distance="
-                + str(c.style.getProperty("bend-min-distance").value)
+                + str(style.getProperty("bend-min-distance").value)
             )
 
-    return style
+    return ret
 
 
 def stylize_node(v: Vertex):
@@ -98,10 +99,10 @@ def feynman_to_tikz_feynman(fd):
         src += f"\t\\vertex ({l.id}) [{style}] at ({l.x},{l.y});\n"
     src += "\t\\diagram*{\n"
     for p in fd.propagators:
-        style = stylize_connect(p)
+        style = stylize_connect(fd, p)
         src += get_line(p.source, p.target, style)
     for l in fd.legs:
-        style = stylize_connect(l)
+        style = stylize_connect(fd, l)
         if l.sense[:2] == "in":
             src += get_line(l.id, l.target, style)
         elif l.sense[:3] == "out":

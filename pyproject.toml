@@ -24,6 +24,8 @@ pygments = "*"
 pyhepmc = "*"
 graphviz = "*"
 ipyparallel = "*"
+deprecated = "*"
+deprecation = "*"
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
@@ -43,7 +45,6 @@ sphinx_math_dollar = "*"
 myst-parser  = "*"
 toml = "*"
 smpl = ">=1.0.3" 
-deprecated = "*"
 #smpl = {path = "/home/apn/git/smpl", develop = true}
 #smpl = {git = "https://github.com/APN-Pucky/smpl.git", branch = "master"}
 

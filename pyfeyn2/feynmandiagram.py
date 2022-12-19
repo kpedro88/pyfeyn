@@ -4,12 +4,11 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
 import cssutils
-from deprecated import deprecated
 from particle import Particle
 from xsdata.formats.converter import Converter, converter
 
 from pyfeyn2.particles import get_either_particle, get_name
-from pyfeyn2.util import withify
+from pyfeyn2.util import deprecated, withify
 
 # We don't want to see the cssutils warnings, since we have custom properties
 cssutils.log.setLevel(logging.CRITICAL)
@@ -22,6 +21,7 @@ cssutils.log.setLevel(logging.CRITICAL)
 global_id = 0
 
 
+@withify()
 @dataclass
 class Identifiable:
     id: Optional[str] = field(default=None, metadata={"name": "id", "namespace": ""})
@@ -35,6 +35,7 @@ class Identifiable:
             global_id = global_id + 1
 
 
+@withify()
 @dataclass
 class PDG(Identifiable):
     pdgid: Optional[int] = field(default=None, metadata={})
@@ -89,52 +90,52 @@ class PDG(Identifiable):
         super().__post_init__()
         self._sync()
 
-    def with_pdgid(self, pdgid):
-        self.pdgid = pdgid
-        self._sync()
-        return self
+    # def with_pdgid(self, pdgid):
+    #    self.pdgid = pdgid
+    #    self._sync()
+    #    return self
 
-    def with_name(self, name):
-        self.name = name
-        self._sync()
-        return self
+    # def with_name(self, name):
+    #    self.name = name
+    #    self._sync()
+    #    return self
 
     # TODO: remove these deprecated methods
-    def with_type(self, typ):
-        self.type = typ
-        return self
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_pdgig(self, *args, **kwargs):
+        return self.with_pdgid(*args, **kwargs)
 
-    set_pdgid = deprecated(with_pdgid)
-    set_type = deprecated(with_type)
-    set_name = deprecated(with_name)
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_type(self, *args, **kwargs):
+        return self.with_type(*args, **kwargs)
+
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_name(self, *args, **kwargs):
+        return self.with_name(*args, **kwargs)
 
 
+@withify()
 @dataclass
 class Labeled:
     label: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    # TODO: remove these deprecated methods
-    def with_label(self, label):
-        self.label = label
-        return self
-
-    set_label = deprecated(with_label)
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_label(self, *args, **kwargs):
+        return self.with_label(*args, **kwargs)
 
 
+@withify()
 @dataclass
 class Texted:
     text: Optional[str] = field(
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    # TODO: remove these deprecated methods
-    def with_text(self, text):
-        self.text = text
-        return self
-
-    set_text = deprecated(with_text)
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_text(self, *args, **kwargs):
+        return self.with_text(*args, **kwargs)
 
 
 @dataclass
@@ -166,12 +167,46 @@ class Point:
         return self
 
     # TODO: remove these deprecated methods
-    set_point = deprecated(with_point)
-    set_xy = deprecated(with_xy)
-    set_xyz = deprecated(with_xyz)
+
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_point(self, *args, **kwargs):
+        return self.with_point(*args, **kwargs)
+
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_xy(self, *args, **kwargs):
+        return self.with_xy(*args, **kwargs)
+
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_xyz(self, *args, **kwargs):
+        return self.with_xyz(*args, **kwargs)
 
 
 CSSString = cssutils.css.CSSStyleDeclaration
+CSSSheet = cssutils.css.CSSStyleSheet
+
+
+class CSSStringConverter(Converter):
+    @staticmethod
+    def deserialize(value: str, **kwargs) -> CSSString:
+        return cssutils.parseStyle(value)
+
+    @staticmethod
+    def serialize(value: CSSString, **kwargs) -> str:
+        return value.cssText.replace("\n", " ")
+
+
+class CSSSheetConverter(Converter):
+    @staticmethod
+    def deserialize(value: str, **kwargs) -> CSSSheet:
+        return cssutils.parseString(value)
+
+    @staticmethod
+    def serialize(value: CSSSheet, **kwargs) -> str:
+        return value.cssText.replace("\n", " ")
+
+
+converter.register_converter(CSSString, CSSStringConverter())
+converter.register_converter(CSSSheet, CSSSheetConverter())
 
 
 @dataclass
@@ -179,6 +214,11 @@ class Styled:
     style: CSSString = field(
         default_factory=lambda: cssutils.parseStyle(""),
         metadata={"name": "style", "xml_attribute": True, "type": "Attribute"},
+    )
+
+    clazz: Optional[str] = field(
+        default=None,
+        metadata={"name": "class", "xml_attribute": True, "type": "Attribute"},
     )
 
     def raw_style(self):
@@ -189,18 +229,14 @@ class Styled:
             self.style.setProperty(key, value)
         return self
 
+    def with_style(self, style):
+        if style is not None:
+            self.style = cssutils.parseStyle(style)
+        return self
 
-class CSSConverter(Converter):
-    @staticmethod
-    def deserialize(value: str, **kwargs) -> CSSString:
-        return cssutils.parseStyle(value)
-
-    @staticmethod
-    def serialize(value: CSSString, **kwargs) -> str:
-        return value.cssText.replace("\n", " ")
-
-
-converter.register_converter(CSSString, CSSConverter())
+    def with_class(self, clazz):
+        self.clazz = clazz
+        return self
 
 
 @dataclass
@@ -214,32 +250,38 @@ class Bending:
 class Targeting:
     target: Optional[str] = field(default="", metadata={})
 
-    # TODO: remove these deprecated methods
     def with_target(self, target):
-        self.target = target.id
+        if isinstance(target, str):
+            self.target = target
+        else:
+            self.target = target.id
         return self
 
-    set_target = deprecated(with_target)
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_target(self, *args, **kwargs):
+        return self.with_target(*args, **kwargs)
 
 
 @dataclass
 class Sourcing:
     source: Optional[str] = field(default="", metadata={})
 
-    # TODO: remove these deprecated methods
     def with_source(self, source):
-        self.source = source.id
+        if isinstance(source, str):
+            self.source = source
+        else:
+            self.source = source.id
         return self
 
-    set_source = deprecated(with_source)
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_source(self, *args, **kwargs):
+        return self.with_source(*args, **kwargs)
 
 
 @dataclass
 class Line(Targeting, Sourcing):
     def connect(self, source, target):
-        self.set_source(source)
-        self.set_target(target)
-        return self
+        return self.with_source(source.id).set_target(target.id)
 
 
 @withify()
@@ -258,22 +300,17 @@ class Connector(Labeled, Bending, Styled, PDG):
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    # TODO: remove these deprecated methods
-    def with_momentum(self, momentum):
-        self.momentum = momentum
-        return self
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_momentum(self, *args, **kwargs):
+        return self.with_momentum(*args, **kwargs)
 
-    def with_tension(self, tension):
-        self.tension = tension
-        return self
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_tension(self, *args, **kwargs):
+        return self.with_tension(*args, **kwargs)
 
-    def with_length(self, length):
-        self.length = length
-        return self
-
-    set_momentum = deprecated(with_momentum)
-    set_tension = deprecated(with_tension)
-    set_length = deprecated(with_length)
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_length(self, *args, **kwargs):
+        return self.with_length(*args, **kwargs)
 
 
 @withify()
@@ -285,10 +322,6 @@ class Leg(Point, Targeting, Connector):
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
-    def with_external(self, external):
-        self.external = external
-        return self
-
     def with_incoming(self):
         self.sense = "incoming"
         return self
@@ -297,9 +330,17 @@ class Leg(Point, Targeting, Connector):
         self.sense = "outgoing"
         return self
 
-    set_external = deprecated(with_external)
-    set_incoming = deprecated(with_incoming)
-    set_outgoing = deprecated(with_outgoing)
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_external(self, *args, **kwargs):
+        return self.with_external(*args, **kwargs)
+
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_incoming(self, *args, **kwargs):
+        return self.with_incoming(*args, **kwargs)
+
+    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    def set_outgoing(self, *args, **kwargs):
+        return self.with_outgoing(*args, **kwargs)
 
 
 @withify()
@@ -335,6 +376,16 @@ class FeynmanDiagram:
     labels: List[Label] = field(
         default_factory=list,
         metadata={"name": "label", "type": "Element", "namespace": ""},
+    )
+
+    sheet: CSSSheet = field(
+        default_factory=lambda: cssutils.parseString(""),
+        metadata={
+            "name": "style",
+            "xml_attribute": True,
+            "type": "Attribute",
+            "namespace": "",
+        },
     )
 
     def add(self, *fd_all: List[Union[Propagator, Vertex, Leg, Label]]):
@@ -388,6 +439,72 @@ class FeynmanDiagram:
             max_y = max(max_y, l.y)
         return min_x, min_y, max_x, max_y
 
+    def with_rule(self, rule: str):
+        self.sheet.add(rule)
+        return self
+
+    def with_rules(self, rules: str):
+        self.sheet = cssutils.parseString(
+            self.sheet.cssText.decode("utf-8") + "\n" + rules
+        )
+        return self
+
+    def _get_rule_style(self, selectorText: str) -> cssutils.css.CSSStyleDeclaration:
+        ret = None
+        for rule in self.sheet:
+            if rule.selectorText == selectorText and rule.type == rule.STYLE_RULE:
+                ret = rule.style
+        if ret:
+            return ret
+        else:
+            return cssutils.css.CSSStyleDeclaration()
+
+    def _get_class_style(self, obj: Styled) -> cssutils.css.CSSStyleDeclaration:
+        cssstr = ""
+        cssstr += self._get_rule_style(type(obj).__name__.lower()).cssText + ";"
+        clazzes = []
+        if obj.clazz:
+            clazzes += obj.clazz.split()
+        # pdgid is a special case of a class
+        if isinstance(obj, PDG):
+            if obj.pdgid:
+                clazzes += "pdgid" + obj.pdgid
+        # first pure classes
+        for clazz in clazzes:
+            # css class
+            cssstr += self._get_rule_style("." + clazz).cssText + ";"
+        # then element + class
+        for clazz in clazzes:
+            # css element + class
+            cssstr += (
+                self._get_rule_style(type(obj).__name__.lower() + "." + clazz).cssText
+                + ";"
+            )
+
+        return cssutils.css.CSSStyleDeclaration(cssText=cssstr)
+
+    def get_style(self, obj) -> cssutils.css.CSSStyleDeclaration:
+        """Get the style of an object.
+
+        This is prefered over accessing the style attribute directly, sicne it includes class and pdgid definitions.
+        """
+        # selectorText is string
+        cssstr = ""
+        # global style
+        cssstr += self._get_rule_style("*").cssText + ";"
+        if isinstance(obj, str):
+            cssstr += self._get_rule_style(obj).cssText + ";"
+        if isinstance(obj, Styled):
+            # css class
+            cssstr += self._get_class_style(obj).cssText + ";"
+        if isinstance(obj, Identifiable):
+            # css id
+            cssstr += self._get_rule_style("#" + obj.id).cssText + ";"
+        if isinstance(obj, Styled):
+            # specific attribute style
+            cssstr += obj.style.cssText + ";"
+        return cssutils.css.CSSStyleDeclaration(cssText=cssstr)
+
 
 @dataclass
 class Meta:
@@ -414,10 +531,10 @@ class Head:
         default_factory=list,
         metadata={"name": "meta", "namespace": ""},
     )
+    description: Optional[str] = field(default="", metadata={"type": "Element"})
 
-    description: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Element"}
-    )
+    # TODO setup style ?
+    # style: Optional[str] = field(default="", metadata={"type": "Element"})
 
 
 @dataclass
