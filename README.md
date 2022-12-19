@@ -41,6 +41,7 @@ poetry shell
 *   <https://github.com/JP-Ellis/tikz-feynman>
 *   <https://pyfeyn.hepforge.org/> 
 *   <https://feynml.hepforge.org/>
+*   <http://www.feyndiagram.com/>
 
 Several of these are integrated into pyfeyn2.
 
