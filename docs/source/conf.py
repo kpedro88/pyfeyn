@@ -58,7 +58,6 @@ extensions = [
     "jupyter_sphinx",
     "IPython.sphinxext.ipython_directive",
     "IPython.sphinxext.ipython_console_highlighting",
-    # "autoapi.extension",
 ]
 
 # nbsphinx_execute = "always"

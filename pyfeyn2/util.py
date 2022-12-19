@@ -26,6 +26,11 @@ def withify(prefix="with_", sufix="", override=False):
     return _withify
 
 
+@_deprecated(
+    deprecated_in="2.0.7.1",
+    removed_in="2.1",
+    reason="Use smpl.doc.deprecate instead? Better split smpl.doc into its own package.",
+)
 def deprecated(
     version=None, deprecated_in=None, removed_in=None, reason=None, details=None
 ):

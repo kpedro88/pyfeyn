@@ -108,15 +108,15 @@ class PDG(Identifiable):
     #    return self
 
     # TODO: remove these deprecated methods
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_pdgig(self, *args, **kwargs):
         return self.with_pdgid(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_type(self, *args, **kwargs):
         return self.with_type(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_name(self, *args, **kwargs):
         return self.with_name(*args, **kwargs)
 
@@ -129,7 +129,7 @@ class Labeled:
     )
     """Label the object"""
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_label(self, *args, **kwargs):
         return self.with_label(*args, **kwargs)
 
@@ -142,7 +142,7 @@ class Texted:
     )
     """Text the object"""
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_text(self, *args, **kwargs):
         return self.with_text(*args, **kwargs)
 
@@ -180,15 +180,15 @@ class Point:
 
     # TODO: remove these deprecated methods
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_point(self, *args, **kwargs):
         return self.with_point(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_xy(self, *args, **kwargs):
         return self.with_xy(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_xyz(self, *args, **kwargs):
         return self.with_xyz(*args, **kwargs)
 
@@ -272,7 +272,7 @@ class Targeting:
             self.target = target.id
         return self
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_target(self, *args, **kwargs):
         return self.with_target(*args, **kwargs)
 
@@ -289,7 +289,7 @@ class Sourcing:
             self.source = source.id
         return self
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_source(self, *args, **kwargs):
         return self.with_source(*args, **kwargs)
 
@@ -320,15 +320,15 @@ class Connector(Labeled, Bending, Styled, PDG):
     )
     """Length of the connector"""
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_momentum(self, *args, **kwargs):
         return self.with_momentum(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_tension(self, *args, **kwargs):
         return self.with_tension(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_length(self, *args, **kwargs):
         return self.with_length(*args, **kwargs)
 
@@ -352,15 +352,15 @@ class Leg(Point, Targeting, Connector):
         self.sense = "outgoing"
         return self
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_external(self, *args, **kwargs):
         return self.with_external(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_incoming(self, *args, **kwargs):
         return self.with_incoming(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...() instead.")
     def set_outgoing(self, *args, **kwargs):
         return self.with_outgoing(*args, **kwargs)
 
