@@ -80,7 +80,8 @@ class PyxRender(Render):
             filltype = styledict["fill-style"].split()
             if filltype[0] == "solid":
                 R, G, B = [
-                    eval("0x%s" % x) / 255.0
+                    int("0x" + x, base=16) / 255.0
+                    # eval("0x%s" % x) / 255.0 # <- old code
                     for x in [filltype[1][n : n + 2] for n in (1, 3, 5)]
                 ]
                 obj.fillstyles = [pyx.color.rgb(R, G, B)]

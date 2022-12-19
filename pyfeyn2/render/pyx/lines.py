@@ -916,7 +916,7 @@ class Gaugino(DecoratedLine):
                 #    print self.__class__, "- curvature radius = ", curveradius
                 if mincurveradius is None or curveradius < mincurveradius:
                     mincurveradius = curveradius
-            except:
+            except Exception:
                 pass
 
         ## Use curvature info to increase number of curve sections
