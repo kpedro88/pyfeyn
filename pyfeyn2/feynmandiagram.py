@@ -8,6 +8,10 @@ from particle import Particle
 from xsdata.formats.converter import Converter, converter
 
 from pyfeyn2.particles import get_either_particle, get_name
+
+# from deprecated.sphinx import deprecated
+# from deprecation import deprecated as _deprecated
+# deprecated = lambda version,reason: _deprecated(deprecated_in=version,details=reason)
 from pyfeyn2.util import deprecated, withify
 
 # We don't want to see the cssutils warnings, since we have custom properties
@@ -39,13 +43,16 @@ class Identifiable:
 @dataclass
 class PDG(Identifiable):
     pdgid: Optional[int] = field(default=None, metadata={})
+    """PDG ID of the particle"""
     name: Optional[str] = field(default=None, metadata={})
+    """Name of the particle"""
     type: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
     # TODO check SUSY
     particle: Optional[Particle] = field(default=None, metadata={"type": "Ignore"})
+    """Particle object from the particle package"""
 
     def _sync(self):
         """Sync the particle with the pdgid, name etc."""
@@ -101,15 +108,15 @@ class PDG(Identifiable):
     #    return self
 
     # TODO: remove these deprecated methods
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_pdgig(self, *args, **kwargs):
         return self.with_pdgid(*args, **kwargs)
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_type(self, *args, **kwargs):
         return self.with_type(*args, **kwargs)
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_name(self, *args, **kwargs):
         return self.with_name(*args, **kwargs)
 
@@ -120,8 +127,9 @@ class Labeled:
     label: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """Label the object"""
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_label(self, *args, **kwargs):
         return self.with_label(*args, **kwargs)
 
@@ -132,8 +140,9 @@ class Texted:
     text: Optional[str] = field(
         default="", metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """Text the object"""
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_text(self, *args, **kwargs):
         return self.with_text(*args, **kwargs)
 
@@ -143,12 +152,15 @@ class Point:
     x: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """x coordinate"""
     y: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """y coordinate"""
     z: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """z coordinate"""
 
     def with_point(self, p):
         self.x = float(p.x)
@@ -168,15 +180,15 @@ class Point:
 
     # TODO: remove these deprecated methods
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_point(self, *args, **kwargs):
         return self.with_point(*args, **kwargs)
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_xy(self, *args, **kwargs):
         return self.with_xy(*args, **kwargs)
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_xyz(self, *args, **kwargs):
         return self.with_xyz(*args, **kwargs)
 
@@ -215,11 +227,13 @@ class Styled:
         default_factory=lambda: cssutils.parseStyle(""),
         metadata={"name": "style", "xml_attribute": True, "type": "Attribute"},
     )
+    """CSS style string."""
 
     clazz: Optional[str] = field(
         default=None,
         metadata={"name": "class", "xml_attribute": True, "type": "Attribute"},
     )
+    """CSS class string."""
 
     def raw_style(self):
         return self.style.cssText.replace("\n", " ")
@@ -249,6 +263,7 @@ class Bending:
 @dataclass
 class Targeting:
     target: Optional[str] = field(default="", metadata={})
+    """Target of the object"""
 
     def with_target(self, target):
         if isinstance(target, str):
@@ -257,7 +272,7 @@ class Targeting:
             self.target = target.id
         return self
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_target(self, *args, **kwargs):
         return self.with_target(*args, **kwargs)
 
@@ -265,6 +280,7 @@ class Targeting:
 @dataclass
 class Sourcing:
     source: Optional[str] = field(default="", metadata={})
+    """Source of the object"""
 
     def with_source(self, source):
         if isinstance(source, str):
@@ -273,7 +289,7 @@ class Sourcing:
             self.source = source.id
         return self
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_source(self, *args, **kwargs):
         return self.with_source(*args, **kwargs)
 
@@ -294,22 +310,25 @@ class Vertex(Labeled, Point, Styled, Identifiable):
 @dataclass
 class Connector(Labeled, Bending, Styled, PDG):
     momentum: Optional[str] = field(default=None, metadata={})
+    """Momentum of the connector"""
     tension: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """Tension of the connector"""
     length: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """Length of the connector"""
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_momentum(self, *args, **kwargs):
         return self.with_momentum(*args, **kwargs)
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_tension(self, *args, **kwargs):
         return self.with_tension(*args, **kwargs)
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_length(self, *args, **kwargs):
         return self.with_length(*args, **kwargs)
 
@@ -318,10 +337,12 @@ class Connector(Labeled, Bending, Styled, PDG):
 @dataclass
 class Leg(Point, Targeting, Connector):
     sense: str = field(default=None, metadata={})
+    """Sense of the leg, either 'incoming' or 'outgoing'"""
 
     external: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """External text for leg"""
 
     def with_incoming(self):
         self.sense = "incoming"
@@ -331,15 +352,15 @@ class Leg(Point, Targeting, Connector):
         self.sense = "outgoing"
         return self
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_external(self, *args, **kwargs):
         return self.with_external(*args, **kwargs)
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_incoming(self, *args, **kwargs):
         return self.with_incoming(*args, **kwargs)
 
-    @deprecated(version="2.0.8", reason="Use with_...() instead")
+    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
     def set_outgoing(self, *args, **kwargs):
         return self.with_outgoing(*args, **kwargs)
 

@@ -2,6 +2,7 @@ from importlib.metadata import version as _version
 
 from deprecation import deprecated as _deprecated
 
+
 # TODO split in to own package
 def withify(prefix="with_", sufix="", override=False):
     """Decorator to add with_ methods to a class."""
@@ -12,10 +13,13 @@ def withify(prefix="with_", sufix="", override=False):
             fun = prefix + k + sufix
             ok = k
             if override or not hasattr(cls, fun):
-                def tmp(self, value,k=ok):
+
+                def tmp(self, value, k=ok):
+                    """Set `value` and return self."""
                     self.__dict__[k] = value
                     return self
 
+                tmp.__doc__ = f"Set {k} to `value` and return self."
                 setattr(cls, fun, tmp)
         return cls
 
@@ -38,14 +42,12 @@ def deprecated(
     # increment minor version
     if removed_in is None:
         removed_in = ".".join(
-            version.split(".")[:-2]
-            + [str(int(version.split(".")[-2]) + 1)]
-            + [version.split(".")[-1]]
+            [version.split(".")[0]] + [str(int(version.split(".")[1]) + 2)]
         )
 
     return _deprecated(
         deprecated_in=version,
         removed_in=removed_in,
-        current_version=_version("pyfeyn2"),
+        # current_version=_version("pyfeyn2"),
         details=details,
     )
