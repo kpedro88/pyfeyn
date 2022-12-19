@@ -1088,7 +1088,7 @@ typing = ["mypy (>=0.990)"]
 
 [[package]]
 name = "jupyter-server-terminals"
-version = "0.4.2"
+version = "0.4.3"
 description = "A Jupyter Server Extension Providing Terminals."
 category = "dev"
 optional = false
@@ -1099,8 +1099,8 @@ pywinpty = {version = ">=2.0.3", markers = "os_name == \"nt\""}
 terminado = ">=0.8.3"
 
 [package.extras]
-docs = ["jinja2", "jupyter-server", "mistune (<2.0)", "myst-parser", "nbformat", "packaging", "pydata-sphinx-theme", "sphinxcontrib-github-alt", "sphinxcontrib-openapi", "sphinxemoji", "tornado"]
-test = ["coverage", "jupyter-server (>=2.0.0rc8)", "pytest (>=7.0)", "pytest-cov", "pytest-jupyter[server] (>=0.5.3)", "pytest-timeout"]
+docs = ["jinja2", "jupyter-server", "mistune (<3.0)", "myst-parser", "nbformat", "packaging", "pydata-sphinx-theme", "sphinxcontrib-github-alt", "sphinxcontrib-openapi", "sphinxemoji", "tornado"]
+test = ["coverage", "jupyter-server (>=2.0.0)", "pytest (>=7.0)", "pytest-cov", "pytest-jupyter[server] (>=0.5.3)", "pytest-timeout"]
 
 [[package]]
 name = "jupyter-sphinx"
@@ -1119,7 +1119,7 @@ Sphinx = ">=2"
 
 [[package]]
 name = "jupyterlab"
-version = "3.5.1"
+version = "3.5.2"
 description = "JupyterLab computational environment"
 category = "dev"
 optional = false
@@ -1138,8 +1138,7 @@ tomli = "*"
 tornado = ">=6.1.0"
 
 [package.extras]
-test = ["check-manifest", "coverage", "jupyterlab-server[test]", "pre-commit", "pytest (>=6.0)", "pytest-check-links (>=0.5)", "pytest-console-scripts", "pytest-cov", "requests", "requests-cache", "virtualenv"]
-ui-tests = ["build"]
+test = ["check-manifest", "coverage", "jupyterlab-server[test]", "pre-commit", "pytest (>=6.0)", "pytest-check-links (>=0.5)", "pytest-console-scripts", "pytest-cov", "pytest-jupyter (>=0.6.0)", "pytest-tornasync", "requests", "requests-cache", "virtualenv"]
 
 [[package]]
 name = "jupyterlab-pygments"
@@ -1467,7 +1466,7 @@ test = ["ipykernel", "ipython", "ipywidgets", "nbconvert (>=7.0.0)", "pytest (>=
 
 [[package]]
 name = "nbconvert"
-version = "7.2.6"
+version = "7.2.7"
 description = "Converting Jupyter Notebooks"
 category = "dev"
 optional = false
@@ -1497,12 +1496,12 @@ docs = ["ipykernel", "ipython", "myst-parser", "nbsphinx (>=0.2.12)", "pydata-sp
 qtpdf = ["nbconvert[qtpng]"]
 qtpng = ["pyqtwebengine (>=5.15)"]
 serve = ["tornado (>=6.1)"]
-test = ["ipykernel", "ipywidgets (>=7)", "pre-commit", "pyppeteer (>=1,<1.1)", "pytest", "pytest-dependency"]
+test = ["ipykernel", "ipywidgets (>=7)", "pre-commit", "pytest", "pytest-dependency"]
 webpdf = ["pyppeteer (>=1,<1.1)"]
 
 [[package]]
 name = "nbformat"
-version = "5.7.0"
+version = "5.7.1"
 description = "The Jupyter Notebook format"
 category = "dev"
 optional = false
@@ -1515,7 +1514,8 @@ jupyter-core = "*"
 traitlets = ">=5.1"
 
 [package.extras]
-test = ["check-manifest", "pep440", "pre-commit", "pytest", "testpath"]
+docs = ["myst-parser", "pydata-sphinx-theme", "sphinx", "sphinxcontrib-github-alt"]
+test = ["pep440", "pre-commit", "pytest", "testpath"]
 
 [[package]]
 name = "nbsphinx"
@@ -2731,7 +2731,7 @@ telegram = ["requests"]
 
 [[package]]
 name = "traitlets"
-version = "5.7.1"
+version = "5.8.0"
 description = "Traitlets Python configuration system"
 category = "main"
 optional = false
@@ -2739,9 +2739,7 @@ python-versions = ">=3.7"
 
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
-lint = ["black (>=22.6.0)", "mdformat (>0.7)", "ruff (>=0.0.156)"]
-test = ["pre-commit", "pytest"]
-typing = ["mypy (>=0.990)"]
+test = ["argcomplete (>=2.0)", "pre-commit", "pytest", "pytest-mock"]
 
 [[package]]
 name = "trove-classifiers"
@@ -3579,16 +3577,16 @@ jupyter-server = [
     {file = "jupyter_server-2.0.1.tar.gz", hash = "sha256:6e71268380ad7e4f2d9dda2f3e51a4fd4d1997b5390d5acdb74c7a195cfe4c00"},
 ]
 jupyter-server-terminals = [
-    {file = "jupyter_server_terminals-0.4.2-py3-none-any.whl", hash = "sha256:c0eaacee6cac21b597c23c38dd523dc4e9b947f97af5101e0396c08f28db3e37"},
-    {file = "jupyter_server_terminals-0.4.2.tar.gz", hash = "sha256:0e68cba38eb0f9f2d93f1160e0a7f84b943d0d0c4d2f77eeaabbb4a2919c47c6"},
+    {file = "jupyter_server_terminals-0.4.3-py3-none-any.whl", hash = "sha256:ec67d3f1895d25cfb586a87a50b8eee13b709898a4afd721058e551e0a0f480d"},
+    {file = "jupyter_server_terminals-0.4.3.tar.gz", hash = "sha256:8421438d95a1f1f6994c48dd5dc10ad167ea7c196972bb5d1d7a9da1e30fde02"},
 ]
 jupyter-sphinx = [
     {file = "jupyter_sphinx-0.4.0-py3-none-any.whl", hash = "sha256:32ad3c32900bb5cc4db300ed54c3798f2264bd2d9a8cb7c04c01b6004f063da1"},
     {file = "jupyter_sphinx-0.4.0.tar.gz", hash = "sha256:0c11a38f1343138f2c5051c0d34c4c545f4480174c1bd41c0256fe826e0baa55"},
 ]
 jupyterlab = [
-    {file = "jupyterlab-3.5.1-py3-none-any.whl", hash = "sha256:c6748b4f21850c0095ed2187ce86d7e06edd9d1180cc4e6a572c4013163c0c74"},
-    {file = "jupyterlab-3.5.1.tar.gz", hash = "sha256:59a1b2d79d4b3ebee4d997c8bed8cf450f460c7c35f46b613a93f0b7712b47fc"},
+    {file = "jupyterlab-3.5.2-py3-none-any.whl", hash = "sha256:16e9b8320dcec469c70bb883e993e0bb84c4ea1a734063731f66922cf72add1b"},
+    {file = "jupyterlab-3.5.2.tar.gz", hash = "sha256:10ac094215ffb872ddffbe2982bf1c039a79fecc326e191e7cc5efd84f331dad"},
 ]
 jupyterlab-pygments = [
     {file = "jupyterlab_pygments-0.2.2-py2.py3-none-any.whl", hash = "sha256:2405800db07c9f770863bcf8049a529c3dd4d3e28536638bd7c1c01d2748309f"},
@@ -4006,12 +4004,12 @@ nbclient = [
     {file = "nbclient-0.7.2.tar.gz", hash = "sha256:884a3f4a8c4fc24bb9302f263e0af47d97f0d01fe11ba714171b320c8ac09547"},
 ]
 nbconvert = [
-    {file = "nbconvert-7.2.6-py3-none-any.whl", hash = "sha256:f933e82fe48b9a421e4252249f6c0a9a9940dc555642b4729f3f1f526bb16779"},
-    {file = "nbconvert-7.2.6.tar.gz", hash = "sha256:c9c0e4b26326f7658ebf4cda0acc591b9727c4e3ee3ede962f70c11833b71b40"},
+    {file = "nbconvert-7.2.7-py3-none-any.whl", hash = "sha256:e057f1f87a6ac50629b724d9a46b40e2ba394d6f20ee7f33f4acef1928a15af3"},
+    {file = "nbconvert-7.2.7.tar.gz", hash = "sha256:8b727b0503bf4e0ff3907c8bea030d3fc4015fbee8669ac6ac2a5a6668b49d5e"},
 ]
 nbformat = [
-    {file = "nbformat-5.7.0-py3-none-any.whl", hash = "sha256:1b05ec2c552c2f1adc745f4eddce1eac8ca9ffd59bb9fd859e827eaa031319f9"},
-    {file = "nbformat-5.7.0.tar.gz", hash = "sha256:1d4760c15c1a04269ef5caf375be8b98dd2f696e5eb9e603ec2bf091f9b0d3f3"},
+    {file = "nbformat-5.7.1-py3-none-any.whl", hash = "sha256:e52ab802ce7f7a2863861e914642f021b9d7c23ad9726d14c36df92a79acd754"},
+    {file = "nbformat-5.7.1.tar.gz", hash = "sha256:3810a0130453ed031970521d20989b8a592f3c2e73283a8280ae34ae1f75b3f8"},
 ]
 nbsphinx = [
     {file = "nbsphinx-0.8.10-py3-none-any.whl", hash = "sha256:6076fba58020420927899362579f12779a43091eb238f414519ec25b4a8cfc96"},
@@ -4792,8 +4790,8 @@ tqdm = [
     {file = "tqdm-4.64.1.tar.gz", hash = "sha256:5f4f682a004951c1b450bc753c710e9280c5746ce6ffedee253ddbcbf54cf1e4"},
 ]
 traitlets = [
-    {file = "traitlets-5.7.1-py3-none-any.whl", hash = "sha256:57ba2ba951632eeab9388fa45f342a5402060a5cc9f0bb942f760fafb6641581"},
-    {file = "traitlets-5.7.1.tar.gz", hash = "sha256:fde8f62c05204ead43c2c1b9389cfc85befa7f54acb5da28529d671175bb4108"},
+    {file = "traitlets-5.8.0-py3-none-any.whl", hash = "sha256:c864831efa0ba6576d09b44884b34e41defc18c0d7e720b4a2d6698c842cab3e"},
+    {file = "traitlets-5.8.0.tar.gz", hash = "sha256:6cc57d6dc28c85d5365961726ffd19b538739347749e13ebe34e03323a0e8f84"},
 ]
 trove-classifiers = [
     {file = "trove-classifiers-2022.12.1.tar.gz", hash = "sha256:8eccd9c075038ef2ec73276e2422d0dbf4d632f9133f029632d0df35374caf77"},

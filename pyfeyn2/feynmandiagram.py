@@ -202,7 +202,7 @@ class CSSSheetConverter(Converter):
 
     @staticmethod
     def serialize(value: CSSSheet, **kwargs) -> str:
-        return value.cssText.replace("\n", " ")
+        return value.cssText.replace(b"\n", b" ")
 
 
 converter.register_converter(CSSString, CSSStringConverter())
