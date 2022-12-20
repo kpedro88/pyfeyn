@@ -1,5 +1,3 @@
-import copy
-
 import dot2tex
 
 REPLACE_THIS_WITH_A_BACKSLASH = "¬"

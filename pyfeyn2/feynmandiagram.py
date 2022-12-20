@@ -379,7 +379,7 @@ class Propagator(Line, Connector):
 @dataclass
 class Label(Point, Texted, Identifiable):
     @deprecated(version="2.0.7.1", reason="Use a orphaned Vertex with Label.")
-    def __init__(*args, **kwargs):
+    def __init__(self, *args, **kwargs):
         pass
 
 
