@@ -142,7 +142,7 @@ class Texted:
     )
     """Text the object"""
 
-    @deprecated(version="2.0.7.1", reason='Use label=""')
+    # @deprecated(version="2.0.7.1", reason='Use label=""')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_text(self, *args, **kwargs):
         return self.with_text(*args, **kwargs)
@@ -328,12 +328,12 @@ class Connector(Labeled, Bending, Styled, PDG):
     def set_momentum(self, *args, **kwargs):
         return self.with_momentum(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason='Use style="tension=".')
+    # @deprecated(version="2.0.7.1", reason='Use style="tension=".')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_tension(self, *args, **kwargs):
         return self.with_tension(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason='Use style="tension=".')
+    # @deprecated(version="2.0.7.1", reason='Use style="tension=".')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_length(self, *args, **kwargs):
         return self.with_length(*args, **kwargs)
@@ -377,11 +377,12 @@ class Propagator(Line, Connector):
     pass
 
 
-@deprecated(version="2.0.7.1", reason="Use a orphaned Vertex with Label.")
 @withify()
 @dataclass
 class Label(Point, Texted, Identifiable):
-    pass
+    @deprecated(version="2.0.7.1", reason="Use a orphaned Vertex with Label.")
+    def __init__(*args, **kwargs):
+        pass
 
 
 @withify()
@@ -390,9 +391,10 @@ class FeynmanDiagram:
     class Meta:
         name = "diagram"
 
-    default_style: Optional[bool] = field(
-        default=True, metadata={"xml_attribute": True, "type": "Attribute"}
-    )
+    # default_style: Optional[bool] = field(
+    #    default=True,
+    #    metadata={"name": "default_style", "xml_attribute": True, "type": "Attribute"},
+    # )
 
     propagators: List[Propagator] = field(
         default_factory=list,

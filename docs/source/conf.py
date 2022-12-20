@@ -118,19 +118,19 @@ for n, r in renders.items():
     for s in styles:
         rst_epilog += (
             f".. |{n}.style.{s}| replace:: "
-            + ("|check|" if r().valid_style(s) else "|uncheck|")
+            + ("|check|" if r.valid_style(s) else "|uncheck|")
             + "\n\n"
         )
     for s in types:
         rst_epilog += (
             f".. |{n}.type.{s}| replace:: "
-            + ("|check|" if r().valid_type(s) else "|uncheck|")
+            + ("|check|" if r.valid_type(s) else "|uncheck|")
             + "\n\n"
         )
     for s in attributes:
         rst_epilog += (
             f".. |{n}.attribute.{s}| replace:: "
-            + ("|check|" if r().valid_attribute(s) else "|uncheck|")
+            + ("|check|" if r.valid_attribute(s) else "|uncheck|")
             + "\n\n"
         )
 
