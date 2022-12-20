@@ -435,13 +435,13 @@ class FeynmanDiagram:
                 raise Exception("Unknown type: " + str(type(a)) + " " + str(a))
         return self
 
-    def get_vertex(self, id):
+    def get_vertex(self, idd):
         for v in self.vertices:
-            if v.id == id:
+            if v.id == idd:
                 return v
-        for l in self.legs:
-            if l.id == id:
-                return l
+        for leg in self.legs:
+            if leg.id == idd:
+                return leg
         return None
 
     def get_connections(self, vertex):
@@ -449,7 +449,7 @@ class FeynmanDiagram:
             p
             for p in self.propagators
             if p.source == vertex.id or p.target == vertex.id
-        ] + [l for l in self.legs if l.target == vertex.id]
+        ] + [leg for leg in self.legs if leg.target == vertex.id]
 
     def remove_propagator(self, propagator):
         self.propagators.remove(propagator)

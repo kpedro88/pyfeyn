@@ -24,7 +24,7 @@ def auto_bend(ifd):
                         pb.style.setProperty("bend-direction", "left")
         elif duplications[i] == 3:
             for j, pb in enumerate(objs):
-                for k, pc in enumerate(objs):
+                for k, _ in enumerate(objs):
                     # pc is the third propagator we keep it straight
                     if i < j and j < k:
                         if pa.target == pb.target and pa.source == pb.source:

@@ -3,8 +3,8 @@ from pyhepmc import GenEvent
 from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
 
 
-def _vertex_id_wrap(id):
-    return "Vertex" + str(id).replace("-", "m")
+def _vertex_id_wrap(idd):
+    return "Vertex" + str(idd).replace("-", "m")
 
 
 def event_to_feynman(event: GenEvent):

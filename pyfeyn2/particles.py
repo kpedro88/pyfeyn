@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 from particle import PDGID, Particle
 from particle.converters.bimap import DirectionalMaps
 
