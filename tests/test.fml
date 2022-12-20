@@ -7,9 +7,6 @@
    </description>
  </head>
  <diagram legs="4">
-   <label  text="Drell-Yan QCD vertex correction" x="0" y="2">
-      <id>L0</id>
-   </label>
    <vertex id="V0" x="-2.0" y="0.0">
       <id>V0</id>
       </vertex>
