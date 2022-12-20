@@ -78,8 +78,8 @@ class AllRender(LatexRender):
             dynarg = {"show": False}
 
         with self.create(Figure(position="h!")):
-            for i, name in enumerate(pyfeyn2.renders):
-                render = pyfeyn2.renders[name]
+            for i, name in enumerate(renders):
+                render = renders[name]
                 if name == "all":
                     continue
                 try:
