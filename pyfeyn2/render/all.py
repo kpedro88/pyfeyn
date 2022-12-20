@@ -6,7 +6,6 @@ from typing import List
 from matplotlib import pyplot as plt
 from pylatex import Figure, NoEscape, SubFigure
 
-import pyfeyn2
 from pyfeyn2.feynmandiagram import FeynmanDiagram
 from pyfeyn2.render.latex.dot import DotRender
 from pyfeyn2.render.latex.feynmp import FeynmpRender

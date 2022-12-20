@@ -1,7 +1,5 @@
-import copy
 from typing import List
 
-import dot2tex
 from pylatex import Command
 from pylatex.utils import NoEscape
 

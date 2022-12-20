@@ -7,12 +7,8 @@ import cssutils
 from particle import Particle
 from xsdata.formats.converter import Converter, converter
 
-from pyfeyn2.particles import get_either_particle, get_name
+from pyfeyn2.particles import get_either_particle
 from pyfeyn2.types import get_default_sheet
-
-# from deprecated.sphinx import deprecated
-# from deprecation import deprecated as _deprecated
-# deprecated = lambda version,reason: _deprecated(deprecated_in=version,details=reason)
 from pyfeyn2.util import deprecated, withify
 
 # We don't want to see the cssutils warnings, since we have custom properties
@@ -606,8 +602,8 @@ class FeynML:
         metadata={"name": "diagram", "type": "Element", "namespace": ""},
     )
 
-    def get_diagram(self, id):
+    def get_diagram(self, idd):
         for d in self.diagrams:
-            if d.id == id:
+            if d.id == idd:
                 return d
         return None

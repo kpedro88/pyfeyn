@@ -1,5 +1,4 @@
-import pyhepmc
-from pyhepmc import GenEvent, GenParticle, GenVertex
+from pyhepmc import GenEvent
 
 from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
 
@@ -8,7 +7,7 @@ def _vertex_id_wrap(id):
     return "Vertex" + str(id).replace("-", "m")
 
 
-def event_to_feynman(event):
+def event_to_feynman(event: GenEvent):
     fd = FeynmanDiagram()
     for v in event.vertices:
         v = Vertex(id=_vertex_id_wrap(v.id))

@@ -1,5 +1,3 @@
-from importlib.metadata import version as _version
-
 from deprecation import deprecated as _deprecated
 
 

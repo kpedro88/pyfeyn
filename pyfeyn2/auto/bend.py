@@ -1,6 +1,3 @@
-import copy
-
-
 # TODO bend legs?
 def auto_bend(ifd):
     """Automatically bend lines to avoid overlaps."""
@@ -20,14 +17,10 @@ def auto_bend(ifd):
             for j, pb in enumerate(objs):
                 if i < j:
                     if pa.target == pb.target and pa.source == pb.source:
-                        pa.bend = True
                         pa.style.setProperty("bend-direction", "right")
-                        pb.bend = True
                         pb.style.setProperty("bend-direction", "left")
                     if pa.target == pb.source and pa.source == pb.target:
-                        pa.bend = True
                         pa.style.setProperty("bend-direction", "left")
-                        pb.bend = True
                         pb.style.setProperty("bend-direction", "left")
         elif duplications[i] == 3:
             for j, pb in enumerate(objs):
@@ -35,14 +28,10 @@ def auto_bend(ifd):
                     # pc is the third propagator we keep it straight
                     if i < j and j < k:
                         if pa.target == pb.target and pa.source == pb.source:
-                            pa.bend = True
                             pa.style.setProperty("bend-direction", "right")
-                            pb.bend = True
                             pb.style.setProperty("bend-direction", "left")
                         if pa.target == pb.source and pa.source == pb.target:
-                            pa.bend = True
                             pa.style.setProperty("bend-direction", "left")
-                            pb.bend = True
                             pb.style.setProperty("bend-direction", "left")
 
         else:
@@ -67,16 +56,16 @@ def auto_bend(ifd):
                 sumrefx += r.x - me.x
                 sumrefy += r.y - me.y
 
-            dir = "up"
+            dire = "up"
             if sumrefy > 0:
-                dir = "down"
+                dire = "down"
             else:
-                dir = "up"
+                dire = "up"
 
-            if dir == "up":
+            if dire == "up":
                 b_in = 45
                 b_out = 135
-            if dir == "down":
+            if dire == "down":
                 b_in = -45
                 b_out = -135
             p.style.setProperty("bend-in", b_in)

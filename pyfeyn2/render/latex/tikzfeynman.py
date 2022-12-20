@@ -55,18 +55,17 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector):
         ret += ",opacity=" + str(style.opacity)
     if style.color is not None and style.color != "":
         ret += "," + str(style.color)
-    if c.bend is not None and c.bend:
-        if style.getProperty("bend-direction") is not None:
-            ret += ",bend " + str(style.getProperty("bend-direction").value)
-        if style.getProperty("bend-loop") is not None:
-            ret += (
-                ",loop , in="
-                + str(style.getProperty("bend-in").value)
-                + ", out="
-                + str(style.getProperty("bend-out").value)
-                + ", min distance="
-                + str(style.getProperty("bend-min-distance").value)
-            )
+    if style.getProperty("bend-direction") is not None:
+        ret += ",bend " + str(style.getProperty("bend-direction").value)
+    if style.getProperty("bend-loop") is not None:
+        ret += (
+            ",loop , in="
+            + str(style.getProperty("bend-in").value)
+            + ", out="
+            + str(style.getProperty("bend-out").value)
+            + ", min distance="
+            + str(style.getProperty("bend-min-distance").value)
+        )
 
     return ret
 

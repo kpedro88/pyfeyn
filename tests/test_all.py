@@ -1,6 +1,5 @@
 from matplotlib import pyplot as plt
 
-import pyfeyn2
 from pyfeyn2.render.all import AllRender
 
 
