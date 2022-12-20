@@ -29,8 +29,10 @@ global_id = 0
 @withify()
 @dataclass
 class Identifiable:
-    id: Optional[str] = field(default=None, metadata={"name": "id", "namespace": ""})
-    id2: Optional[str] = field(default=None, metadata={"name": "id2", "namespace": ""})
+    id: Optional[str] = field(
+        default=None, metadata={"name": "id", "namespace": "", "type": "Element"}
+    )
+    # id2: Optional[str] = field(default=None, metadata={"name": "id2", "namespace": ""})
 
     def __post_init__(self):
         global global_id
@@ -43,9 +45,9 @@ class Identifiable:
 @withify()
 @dataclass
 class PDG(Identifiable):
-    pdgid: Optional[int] = field(default=None, metadata={})
+    pdgid: Optional[int] = field(default=None, metadata={"type": "Element"})
     """PDG ID of the particle"""
-    name: Optional[str] = field(default=None, metadata={})
+    name: Optional[str] = field(default=None, metadata={"type": "Element"})
     """Name of the particle"""
     type: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
@@ -142,7 +144,7 @@ class Texted:
     )
     """Text the object"""
 
-    # @deprecated(version="2.0.7.1", reason='Use label=""')
+    @deprecated(version="2.0.7.1", reason='Use label=""')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_text(self, *args, **kwargs):
         return self.with_text(*args, **kwargs)
@@ -328,12 +330,12 @@ class Connector(Labeled, Bending, Styled, PDG):
     def set_momentum(self, *args, **kwargs):
         return self.with_momentum(*args, **kwargs)
 
-    # @deprecated(version="2.0.7.1", reason='Use style="tension=".')
+    @deprecated(version="2.0.7.1", reason='Use style="tension=".')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_tension(self, *args, **kwargs):
         return self.with_tension(*args, **kwargs)
 
-    # @deprecated(version="2.0.7.1", reason='Use style="tension=".')
+    @deprecated(version="2.0.7.1", reason='Use style="tension=".')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_length(self, *args, **kwargs):
         return self.with_length(*args, **kwargs)
@@ -391,10 +393,10 @@ class FeynmanDiagram:
     class Meta:
         name = "diagram"
 
-    # default_style: Optional[bool] = field(
-    #    default=True,
-    #    metadata={"name": "default_style", "xml_attribute": True, "type": "Attribute"},
-    # )
+    default_style: Optional[bool] = field(
+        default=True,
+        metadata={"name": "default_style", "xml_attribute": True, "type": "Attribute"},
+    )
 
     propagators: List[Propagator] = field(
         default_factory=list,
