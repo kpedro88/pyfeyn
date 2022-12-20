@@ -56,19 +56,17 @@ To style the diagram, the following CSS classes are available:
 .. code-block:: css
 
    /* General */
-   * { ... }               /* all elements */
-   #`id` { ... }             /* the diagram with id */
+   * { ... }                              /* all elements */
+   #`id` { ... }                          /* the element with id */
 
-   /* Diagram */
-   vertex { ... }         /* all vertices */
-   propagator { ... }     /* all propagators */
-   leg { ... }            /* all legs */
+   /* diagram */
+   vertex { ... }                         /* all vertices */
+   propagator { ... }                     /* all propagators */
+   leg { ... }                            /* all legs */
 
-   /* type class */
-   .`type` { ... }           /* everything of given type */
-
-   /* PDGID class */
-   .pdgid`pdgid`{ ... }           /* all pdg particles of given id*/
+   /* attributes */
+   [type=`type`] { ... }                  /* everything of given type */
+   [pdgid="`pdgid`"] { ... }              /* all pdg particles of given id*/
 
 Variables in single quotes are replaced by the actual value.
 The available css declarations are listed in the :ref:`style`.
@@ -79,7 +77,10 @@ These or above classes can also be applied to a subset of the diagram e.g.
 
 .. code-block:: css
 
-   propagator.pdgid-24 { ... } /* all W- bosons */
+   propagator:not([pdgid="-24"]) { ... }  /* all propagators except W- bosons */
+
+The groupings of CSS are often more practical than looping through the elements in the diagram adjusting their style.
+For more advanced CSS selectors see https://www.w3schools.com/cssref/css_selectors.php.
 
 
 Examples

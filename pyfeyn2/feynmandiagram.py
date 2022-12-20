@@ -534,8 +534,6 @@ class FeynmanDiagram:
         for sheet in sheets:
             id = []
             cls = []
-            op = []
-            attr = []
             rest = []
             glob = []
             for rule in sheet:
@@ -544,17 +542,17 @@ class FeynmanDiagram:
                     if lambdaselector(s):
                         if s.startswith("#"):
                             id.append(rule)
-                        if s.startswith("."):
-                            cls.append(rule)
-                        if s.startswith(":"):
-                            op.append(rule)
-                        if s.startswith("["):
-                            attr.append(rule)
-                        if s.startswith("*"):
+                        elif s.startswith("["):
+                            rest.append(rule)
+                        elif s.startswith(":"):
+                            rest.append(rule)
+                        elif s.startswith("*"):
                             glob.append(rule)
+                        elif s.contains("."):
+                            cls.append(rule)
                         else:
                             rest.append(rule)
-            ret += reversed(id + cls + op + attr + rest + glob)
+            ret += reversed(id + cls + rest + glob)
         # sort rules by priority
         return cssutils.css.CSSStyleDeclaration(
             cssText=";".join([r.style.cssText for r in ret])
