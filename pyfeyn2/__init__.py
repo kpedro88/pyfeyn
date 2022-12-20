@@ -24,13 +24,7 @@ renders = {
     "ascii": ASCIIPDFRender,
     "unicode": UnicodePDFRender,
 }
-styles = [
-    "color",
-    "opacity",
-    "arrow-pos",
-    "parallel-arrow-sense",
-    "parallel-arrow-displace",
-]
+
 types = [
     # General
     "fermion",
@@ -59,12 +53,22 @@ types = [
 attributes = [
     "x",
     "y",
-    # "bend",
     "label",
-    "pdgid",
     "style",
     "type",
-    "text",
-    "momentum",
+]
+styles = [
+    "color",
+    "opacity",
+    "arrow-pos",
+    "parallel-arrow-sense",
+    "parallel-arrow-displace",
+    "bend",
+    "bend-direction",
+    "bend-in",
+    "bend-out",
+    "bend-loop",
+    "bend-min-distance",
     "tension",
+    "length",
 ]

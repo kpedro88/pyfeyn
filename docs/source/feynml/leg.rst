@@ -1,7 +1,16 @@
 .. _leg:
+
 Leg 
 ===
 
+
+.. code-block:: xml
+
+	<leg>
+		<id>leg0</id>
+		<target>vertex0</target>
+		<sense>in</sense>
+	</leg>
 
 Required elements: 
 
@@ -19,4 +28,6 @@ Optional elements:
    :glob:
    :maxdepth: 3
 
+   pdgid.rst
    name.rst
+   momentum.rst

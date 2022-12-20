@@ -150,6 +150,7 @@ for s in styles:
     )
 
 type_tab = {":ref:`type`": [v for v in renders.keys()]}
+original = copy.copy(type_tab)
 for s in types:
     arr = []
     for n, r in renders.items():
@@ -161,6 +162,7 @@ for s in types:
     # )
 
 attr_tab = {":ref:`attributes`": [v for v in renders.keys()]}
+original = copy.copy(attr_tab)
 for s in attributes:
     arr = []
     for n, r in renders.items():

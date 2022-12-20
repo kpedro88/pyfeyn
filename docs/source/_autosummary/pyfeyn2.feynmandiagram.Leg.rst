@@ -1,4 +1,4 @@
-﻿pyfeyn2.feynmandiagram.Leg
+pyfeyn2.feynmandiagram.Leg
 ==========================
 
 .. currentmodule:: pyfeyn2.feynmandiagram

@@ -1,6 +1,15 @@
 .. _propagator:
+
 Propagator
 ====================
+
+.. code-block:: xml
+
+	<propagator>
+		<id>prop0</id>
+		<source>vertex0</source>
+		<target>vertex_1</target>
+	</propagator>
 
 Required elements:
 
@@ -18,4 +27,6 @@ Optional elements:
    :glob:
    :maxdepth: 3
 
+   pdgid.rst
    name.rst
+   momentum.rst

@@ -146,10 +146,19 @@ class TikzFeynmanRender(LatexRender):
         self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
 
     @staticmethod
-    def valid_styles(style: str) -> bool:
-        return super(TikzFeynmanRender, TikzFeynmanRender).valid_styles(
+    def valid_style(style: str) -> bool:
+        return super(TikzFeynmanRender, TikzFeynmanRender).valid_style(
             style
-        ) or style in ["color", "opacity", "bend-direction","bend-in","bend-out","bend-loop","bend-min-distance"]
+        ) or style in [
+            "color",
+            "opacity",
+            "bend",
+            "bend-direction",
+            "bend-in",
+            "bend-out",
+            "bend-loop",
+            "bend-min-distance",
+        ]
 
     @staticmethod
     def valid_attribute(attr: str) -> bool:

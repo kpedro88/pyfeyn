@@ -1,4 +1,4 @@
-﻿pyfeyn2.feynmandiagram.Bending
+pyfeyn2.feynmandiagram.Bending
 ==============================
 
 .. currentmodule:: pyfeyn2.feynmandiagram

@@ -1,4 +1,4 @@
-﻿pyfeyn2.feynmandiagram.Connector
+pyfeyn2.feynmandiagram.Connector
 ================================
 
 .. currentmodule:: pyfeyn2.feynmandiagram

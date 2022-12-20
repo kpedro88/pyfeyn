@@ -141,6 +141,7 @@ class Texted:
     )
     """Text the object"""
 
+    @deprecated(version="2.0.7.1", reason='Use label=""')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_text(self, *args, **kwargs):
         return self.with_text(*args, **kwargs)
@@ -326,10 +327,12 @@ class Connector(Labeled, Bending, Styled, PDG):
     def set_momentum(self, *args, **kwargs):
         return self.with_momentum(*args, **kwargs)
 
+    @deprecated(version="2.0.7.1", reason='Use style="tension=".')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_tension(self, *args, **kwargs):
         return self.with_tension(*args, **kwargs)
 
+    @deprecated(version="2.0.7.1", reason='Use style="tension=".')
     @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_length(self, *args, **kwargs):
         return self.with_length(*args, **kwargs)

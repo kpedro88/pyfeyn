@@ -1,4 +1,4 @@
-﻿pyfeyn2.feynmandiagram.Propagator
+pyfeyn2.feynmandiagram.Propagator
 =================================
 
 .. currentmodule:: pyfeyn2.feynmandiagram

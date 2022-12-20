@@ -1,10 +1,10 @@
 .. _tension:
 
-Tension
+tension
 ===========
 | Format: String
 | Elements: :ref:`leg`, :ref:`propagator`
 
 The tension is used to automatically calculate the position of the vertices.
 
-.. include:: ../../shared/attribute/tension.rst
+.. include:: ../../../shared/style/tension.rst
