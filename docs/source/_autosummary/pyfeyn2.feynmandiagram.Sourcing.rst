@@ -17,7 +17,7 @@ pyfeyn2.feynmandiagram.Sourcing
    .. autosummary::
    
       ~Sourcing.__init__
-      ~Sourcing.with_source
+      ~Sourcing.set_source
       ~Sourcing.with_source
    
    

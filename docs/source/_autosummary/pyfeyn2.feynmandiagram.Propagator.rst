@@ -25,14 +25,13 @@ pyfeyn2.feynmandiagram.Propagator
       ~Propagator.set_momentum
       ~Propagator.set_name
       ~Propagator.set_pdgig
-      ~Propagator.with_source
-      ~Propagator.with_target
+      ~Propagator.set_source
+      ~Propagator.set_target
       ~Propagator.set_tension
-      ~Propagator.with_type
+      ~Propagator.set_type
       ~Propagator.with_bend
       ~Propagator.with_class
       ~Propagator.with_id
-      ~Propagator.with_id2
       ~Propagator.with_label
       ~Propagator.with_length
       ~Propagator.with_momentum
@@ -56,7 +55,6 @@ pyfeyn2.feynmandiagram.Propagator
       ~Propagator.bend
       ~Propagator.clazz
       ~Propagator.id
-      ~Propagator.id2
       ~Propagator.label
       ~Propagator.length
       ~Propagator.momentum

@@ -27,6 +27,7 @@ pyfeyn2.feynmandiagram
       FeynmanDiagram
       Head
       Identifiable
+      Label
       Labeled
       Leg
       Line

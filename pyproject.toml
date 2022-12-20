@@ -26,6 +26,7 @@ graphviz = "*"
 ipyparallel = "*"
 deprecated = "*"
 deprecation = "*"
+cssselect ="*"
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"

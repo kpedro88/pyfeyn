@@ -21,11 +21,10 @@ pyfeyn2.feynmandiagram.Vertex
       ~Vertex.raw_style
       ~Vertex.set_label
       ~Vertex.set_point
-      ~Vertex.with_xy
-      ~Vertex.with_xyz
+      ~Vertex.set_xy
+      ~Vertex.set_xyz
       ~Vertex.with_class
       ~Vertex.with_id
-      ~Vertex.with_id2
       ~Vertex.with_label
       ~Vertex.with_point
       ~Vertex.with_style
@@ -42,7 +41,6 @@ pyfeyn2.feynmandiagram.Vertex
    
       ~Vertex.clazz
       ~Vertex.id
-      ~Vertex.id2
       ~Vertex.label
       ~Vertex.x
       ~Vertex.y

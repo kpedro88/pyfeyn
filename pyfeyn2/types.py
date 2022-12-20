@@ -8,61 +8,61 @@ cssutils.log.setLevel(logging.CRITICAL)
 default_sheet = cssutils.parseString(
     """
         /* General */
-        .fermion {
+        [type=fermion] {
             line: fermion;
         }
-        .boson {
+        [type=boson] {
             line: boson;
         }
-        .vector {
+        [type=vector] {
             line: vector;
         }
-        .scalar {
+        [type=scalar] {
             line: scalar;
         }
         /* SM */
-        .photon {
+        [type=photon] {
             line: photon;
         }
-        .higgs {
+        [type=higgs] {
             line: higgs;
         }
-        .gluon {
+        [type=gluon] {
             line: gluon;
         }
-        .ghost {
+        [type=ghost] {
             line: ghost;
         }
         /* BSM */
-        .graviton {
+        [type=graviton] {
             line: graviton;
         }
-        .gluino {
+        [type=gluino] {
             line: gluino;
         }
-        .squark {
+        [type=squark]  {
             line: squark;
         }
-        .slepton {
+        [type=slepton] {
             line: slepton;
         }
-        .gaugino {
+        [type=gaugino] {
             line: gaugino;
         }
-        .neutralino {
+        [type=neutralino] {
             line: neutralino;
         }
-        .chargino {
+        [type=chargino] {
             line: chargino;
         }
-        .higgsino {
+        [type=higgsino] {
             line: higgsino;
         }
-        .gravitino {
+        [type=gravitino] {
             line: gravitino;
         }
         /* util */
-        .phantom {
+        [type=phantom] {
             line: phantom;
         }
         """

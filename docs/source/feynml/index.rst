@@ -49,6 +49,39 @@ Above buildings blocks come with different attributes, which are described in th
 
 The attributes provide additional information and metadata about the elements.
 
+CSS
+~~~~~~~
+To style the diagram, the following CSS classes are available:
+
+.. code-block:: css
+
+   /* General */
+   * { ... }               /* all elements */
+   #`id` { ... }             /* the diagram with id */
+
+   /* Diagram */
+   vertex { ... }         /* all vertices */
+   propagator { ... }     /* all propagators */
+   leg { ... }            /* all legs */
+
+   /* type class */
+   .`type` { ... }           /* everything of given type */
+
+   /* PDGID class */
+   .pdgid`pdgid`{ ... }           /* all pdg particles of given id*/
+
+Variables in single quotes are replaced by the actual value.
+The available css declarations are listed in the :ref:`style`.
+For a list of types see :ref:`type`.
+
+With the :ref:`class` attribute, the user can add custom classes to the elements.
+These or above classes can also be applied to a subset of the diagram e.g. 
+
+.. code-block:: css
+
+   propagator.pdgid-24 { ... } /* all W- bosons */
+
+
 Examples
 ~~~~~~~~~~
 
@@ -57,3 +90,5 @@ Examples
    :maxdepth: 3
 
    FeynML.ipynb
+
+More examples can be found in the :ref:`gallery` and the different renderers are listed in :ref:`renderers`.

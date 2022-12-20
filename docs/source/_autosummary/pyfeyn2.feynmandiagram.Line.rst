@@ -18,8 +18,8 @@ pyfeyn2.feynmandiagram.Line
    
       ~Line.__init__
       ~Line.connect
-      ~Line.with_source
-      ~Line.with_target
+      ~Line.set_source
+      ~Line.set_target
       ~Line.with_source
       ~Line.with_target
    

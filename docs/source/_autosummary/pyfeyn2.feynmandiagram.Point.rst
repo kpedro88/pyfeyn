@@ -18,8 +18,8 @@ pyfeyn2.feynmandiagram.Point
    
       ~Point.__init__
       ~Point.set_point
-      ~Point.with_xy
-      ~Point.with_xyz
+      ~Point.set_xy
+      ~Point.set_xyz
       ~Point.with_point
       ~Point.with_xy
       ~Point.with_xyz

@@ -4,8 +4,13 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Union
 
 import cssutils
+from cssselect import GenericTranslator, SelectorError
+from lxml import etree
 from particle import Particle
 from xsdata.formats.converter import Converter, converter
+from xsdata.formats.dataclass.parsers import XmlParser
+from xsdata.formats.dataclass.serializers import XmlSerializer
+from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
 from pyfeyn2.particles import get_either_particle
 from pyfeyn2.types import get_default_sheet
@@ -26,7 +31,7 @@ global_id = 0
 @dataclass
 class Identifiable:
     id: Optional[str] = field(
-        default=None, metadata={"name": "id", "namespace": "", "type": "Element"}
+        default=None, metadata={"name": "id", "namespace": "", "type": "Attribute"}
     )
     # id2: Optional[str] = field(default=None, metadata={"name": "id2", "namespace": ""})
 
@@ -41,7 +46,9 @@ class Identifiable:
 @withify()
 @dataclass
 class PDG(Identifiable):
-    pdgid: Optional[int] = field(default=None, metadata={"type": "Element"})
+    pdgid: Optional[int] = field(
+        default=None, metadata={"name": "pdgid", "namespace": "", "type": "Attribute"}
+    )
     """PDG ID of the particle"""
     name: Optional[str] = field(default=None, metadata={"type": "Element"})
     """Name of the particle"""
@@ -68,7 +75,7 @@ class PDG(Identifiable):
             )
             if self.particle is None:
                 raise ValueError(f"Particle {self.name} not found")
-            self.pdgid = self.particle.pdgid
+            self.pdgid = int(self.particle.pdgid)
 
         if self.pdgid is not None and self.type is None:
             # TODO infere type from pdgid
@@ -489,49 +496,6 @@ class FeynmanDiagram:
         self.sheet = cssutils.parseString(rules)
         return self
 
-    def _get_rule_style(self, selectorText: str) -> cssutils.css.CSSStyleDeclaration:
-        ret = []
-        if self.default_style:
-            sheets = [get_default_sheet(), self.sheet]
-        else:
-            sheets = [self.sheet]
-        for sheet in sheets:
-            for rule in sheet:
-                if rule.type == rule.STYLE_RULE and rule.selectorText == selectorText:
-                    ret += [rule.style]
-        if ret:
-            return cssutils.css.CSSStyleDeclaration(
-                cssText=";".join([r.cssText for r in ret])
-            )
-        else:
-            return cssutils.css.CSSStyleDeclaration()
-
-    def _get_class_style(self, obj: Styled) -> cssutils.css.CSSStyleDeclaration:
-        css = []
-        css += [self._get_rule_style(type(obj).__name__.lower())]
-        clazzes = []
-        # pdgid is a special case of a class
-        if isinstance(obj, PDG):
-            if obj.pdgid:
-                clazzes += ["pdgid" + str(int(obj.pdgid))]
-            if obj.type:
-                clazzes += [obj.type]
-        if obj.clazz:
-            clazzes += obj.clazz.split()
-
-        # first pure classes
-        for clazz in clazzes:
-            # css class
-            css += [self._get_rule_style("." + clazz)]
-        # then element + class
-        for clazz in clazzes:
-            # css element + class
-            css += [self._get_rule_style(type(obj).__name__.lower() + "." + clazz)]
-
-        return cssutils.css.CSSStyleDeclaration(
-            cssText=";".join([c.cssText for c in css])
-        )
-
     def get_style(self, obj) -> cssutils.css.CSSStyleDeclaration:
         """Get the style of an object.
 
@@ -540,21 +504,73 @@ class FeynmanDiagram:
         # selectorText is string
         css = []
         # global style
-        css += [self._get_rule_style("*")]
+        css += [self._get_obj_style(obj)]
         if isinstance(obj, str):
             css += [self._get_rule_style(obj)]
-        if isinstance(obj, Styled):
-            # css class
-            css += [self._get_class_style(obj)]
-        if isinstance(obj, Identifiable):
-            # css id
-            css += [self._get_rule_style("#" + obj.id)]
         if isinstance(obj, Styled):
             # specific attribute style
             css += [obj.style]
         return cssutils.css.CSSStyleDeclaration(
             cssText=";".join([c.cssText for c in css])
         )
+
+    def _get_obj_style(self, obj: Identifiable) -> cssutils.css.CSSStyleDeclaration:
+        document = etree.XML(self.to_xml().encode("ascii"))
+
+        def lambdaselector(s, obj=obj, document=document):
+            expression = GenericTranslator().css_to_xpath(s)
+            return obj.id in [e.get("id") for e in document.xpath(expression)]
+
+        return self._get_style(lambdaselector)
+
+    def _get_style(self, lambdaselector) -> cssutils.css.CSSStyleDeclaration:
+
+        ret = []
+
+        if self.default_style:
+            sheets = [get_default_sheet(), self.sheet]
+        else:
+            sheets = [self.sheet]
+        for sheet in sheets:
+            id = []
+            cls = []
+            op = []
+            attr = []
+            rest = []
+            glob = []
+            for rule in sheet:
+                if rule.type == rule.STYLE_RULE:
+                    s = rule.selectorText
+                    if lambdaselector(s):
+                        if s.startswith("#"):
+                            id.append(rule)
+                        if s.startswith("."):
+                            cls.append(rule)
+                        if s.startswith(":"):
+                            op.append(rule)
+                        if s.startswith("["):
+                            attr.append(rule)
+                        if s.startswith("*"):
+                            glob.append(rule)
+                        else:
+                            rest.append(rule)
+            ret += reversed(id + cls + op + attr + rest + glob)
+        # sort rules by priority
+        return cssutils.css.CSSStyleDeclaration(
+            cssText=";".join([r.style.cssText for r in ret])
+        )
+
+    def to_xml(self) -> str:
+        """Return self as XML."""
+        config = SerializerConfig(pretty_print=True)
+        serializer = XmlSerializer(config=config)
+        return serializer.render(self)
+
+    @classmethod
+    def from_xml(cls, xml: str):
+        """Load self from XML."""
+        parser = XmlParser()
+        return parser.from_string(xml, cls)
 
 
 @dataclass
@@ -607,3 +623,15 @@ class FeynML:
             if d.id == idd:
                 return d
         return None
+
+    def to_xml(self) -> str:
+        """Return self as XML."""
+        config = SerializerConfig(pretty_print=True)
+        serializer = XmlSerializer(config=config)
+        return serializer.render(self)
+
+    @classmethod
+    def from_xml(cls, xml: str):
+        """Load self from XML."""
+        parser = XmlParser()
+        return parser.from_string(xml, cls)
