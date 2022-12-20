@@ -107,15 +107,15 @@ class PDG(Identifiable):
     #    self._sync()
     #    return self
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_pdgig(self, *args, **kwargs):
         return self.with_pdgid(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_type(self, *args, **kwargs):
         return self.with_type(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_name(self, *args, **kwargs):
         return self.with_name(*args, **kwargs)
 
@@ -128,7 +128,7 @@ class Labeled:
     )
     """Label the object"""
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_label(self, *args, **kwargs):
         return self.with_label(*args, **kwargs)
 
@@ -141,7 +141,7 @@ class Texted:
     )
     """Text the object"""
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_text(self, *args, **kwargs):
         return self.with_text(*args, **kwargs)
 
@@ -177,15 +177,15 @@ class Point:
         self.z = float(z)
         return self
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_point(self, *args, **kwargs):
         return self.with_point(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_xy(self, *args, **kwargs):
         return self.with_xy(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_xyz(self, *args, **kwargs):
         return self.with_xyz(*args, **kwargs)
 
@@ -256,6 +256,11 @@ class Bending:
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
 
+    @deprecated(version="2.0.7.1", reason='Use style="bend : true".')
+    def with_bend(self, bend):
+        self.bend = bend
+        return self
+
 
 @dataclass
 class Targeting:
@@ -269,7 +274,7 @@ class Targeting:
             self.target = target.id
         return self
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_target(self, *args, **kwargs):
         return self.with_target(*args, **kwargs)
 
@@ -286,7 +291,7 @@ class Sourcing:
             self.source = source.id
         return self
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_source(self, *args, **kwargs):
         return self.with_source(*args, **kwargs)
 
@@ -317,15 +322,15 @@ class Connector(Labeled, Bending, Styled, PDG):
     )
     """Length of the connector"""
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_momentum(self, *args, **kwargs):
         return self.with_momentum(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_tension(self, *args, **kwargs):
         return self.with_tension(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_length(self, *args, **kwargs):
         return self.with_length(*args, **kwargs)
 
@@ -349,15 +354,15 @@ class Leg(Point, Targeting, Connector):
         self.sense = "outgoing"
         return self
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_external(self, *args, **kwargs):
         return self.with_external(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_incoming(self, *args, **kwargs):
         return self.with_incoming(*args, **kwargs)
 
-    @deprecated(version="2.0.7.1", reason="Use with_...() instead.")
+    @deprecated(version="2.0.7.1", reason="Use with...().")
     def set_outgoing(self, *args, **kwargs):
         return self.with_outgoing(*args, **kwargs)
 
@@ -368,6 +373,7 @@ class Propagator(Line, Connector):
     pass
 
 
+@deprecated(version="2.0.7.1", reason="Use a orphaned Vertex with Label.")
 @withify()
 @dataclass
 class Label(Point, Texted, Identifiable):

@@ -1,4 +1,4 @@
-pyfeyn2.feynmandiagram.Connector
+﻿pyfeyn2.feynmandiagram.Connector
 ================================
 
 .. currentmodule:: pyfeyn2.feynmandiagram
@@ -26,6 +26,7 @@ pyfeyn2.feynmandiagram.Connector
       ~Connector.set_pdgig
       ~Connector.set_tension
       ~Connector.set_type
+      ~Connector.with_bend
       ~Connector.with_class
       ~Connector.with_id
       ~Connector.with_id2

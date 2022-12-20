@@ -1,4 +1,4 @@
-pyfeyn2.feynmandiagram.Bending
+﻿pyfeyn2.feynmandiagram.Bending
 ==============================
 
 .. currentmodule:: pyfeyn2.feynmandiagram
@@ -17,6 +17,7 @@ pyfeyn2.feynmandiagram.Bending
    .. autosummary::
    
       ~Bending.__init__
+      ~Bending.with_bend
    
    
 

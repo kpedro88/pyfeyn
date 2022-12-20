@@ -1,4 +1,4 @@
-pyfeyn2.feynmandiagram.Leg
+﻿pyfeyn2.feynmandiagram.Leg
 ==========================
 
 .. currentmodule:: pyfeyn2.feynmandiagram
@@ -33,6 +33,7 @@ pyfeyn2.feynmandiagram.Leg
       ~Leg.set_type
       ~Leg.set_xy
       ~Leg.set_xyz
+      ~Leg.with_bend
       ~Leg.with_class
       ~Leg.with_external
       ~Leg.with_id

@@ -1,4 +1,4 @@
-pyfeyn2.feynmandiagram.Propagator
+﻿pyfeyn2.feynmandiagram.Propagator
 =================================
 
 .. currentmodule:: pyfeyn2.feynmandiagram
@@ -29,6 +29,7 @@ pyfeyn2.feynmandiagram.Propagator
       ~Propagator.set_target
       ~Propagator.set_tension
       ~Propagator.set_type
+      ~Propagator.with_bend
       ~Propagator.with_class
       ~Propagator.with_id
       ~Propagator.with_id2

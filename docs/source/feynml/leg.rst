@@ -3,4 +3,20 @@ Leg
 ===
 
 
-Required attributes: :ref:`id`, :ref:`target`, :ref:`sense`
+Required elements: 
+
+.. toctree::
+   :glob:
+   :maxdepth: 3
+
+   id.rst
+   target.rst
+   sense.rst
+
+Optional elements:
+
+.. toctree::
+   :glob:
+   :maxdepth: 3
+
+   name.rst
