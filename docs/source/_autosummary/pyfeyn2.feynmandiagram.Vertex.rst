@@ -21,8 +21,8 @@ pyfeyn2.feynmandiagram.Vertex
       ~Vertex.raw_style
       ~Vertex.set_label
       ~Vertex.set_point
-      ~Vertex.set_xy
-      ~Vertex.set_xyz
+      ~Vertex.with_xy
+      ~Vertex.with_xyz
       ~Vertex.with_class
       ~Vertex.with_id
       ~Vertex.with_id2

@@ -299,7 +299,7 @@ class Sourcing:
 @dataclass
 class Line(Targeting, Sourcing):
     def connect(self, source, target):
-        return self.with_source(source.id).set_target(target.id)
+        return self.with_source(source.id).with_target(target.id)
 
 
 @withify()

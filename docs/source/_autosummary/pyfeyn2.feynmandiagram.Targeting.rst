@@ -17,7 +17,7 @@ pyfeyn2.feynmandiagram.Targeting
    .. autosummary::
    
       ~Targeting.__init__
-      ~Targeting.set_target
+      ~Targeting.with_target
       ~Targeting.with_target
    
    

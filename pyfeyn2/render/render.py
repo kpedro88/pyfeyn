@@ -58,24 +58,24 @@ class Render:
         return attr in cls.valid_attributes()
 
     def demo_propagator(self, d, show=True, label=None):
-        v1 = Vertex().set_xy(-2, -2)
-        v2 = Vertex().set_xy(2, -2)
+        v1 = Vertex().with_xy(-2, -2)
+        v2 = Vertex().with_xy(2, -2)
 
         fd = FeynmanDiagram().add(
             v1,
             v2,
             Propagator().connect(v1, v2).set_type(d).set_label(label).set_tension(0.0),
             Leg()
-            .set_target(v1)
+            .with_target(v1)
             .set_point(v1)
             .set_type("phantom")
-            .set_incoming()
+            .with_incoming()
             .set_length(0.0),
             Leg()
-            .set_target(v2)
+            .with_target(v2)
             .set_point(v2)
             .set_type("phantom")
-            .set_outgoing()
+            .with_outgoing()
             .set_length(0.0),
         )
 
