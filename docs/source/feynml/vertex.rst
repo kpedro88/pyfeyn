@@ -2,6 +2,7 @@
 
 Vertex
 ====================
+| Implementation: :py:class:`pyfeyn2.feynmandiagram.Vertex`
 
 
 .. code-block:: xml

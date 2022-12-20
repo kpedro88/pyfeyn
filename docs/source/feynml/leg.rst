@@ -2,7 +2,7 @@
 
 Leg 
 ===
-
+| Implementation: :py:class:`pyfeyn2.feynmandiagram.Leg`
 
 .. code-block:: xml
 

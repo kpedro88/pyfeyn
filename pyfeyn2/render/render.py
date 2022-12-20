@@ -1,5 +1,7 @@
-from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
 import abc
+from typing import List
+
+from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
 
 
 class Render:
@@ -31,19 +33,29 @@ class Render:
         """
         return
 
-    @staticmethod
-    def valid_style(style: str) -> bool:
-        return False
+    @classmethod
+    def valid_styles(cls) -> List[str]:
+        return []
 
-    @staticmethod
-    def valid_type(typ: str) -> bool:
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return []
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        if attr in ["id", "pdgid", "sense", "target", "source", "type"]:
-            return True
-        return False
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return ["type", "class"]
+
+    @classmethod
+    def valid_type(cls, typ: str) -> bool:
+        return typ in cls.valid_types()
+
+    @classmethod
+    def valid_style(cls, style: str) -> bool:
+        return style in cls.valid_styles()
+
+    @classmethod
+    def valid_attribute(cls, attr: str) -> bool:
+        return attr in cls.valid_attributes()
 
     def demo_propagator(self, d, show=True, label=None):
         v1 = Vertex().set_xy(-2, -2)

@@ -1,3 +1,5 @@
+from typing import List
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -149,12 +151,10 @@ class MPLRender(Render):
         if clean_up:
             plt.close()
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(MPLRender, MPLRender).valid_attribute(attr) or attr in ["x", "y"]
+    @classmethod
+    def valid_attributes(cls) -> bool:
+        return super(MPLRender, cls).valid_attributes() + ["x", "y"]
 
-    @staticmethod
-    def valid_type(typ: str) -> bool:
-        if typ.lower() in namedlines:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(MPLRender, cls).valid_types() + list(namedlines.keys())

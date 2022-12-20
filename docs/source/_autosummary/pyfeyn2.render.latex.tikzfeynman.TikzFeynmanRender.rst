@@ -1,4 +1,4 @@
-﻿pyfeyn2.render.latex.tikzfeynman.TikzFeynmanRender
+pyfeyn2.render.latex.tikzfeynman.TikzFeynmanRender
 ==================================================
 
 .. currentmodule:: pyfeyn2.render.latex.tikzfeynman
@@ -50,8 +50,11 @@
       ~TikzFeynmanRender.set_variable
       ~TikzFeynmanRender.sort
       ~TikzFeynmanRender.valid_attribute
+      ~TikzFeynmanRender.valid_attributes
       ~TikzFeynmanRender.valid_style
+      ~TikzFeynmanRender.valid_styles
       ~TikzFeynmanRender.valid_type
+      ~TikzFeynmanRender.valid_types
    
    
 

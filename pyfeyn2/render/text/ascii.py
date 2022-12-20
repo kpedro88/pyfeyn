@@ -1,3 +1,5 @@
+from typing import List
+
 from pyfeyn2.feynmandiagram import Point
 from pyfeyn2.render.render import Render
 from pyfeyn2.render.text.label import Label
@@ -175,16 +177,16 @@ class ASCIIRender(Render):
     def set_src_txt(self, src_txt):
         self.src_txt = src_txt
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(ASCIIRender, ASCIIRender).valid_attribute(attr) or attr in [
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return super(ASCIIRender, cls).valid_attributes() + [
             "x",
             "y",
             "label",
         ]
 
-    @staticmethod
-    def valid_type(typ: str) -> bool:
-        if typ.lower() in ASCIIRender.namedlines:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(ASCIIRender, cls).valid_types() + list(
+            ASCIIRender.namedlines.keys()
+        )

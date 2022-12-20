@@ -2,6 +2,7 @@
 
 Propagator
 ====================
+| Implementation: :py:class:`pyfeyn2.feynmandiagram.Propagator`
 
 .. code-block:: xml
 

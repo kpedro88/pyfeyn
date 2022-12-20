@@ -8,6 +8,7 @@ from particle import Particle
 from xsdata.formats.converter import Converter, converter
 
 from pyfeyn2.particles import get_either_particle, get_name
+from pyfeyn2.types import get_default_sheet
 
 # from deprecated.sphinx import deprecated
 # from deprecation import deprecated as _deprecated
@@ -389,6 +390,10 @@ class FeynmanDiagram:
     class Meta:
         name = "diagram"
 
+    default_style: Optional[bool] = field(
+        default=True, metadata={"xml_attribute": True, "type": "Attribute"}
+    )
+
     propagators: List[Propagator] = field(
         default_factory=list,
         metadata={"name": "propagator", "type": "Element", "namespace": ""},
@@ -485,39 +490,47 @@ class FeynmanDiagram:
         return self
 
     def _get_rule_style(self, selectorText: str) -> cssutils.css.CSSStyleDeclaration:
-        ret = None
-        for rule in self.sheet:
-            if rule.selectorText == selectorText and rule.type == rule.STYLE_RULE:
-                ret = rule.style
+        ret = []
+        if self.default_style:
+            sheets = [get_default_sheet(), self.sheet]
+        else:
+            sheets = [self.sheet]
+        for sheet in sheets:
+            for rule in sheet:
+                if rule.type == rule.STYLE_RULE and rule.selectorText == selectorText:
+                    ret += [rule.style]
         if ret:
-            return ret
+            return cssutils.css.CSSStyleDeclaration(
+                cssText=";".join([r.cssText for r in ret])
+            )
         else:
             return cssutils.css.CSSStyleDeclaration()
 
     def _get_class_style(self, obj: Styled) -> cssutils.css.CSSStyleDeclaration:
-        cssstr = ""
-        cssstr += self._get_rule_style(type(obj).__name__.lower()).cssText + ";"
+        css = []
+        css += [self._get_rule_style(type(obj).__name__.lower())]
         clazzes = []
         # pdgid is a special case of a class
         if isinstance(obj, PDG):
             if obj.pdgid:
                 clazzes += ["pdgid" + str(int(obj.pdgid))]
+            if obj.type:
+                clazzes += [obj.type]
         if obj.clazz:
             clazzes += obj.clazz.split()
 
         # first pure classes
         for clazz in clazzes:
             # css class
-            cssstr += self._get_rule_style("." + clazz).cssText + ";"
+            css += [self._get_rule_style("." + clazz)]
         # then element + class
         for clazz in clazzes:
             # css element + class
-            cssstr += (
-                self._get_rule_style(type(obj).__name__.lower() + "." + clazz).cssText
-                + ";"
-            )
+            css += [self._get_rule_style(type(obj).__name__.lower() + "." + clazz)]
 
-        return cssutils.css.CSSStyleDeclaration(cssText=cssstr)
+        return cssutils.css.CSSStyleDeclaration(
+            cssText=";".join([c.cssText for c in css])
+        )
 
     def get_style(self, obj) -> cssutils.css.CSSStyleDeclaration:
         """Get the style of an object.
@@ -525,21 +538,23 @@ class FeynmanDiagram:
         This is prefered over accessing the style attribute directly, sicne it includes class and pdgid definitions.
         """
         # selectorText is string
-        cssstr = ""
+        css = []
         # global style
-        cssstr += self._get_rule_style("*").cssText + ";"
+        css += [self._get_rule_style("*")]
         if isinstance(obj, str):
-            cssstr += self._get_rule_style(obj).cssText + ";"
+            css += [self._get_rule_style(obj)]
         if isinstance(obj, Styled):
             # css class
-            cssstr += self._get_class_style(obj).cssText + ";"
+            css += [self._get_class_style(obj)]
         if isinstance(obj, Identifiable):
             # css id
-            cssstr += self._get_rule_style("#" + obj.id).cssText + ";"
+            css += [self._get_rule_style("#" + obj.id)]
         if isinstance(obj, Styled):
             # specific attribute style
-            cssstr += obj.style.cssText + ";"
-        return cssutils.css.CSSStyleDeclaration(cssText=cssstr)
+            css += [obj.style]
+        return cssutils.css.CSSStyleDeclaration(
+            cssText=";".join([c.cssText for c in css])
+        )
 
 
 @dataclass

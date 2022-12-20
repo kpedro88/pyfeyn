@@ -1,12 +1,34 @@
 import shutil
 import tempfile
 import traceback
+from typing import List
 
 from matplotlib import pyplot as plt
 from pylatex import Figure, NoEscape, SubFigure
 
 import pyfeyn2
+from pyfeyn2.feynmandiagram import FeynmanDiagram
+from pyfeyn2.render.latex.dot import DotRender
+from pyfeyn2.render.latex.feynmp import FeynmpRender
 from pyfeyn2.render.latex.latex import LatexRender
+from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
+from pyfeyn2.render.mpl.feynmanrender import FeynmanRender
+from pyfeyn2.render.mpl.mpl import MPLRender
+from pyfeyn2.render.pyx.pyxrender import PyxRender
+from pyfeyn2.render.text.asciipdf import ASCIIPDFRender
+from pyfeyn2.render.text.unicodepdf import UnicodePDFRender
+from pyfeyn2.types import get_types
+
+renders = {
+    "pyx": PyxRender,
+    "feynmp": FeynmpRender,
+    "tikz": TikzFeynmanRender,
+    "dot": DotRender,
+    "feynman": FeynmanRender,
+    "mpl": MPLRender,
+    "ascii": ASCIIPDFRender,
+    "unicode": UnicodePDFRender,
+}
 
 
 class AllRender(LatexRender):
@@ -81,14 +103,19 @@ class AllRender(LatexRender):
             super().render(file, show, resolution, width, height)
         shutil.rmtree(self.dirpath)
 
-    @staticmethod
-    def valid_style( style: str) -> bool:
-        return True in [r.valid_style(style) for r in pyfeyn2.renders.values()]
+    @classmethod
+    def valid_styles(style: str) -> List[str]:
+        return sorted(
+            list(set([i for r in renders.values() for i in r.valid_styles()]))
+        )
 
-    @staticmethod
-    def valid_attribute( attr: str) -> bool:
-        return True in [r.valid_attribute(attr) for r in pyfeyn2.renders.values()]
+    @classmethod
+    def valid_attributes(attr: str) -> List[str]:
+        return sorted(
+            list(set([i for r in renders.values() for i in r.valid_attributes()]))
+        )
 
-    @staticmethod
-    def valid_type( typ: str) -> bool:
-        return True in [r.valid_type(typ) for r in pyfeyn2.renders.values()]
+    @classmethod
+    def valid_types(typ: str) -> List[str]:
+        return sorted(get_types())
+        # return [i for r in renders.values() for i in r.valid_types()]

@@ -1,15 +1,16 @@
 import copy
+from typing import List
 
 import dot2tex
+from pylatex import Command
+from pylatex.utils import NoEscape
+
+from pyfeyn2.feynmandiagram import Connector
 from pyfeyn2.interface.dot import (
     REPLACE_THIS_WITH_A_BACKSLASH,
     dot_to_tikz,
     feynman_to_dot,
 )
-from pylatex import Command
-from pylatex.utils import NoEscape
-
-from pyfeyn2.feynmandiagram import Connector
 from pyfeyn2.render.latex.latex import LatexRender
 
 # workaround for dot2tex bug in math mode labels
@@ -83,16 +84,14 @@ class DotRender(LatexRender):
     def get_src_dot(self):
         return self.src_dot
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(DotRender, DotRender).valid_attribute(attr) or attr in [
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return super(DotRender, cls).valid_attributes() + [
             "x",
             "y",
             "label",
         ]
 
-    @staticmethod
-    def valid_type(typ):
-        if typ.lower() in map_feyn_to_tikz:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(DotRender, cls).valid_types() + list(map_feyn_to_tikz.keys())

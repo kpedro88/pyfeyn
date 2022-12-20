@@ -1,9 +1,9 @@
-.. _x:
+.. _z:
 
-x
+z
 ===
 | Format: Double
 | Elements: :ref:`leg`, :ref:`vertex`
 | Implementation: :py:class:`pyfeyn2.feynmandiagram.Point`
 
-.. include:: ../../shared/attribute/x.rst
+.. include:: ../../shared/attribute/z.rst

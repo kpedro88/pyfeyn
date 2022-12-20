@@ -1,3 +1,5 @@
+from typing import List
+
 from feynman import Diagram
 from matplotlib import pyplot as plt
 
@@ -108,12 +110,10 @@ class FeynmanRender(Render):
         if clean_up:
             plt.close()
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(FeynmanRender,FeynmanRender).valid_attribute(attr) or attr in ["x", "y", "label"]
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return super(FeynmanRender, cls).valid_attributes() + ["x", "y", "label"]
 
-    @staticmethod
-    def valid_type(typ: str) -> bool:
-        if typ.lower() in namedlines:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(FeynmanRender, cls).valid_types() + list(namedlines.keys())

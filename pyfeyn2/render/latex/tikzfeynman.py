@@ -1,3 +1,5 @@
+from typing import List
+
 from pylatex import Command
 from pylatex.utils import NoEscape
 
@@ -32,18 +34,22 @@ type_map = {
     # UTIL
     "phantom": "draw=none",
     "line": "plain",
+    "plain": "plain",
 }
 
 
 def stylize_connect(fd: FeynmanDiagram, c: Connector):
     style = fd.get_style(c)
     ret = ""
-    ret += type_map[c.type]
+    ret += type_map[style.getProperty("line").value]
 
     if c.label is not None:
         ret += ",edge label=" + c.label
     # if c.edge_label_ is not None: style += ",edge label'=" + c.edge_label_
-    if c.momentum is not None:
+    if (
+        style.getProperty("momentum-arrow") is not None
+        and style.getProperty("momentum-arrow").value == "true"
+    ):
         ret += ",momentum=" + c.momentum
     if style.opacity is not None and style.opacity != "":
         ret += ",opacity=" + str(style.opacity)
@@ -145,11 +151,9 @@ class TikzFeynmanRender(LatexRender):
         super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
 
-    @staticmethod
-    def valid_style(style: str) -> bool:
-        return super(TikzFeynmanRender, TikzFeynmanRender).valid_style(
-            style
-        ) or style in [
+    @classmethod
+    def valid_styles(cls) -> bool:
+        return super(TikzFeynmanRender, cls).valid_styles() + [
             "color",
             "opacity",
             "bend",
@@ -158,16 +162,18 @@ class TikzFeynmanRender(LatexRender):
             "bend-out",
             "bend-loop",
             "bend-min-distance",
+            "momentum-arrow",
         ]
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(TikzFeynmanRender, TikzFeynmanRender).valid_attribute(
-            attr
-        ) or attr in ["x", "y", "label", "style", "momentum"]
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return super(TikzFeynmanRender, cls).valid_attributes() + [
+            "x",
+            "y",
+            "label",
+            "style",
+        ]
 
-    @staticmethod
-    def valid_type(typ):
-        if typ.lower() in type_map:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(TikzFeynmanRender, cls).valid_types() + list(type_map.keys())

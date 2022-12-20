@@ -1,4 +1,5 @@
 import uuid
+from typing import List
 
 from pylatex import Command
 from pylatex.utils import NoEscape
@@ -141,14 +142,10 @@ class FeynmpRender(MetaPostRender):
         super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_feynmp(fd)))
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(FeynmpRender, FeynmpRender).valid_attribute(attr) or attr in [
-            "label"
-        ]
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return super(FeynmpRender, cls).valid_attributes() + ["label"]
 
-    @staticmethod
-    def valid_type(typ: str):
-        if typ.lower() in type_map:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(FeynmpRender, cls).valid_types() + list(type_map.keys())

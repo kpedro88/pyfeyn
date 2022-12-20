@@ -94,11 +94,12 @@ html_logo = "pyfeyn-logo.svg"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+from pyfeyn2.render import all
 
-renders = pyfeyn2.renders
-styles = pyfeyn2.styles
-types = pyfeyn2.types
-attributes = pyfeyn2.attributes
+renders = all.renders
+styles = all.AllRender.valid_styles()
+types = all.AllRender.valid_types()
+attributes = all.AllRender.valid_attributes()
 
 rst_epilog = (
     rst_epilog

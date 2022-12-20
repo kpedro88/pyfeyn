@@ -1,5 +1,5 @@
 =================== ======================= ========================== ======================== ======================= =========================== ======================= ========================= ===========================
 :ref:`attributes`   pyx                     feynmp                     tikz                     dot                     feynman                     mpl                     ascii                     unicode                     
 =================== ======================= ========================== ======================== ======================= =========================== ======================= ========================= ===========================
-:ref:`sense`        |pyx.attribute.sense|   |feynmp.attribute.sense|   |tikz.attribute.sense|   |dot.attribute.sense|   |feynman.attribute.sense|   |mpl.attribute.sense|   |ascii.attribute.sense|   |unicode.attribute.sense|   
+:ref:`class`        |pyx.attribute.class|   |feynmp.attribute.class|   |tikz.attribute.class|   |dot.attribute.class|   |feynman.attribute.class|   |mpl.attribute.class|   |ascii.attribute.class|   |unicode.attribute.class|   
 =================== ======================= ========================== ======================== ======================= =========================== ======================= ========================= ===========================
