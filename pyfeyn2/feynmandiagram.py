@@ -472,11 +472,11 @@ class FeynmanDiagram:
             min_y = min(min_y, v.y)
             max_x = max(max_x, v.x)
             max_y = max(max_y, v.y)
-        for l in self.legs:
-            min_x = min(min_x, l.x)
-            min_y = min(min_y, l.y)
-            max_x = max(max_x, l.x)
-            max_y = max(max_y, l.y)
+        for leg in self.legs:
+            min_x = min(min_x, leg.x)
+            min_y = min(min_y, leg.y)
+            max_x = max(max_x, leg.x)
+            max_y = max(max_y, leg.y)
         return min_x, min_y, max_x, max_y
 
     def add_rule(self, rule: str):
@@ -518,7 +518,11 @@ class FeynmanDiagram:
         document = etree.XML(self.to_xml().encode("ascii"))
 
         def lambdaselector(s, obj=obj, document=document):
-            expression = GenericTranslator().css_to_xpath(s)
+            try:
+                expression = GenericTranslator().css_to_xpath(s)
+            except SelectorError:
+                warnings.warn("Invalid selector: " + s)
+                return False
             return obj.id in [e.get("id") for e in document.xpath(expression)]
 
         return self._get_style(lambdaselector)
@@ -532,7 +536,7 @@ class FeynmanDiagram:
         else:
             sheets = [self.sheet]
         for sheet in sheets:
-            id = []
+            idd = []
             cls = []
             rest = []
             glob = []
@@ -541,7 +545,7 @@ class FeynmanDiagram:
                     s = rule.selectorText
                     if lambdaselector(s):
                         if s.startswith("#"):
-                            id.append(rule)
+                            idd.append(rule)
                         elif s.startswith("["):
                             rest.append(rule)
                         elif s.startswith(":"):
@@ -552,7 +556,7 @@ class FeynmanDiagram:
                             cls.append(rule)
                         else:
                             rest.append(rule)
-            ret += reversed(id + cls + rest + glob)
+            ret += reversed(idd + cls + rest + glob)
         # sort rules by priority
         return cssutils.css.CSSStyleDeclaration(
             cssText=";".join([r.style.cssText for r in ret])
@@ -584,7 +588,7 @@ class Meta:
     )
 
 
-aliasMeta = Meta
+alias_meta = Meta
 
 
 @dataclass
@@ -592,7 +596,7 @@ class Head:
     class Meta:
         name = "head"
 
-    metas: List[aliasMeta] = field(
+    metas: List[alias_meta] = field(
         default_factory=list,
         metadata={"name": "meta", "namespace": ""},
     )

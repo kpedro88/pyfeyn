@@ -76,7 +76,7 @@ def auto_bend(ifd):
 
     # count duplications
     for i, pa in enumerate(objs):
-        for j, pb in enumerate(objs):
+        for _, pb in enumerate(objs):
             if pa.target == pb.target and pa.source == pb.source:
                 duplications[i] += 1
             if pa.target == pb.source and pa.source == pb.target:
