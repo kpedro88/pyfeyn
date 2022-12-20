@@ -29,6 +29,7 @@ type_map = {
     "gluino": "plain,gluon",
     "higgs": "scalar",
     "vector": "boson",
+    # UTIL
     "phantom": "draw=none",
     "line": "plain",
 }
@@ -148,7 +149,7 @@ class TikzFeynmanRender(LatexRender):
     def valid_styles(style: str) -> bool:
         return super(TikzFeynmanRender, TikzFeynmanRender).valid_styles(
             style
-        ) or style in ["color", "opacity"]
+        ) or style in ["color", "opacity", "bend-direction","bend-in","bend-out","bend-loop","bend-min-distance"]
 
     @staticmethod
     def valid_attribute(attr: str) -> bool:
