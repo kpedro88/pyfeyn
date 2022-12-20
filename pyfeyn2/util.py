@@ -1,3 +1,5 @@
+from importlib.metadata import version as _version
+
 from deprecation import deprecated as _deprecated
 
 
@@ -24,11 +26,6 @@ def withify(prefix="with_", sufix="", override=False):
     return _withify
 
 
-@_deprecated(
-    deprecated_in="2.0.7.1",
-    removed_in="2.1",
-    details="Use smpl.doc.deprecate instead? Better split smpl.doc into its own package.",
-)
 def deprecated(
     version=None, deprecated_in=None, removed_in=None, reason=None, details=None
 ):
@@ -45,12 +42,18 @@ def deprecated(
     # increment minor version
     if removed_in is None:
         removed_in = ".".join(
-            [version.split(".")[0]] + [str(int(version.split(".")[1]) + 2)]
+            [version.split(".")[0]] + [str(int(version.split(".")[1]) + 2)] + ["0"]
         )
 
     return _deprecated(
         deprecated_in=version,
         removed_in=removed_in,
-        # current_version=_version("pyfeyn2"),
+        current_version=_version("pyfeyn2"),
         details=details,
     )
+
+
+deprecated = deprecated(
+    deprecated_in="2.0.7.1",
+    details="Use smpl.doc.deprecate instead? Better split smpl.doc into its own package.",
+)(deprecated)

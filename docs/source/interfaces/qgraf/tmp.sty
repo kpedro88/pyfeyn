@@ -20,35 +20,31 @@
  >>
 
 <vertex_loop> 
-  <<vertex>>
-      <<id>>Vert<vertex_index><</id>>
+  <<vertex id="Vert<vertex_index>">>
   <</vertex>>
 <end>
 
 <in_loop>
-  <<leg>>  
+  <<leg id="In<in_index>">>  
         <<name>><field><</name>>
         <<sense>>incoming<</sense>>
         <<target>>Vert<vertex_index><</target>>
-        <<id>>In<in_index><</id>>
   <</leg>>
 <end>
 
 <out_loop> 
-  <<leg>>  
+  <<leg id="Out<out_index>">>  
         <<name>><field><</name>>
         <<sense>>outgoing<</sense>>
         <<target>>Vert<vertex_index><</target>>
-        <<id>>Out<out_index><</id>>
   <</leg>>
 <end>
 
 <propagator_loop> 
-  <<propagator>>  
+  <<propagator id="Prop<propagator_index>">>  
                <<name>><field><</name>>
                <<source>>Vert<dual-vertex_index><</source>>
                <<target>>Vert<vertex_index><</target>>
-               <<id>>Prop<propagator_index><</id>>
   <</propagator>>
 <end>
 
