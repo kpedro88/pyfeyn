@@ -30,7 +30,7 @@ pyfeyn2.feynmandiagram.Leg
       ~Leg.set_point
       ~Leg.with_target
       ~Leg.set_tension
-      ~Leg.set_type
+      ~Leg.with_type
       ~Leg.with_xy
       ~Leg.with_xyz
       ~Leg.with_bend

@@ -28,7 +28,7 @@ pyfeyn2.feynmandiagram.Propagator
       ~Propagator.with_source
       ~Propagator.with_target
       ~Propagator.set_tension
-      ~Propagator.set_type
+      ~Propagator.with_type
       ~Propagator.with_bend
       ~Propagator.with_class
       ~Propagator.with_id

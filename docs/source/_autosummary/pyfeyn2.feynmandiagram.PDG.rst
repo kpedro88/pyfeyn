@@ -19,7 +19,7 @@ pyfeyn2.feynmandiagram.PDG
       ~PDG.__init__
       ~PDG.set_name
       ~PDG.set_pdgig
-      ~PDG.set_type
+      ~PDG.with_type
       ~PDG.with_id
       ~PDG.with_id2
       ~PDG.with_name

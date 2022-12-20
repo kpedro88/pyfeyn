@@ -64,17 +64,17 @@ class Render:
         fd = FeynmanDiagram().add(
             v1,
             v2,
-            Propagator().connect(v1, v2).set_type(d).set_label(label).set_tension(0.0),
+            Propagator().connect(v1, v2).with_type(d).set_label(label).set_tension(0.0),
             Leg()
             .with_target(v1)
             .set_point(v1)
-            .set_type("phantom")
+            .with_type("phantom")
             .with_incoming()
             .set_length(0.0),
             Leg()
             .with_target(v2)
             .set_point(v2)
-            .set_type("phantom")
+            .with_type("phantom")
             .with_outgoing()
             .set_length(0.0),
         )
