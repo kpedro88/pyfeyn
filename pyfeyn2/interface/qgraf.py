@@ -31,6 +31,9 @@ def get_style() -> str:
         <<name>><field><</name>>
         <<sense>>incoming<</sense>>
         <<target>>Vert<vertex_index><</target>>
+        <<momentum>>
+          <<name>><momentum><</name>>
+        <</momentum>>
   <</leg>>
 <end>
 
@@ -39,14 +42,20 @@ def get_style() -> str:
         <<name>><field><</name>>
         <<sense>>outgoing<</sense>>
         <<target>>Vert<vertex_index><</target>>
+        <<momentum>>
+          <<name>><momentum><</name>>
+        <</momentum>>
   <</leg>>
 <end>
 
 <propagator_loop> 
   <<propagator id="Prop<propagator_index>">>  
-               <<name>><field><</name>>
-               <<source>>Vert<dual-vertex_index><</source>>
-               <<target>>Vert<vertex_index><</target>>
+        <<name>><field><</name>>
+        <<source>>Vert<dual-vertex_index><</source>>
+        <<target>>Vert<vertex_index><</target>>
+        <<momentum>>
+          <<name>><momentum><</name>>
+        <</momentum>>
   <</propagator>>
 <end>
 
