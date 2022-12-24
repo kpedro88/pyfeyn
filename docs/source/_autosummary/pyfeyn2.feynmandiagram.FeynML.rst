@@ -1,4 +1,4 @@
-﻿pyfeyn2.feynmandiagram.FeynML
+pyfeyn2.feynmandiagram.FeynML
 =============================
 
 .. currentmodule:: pyfeyn2.feynmandiagram

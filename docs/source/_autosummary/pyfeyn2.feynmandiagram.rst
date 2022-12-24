@@ -1,4 +1,4 @@
-﻿pyfeyn2.feynmandiagram
+pyfeyn2.feynmandiagram
 ======================
 
 .. automodule:: pyfeyn2.feynmandiagram

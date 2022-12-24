@@ -27,6 +27,7 @@ pyfeyn2.feynmandiagram.Head
    .. autosummary::
    
       ~Head.description
-      ~Head.meta
+      ~Head.style
+      ~Head.metas
    
    

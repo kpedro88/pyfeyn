@@ -85,5 +85,5 @@ def get_types() -> List[str]:
     ret = []
     for rule in default_sheet:
         if rule.type == rule.STYLE_RULE:
-            ret += [rule.selectorText[1:]]
+            ret += [rule.selectorText.split("=")[1].strip('"]')]
     return sorted(ret)

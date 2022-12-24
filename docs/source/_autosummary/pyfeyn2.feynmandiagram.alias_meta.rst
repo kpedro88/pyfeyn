@@ -26,8 +26,7 @@ pyfeyn2.feynmandiagram.alias\_meta
 
    .. autosummary::
    
+      ~alias_meta.content
       ~alias_meta.name
-      ~alias_meta.tool
-      ~alias_meta.value
    
    

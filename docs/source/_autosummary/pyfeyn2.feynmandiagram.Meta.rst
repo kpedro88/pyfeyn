@@ -26,8 +26,7 @@ pyfeyn2.feynmandiagram.Meta
 
    .. autosummary::
    
+      ~Meta.content
       ~Meta.name
-      ~Meta.tool
-      ~Meta.value
    
    
