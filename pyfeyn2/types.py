@@ -11,6 +11,9 @@ default_sheet = cssutils.parseString(
         [type=fermion] {
             line: fermion;
         }
+        [type="anti fermion"] {
+            line: anti fermion;
+        }
         [type=boson] {
             line: boson;
         }
@@ -64,6 +67,9 @@ default_sheet = cssutils.parseString(
         /* util */
         [type=phantom] {
             line: phantom;
+        }
+        [type=line] {
+            line: line;
         }
         """
 )

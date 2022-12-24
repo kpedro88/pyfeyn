@@ -82,12 +82,16 @@ class PDG(Identifiable):
             # TODO infere type from pdgid
             if self.pdgid in range(1, 7):
                 self.type = "fermion"
+            elif -self.pdgid in range(1, 7):
+                self.type = "anti fermion"
             elif self.pdgid == 22:
                 self.type = "photon"
             elif self.pdgid == 21:
                 self.type = "gluon"
             elif self.pdgid in range(11, 19):
                 self.type = "fermion"
+            elif -self.pdgid in range(11, 19):
+                self.type = "anti fermion"
             elif abs(self.pdgid) == 24:
                 self.type = "boson"
             elif self.pdgid == 23:
@@ -650,7 +654,7 @@ class FeynML:
         self.head.metas.append(Meta("pyfeyn2", version("pyfeyn2")))
 
     head: Optional[Head] = field(
-        default=None, metadata={"name": "head", "namespace": "", "type": "Element"}
+        default=Head(), metadata={"name": "head", "namespace": "", "type": "Element"}
     )
 
     diagrams: List[FeynmanDiagram] = field(
