@@ -12,7 +12,9 @@ from pyfeyn2.feynmandiagram import (
     Head,
     Leg,
     Meta,
+    Momentum,
     Propagator,
+    Tool,
     Vertex,
 )
 from pyfeyn2.render.pyx.pyxrender import PyxRender
@@ -24,7 +26,7 @@ def test_fml_print():
     v2 = Vertex("v2")
     p1 = Propagator("p1")
     l1 = Leg("l1")
-    p1.with_source(v1)
+    p1.with_source(v1).with_momentum(Momentum("p1", 1, 2, 3, 4))
     p1.with_target(v2)
     fd.propagators.append(p1)
     fd.vertices.append(v1)
@@ -33,7 +35,7 @@ def test_fml_print():
 
     fml = FeynML(
         head=Head(
-            metas=Meta(name="pyfeyn2", value="test"),
+            metas=[Meta(name="pyfeyn2", content="test")],
             description="Simple single test diagram",
         ),
         diagrams=[fd],
@@ -79,7 +81,7 @@ def test_fml_css():
     print(serializer.render(fml))
 
 
-# test_fml_print()
+test_fml_print()
 # test_fml_load()
 # test_fml_plot()
-test_fml_css()
+# test_fml_css()

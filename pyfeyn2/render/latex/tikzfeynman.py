@@ -50,7 +50,7 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector):
         style.getProperty("momentum-arrow") is not None
         and style.getProperty("momentum-arrow").value == "true"
     ):
-        ret += ",momentum=" + c.momentum
+        ret += ",momentum=" + c.momentum.name
     if style.opacity is not None and style.opacity != "":
         ret += ",opacity=" + str(style.opacity)
     if style.color is not None and style.color != "":

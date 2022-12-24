@@ -1,9 +1,9 @@
-﻿pyfeyn2.feynmandiagram.FeynML
-=============================
+pyfeyn2.feynmandiagram.Tool
+===========================
 
 .. currentmodule:: pyfeyn2.feynmandiagram
 
-.. autoclass:: FeynML
+.. autoclass:: Tool
    :members:                                   
    :show-inheritance:                           
    :inherited-members:                         
@@ -16,10 +16,7 @@
 
    .. autosummary::
    
-      ~FeynML.__init__
-      ~FeynML.from_xml
-      ~FeynML.get_diagram
-      ~FeynML.to_xml
+      ~Tool.__init__
    
    
 
@@ -29,8 +26,7 @@
 
    .. autosummary::
    
-      ~FeynML.head
-      ~FeynML.version
-      ~FeynML.diagrams
+      ~Tool.name
+      ~Tool.version
    
    

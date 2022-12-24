@@ -1,6 +1,7 @@
 import logging
 import warnings
 from dataclasses import dataclass, field
+from importlib.metadata import version
 from typing import List, Optional, Union
 
 import cssutils
@@ -315,10 +316,25 @@ class Vertex(Labeled, Point, Styled, Identifiable):
     pass
 
 
+# TODO think about withify for sub-classes
+@dataclass
+class Momentum:
+    class Meta:
+        name = "momentum"
+
+    name: Optional[str] = field(default=None, metadata={"type": "Element"})
+    px: Optional[float] = field(default=None, metadata={"type": "Element"})
+    py: Optional[float] = field(default=None, metadata={"type": "Element"})
+    pz: Optional[float] = field(default=None, metadata={"type": "Element"})
+    e: Optional[float] = field(default=None, metadata={"type": "Element"})
+
+
 @withify()
 @dataclass
 class Connector(Labeled, Bending, Styled, PDG):
-    momentum: Optional[str] = field(default=None, metadata={})
+    momentum: Optional[Momentum] = field(
+        default=None, metadata={"name": "momentum", "type": "Element"}
+    )
     """Momentum of the connector"""
     tension: Optional[float] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
@@ -576,16 +592,23 @@ class FeynmanDiagram:
 
 
 @dataclass
+class Tool:
+    class Meta:
+        name = "tool"
+
+    name: Optional[str] = field(default="pyfeyn2", metadata={"type": "Element"})
+    version: Optional[str] = field(
+        default=version("pyfeyn2"), metadata={"type": "Element"}
+    )
+
+
+@dataclass
 class Meta:
     class Meta:
         name = "meta"
 
-    name: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
-    )
-    value: Optional[str] = field(
-        default="", metadata={"xml_attribute": True, "type": "Attribute"}
-    )
+    name: Optional[str] = field(default="", metadata={"type": "Attribute"})
+    content: Optional[str] = field(default="", metadata={"type": "Attribute"})
 
 
 alias_meta = Meta
@@ -602,8 +625,10 @@ class Head:
     )
     description: Optional[str] = field(default="", metadata={"type": "Element"})
 
-    # TODO setup style ?
-    # style: Optional[str] = field(default="", metadata={"type": "Element"})
+    style: Optional[str] = field(default="", metadata={"type": "Element"})
+
+
+feynml_version = "0.0"
 
 
 @dataclass
@@ -611,8 +636,21 @@ class FeynML:
     class Meta:
         name = "feynml"
 
-    head: List[Head] = field(
-        default_factory=list, metadata={"name": "head", "namespace": ""}
+    version: Optional[str] = field(
+        default=feynml_version, metadata={"name": "version", "type": "Attribute"}
+    )
+
+    # post init to check version
+    def __post_init__(self):
+        if self.version < feynml_version:
+            warnings.warn("FeynML version is older than this parser.")
+        elif self.version > feynml_version:
+            warnings.warn("FeynML version is newer than this parser.")
+
+        self.head.metas.append(Meta("pyfeyn2", version("pyfeyn2")))
+
+    head: Optional[Head] = field(
+        default=None, metadata={"name": "head", "namespace": "", "type": "Element"}
     )
 
     diagrams: List[FeynmanDiagram] = field(

@@ -1,9 +1,9 @@
-﻿pyfeyn2.feynmandiagram.FeynML
-=============================
+pyfeyn2.feynmandiagram.alias\_meta
+==================================
 
 .. currentmodule:: pyfeyn2.feynmandiagram
 
-.. autoclass:: FeynML
+.. autoclass:: alias_meta
    :members:                                   
    :show-inheritance:                           
    :inherited-members:                         
@@ -16,10 +16,7 @@
 
    .. autosummary::
    
-      ~FeynML.__init__
-      ~FeynML.from_xml
-      ~FeynML.get_diagram
-      ~FeynML.to_xml
+      ~alias_meta.__init__
    
    
 
@@ -29,8 +26,8 @@
 
    .. autosummary::
    
-      ~FeynML.head
-      ~FeynML.version
-      ~FeynML.diagrams
+      ~alias_meta.name
+      ~alias_meta.tool
+      ~alias_meta.value
    
    
