@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from pyfeyn2.render.render import Render
+from pyfeyn2.util import deprecated
 
 
 def dotted(p1, p2, points=200):
@@ -115,6 +116,7 @@ namedlines = {
 }
 
 
+@deprecated(version="2.1.0.9", reason="Use with...().")
 class MPLRender(Render):
     def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
