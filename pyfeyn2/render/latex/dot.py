@@ -88,6 +88,7 @@ class DotRender(LatexRender):
             "x",
             "y",
             "label",
+            "style",
         ]
 
     @classmethod

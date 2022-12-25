@@ -162,7 +162,7 @@ class FeynmpRender(MetaPostRender):
 
     @classmethod
     def valid_attributes(cls) -> List[str]:
-        return super(FeynmpRender, cls).valid_attributes() + ["label"]
+        return super(FeynmpRender, cls).valid_attributes() + ["label", "style"]
 
     @classmethod
     def valid_types(cls) -> List[str]:
