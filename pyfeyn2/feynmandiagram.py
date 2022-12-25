@@ -56,6 +56,7 @@ class PDG(Identifiable):
     type: Optional[str] = field(
         default=None, metadata={"xml_attribute": True, "type": "Attribute"}
     )
+    """Type of the particle, e.g. fermion, boson, etc."""
 
     # TODO check SUSY
     particle: Optional[Particle] = field(default=None, metadata={"type": "Ignore"})
@@ -78,7 +79,8 @@ class PDG(Identifiable):
                 raise ValueError(f"Particle {self.name} not found")
             self.pdgid = int(self.particle.pdgid)
 
-        if self.pdgid is not None and self.type is None:
+        if self.pdgid is not None:
+            tmptype = self.type
             # TODO infere type from pdgid
             if self.pdgid in range(1, 7):
                 self.type = "fermion"
@@ -103,6 +105,11 @@ class PDG(Identifiable):
                     f"Inferring type from pdgid not implemented for pdgid {self.pdgid} "
                 )
                 self.type = "line"
+            if tmptype is not None and self.type != tmptype:
+                warnings.warn(
+                    f"Type {tmptype} is not consistent with pdgid {self.pdgid}, using {self.type} instead. Using {tmptype} now."
+                )
+                self.type = tmptype
 
     def __post_init__(self):
         super().__post_init__()
@@ -317,7 +324,8 @@ class Line(Targeting, Sourcing):
 @withify()
 @dataclass
 class Vertex(Labeled, Point, Styled, Identifiable):
-    pass
+    shape: Optional[str] = field(default=None, metadata={"type": "Attribute"})
+    """Shape of the vertex"""
 
 
 # TODO think about withify for sub-classes

@@ -39,6 +39,14 @@ type_map = {
     "plain": "plain",
 }
 
+shape_map = {
+    "dot": "dot",
+    "square": "square dot",
+    "empty": "empty dot",
+    "cross": "crossed dot",
+    "blob": "blob",
+}
+
 
 def stylize_connect(fd: FeynmanDiagram, c: Connector):
     style = fd.get_style(c)
@@ -78,19 +86,36 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector):
     return ret
 
 
-def stylize_node(v: Vertex):
-    style = ""
+def stylize_node(fd: FeynmanDiagram, v: Vertex):
+    style = fd.get_style(v)
+    ret = ""
+    suffix = None
     if v.label is not None:
-        style += "label=" + v.label + ","
+        ret += "label=" + v.label + ","
+    if style.getProperty("symbol") is not None:
+        ret += shape_map[style.getProperty("symbol").value] + ","
+        suffix = ""
 
-    return style[:-1]
+    end = ret[:-1]
+
+    if suffix is not None:
+        suffix = "{" + suffix + "}"
+    else:
+        suffix = ""
+
+    return (
+        f"\t\\vertex ({v.id}) [{end}] at ({v.x},{v.y}) {suffix};\n"
+        + f"\t\\vertex ({v.id}clone) [] at ({v.x},{v.y});\n"
+    )
 
 
 def stylize_leg_node(l: Leg):
     style = ""
     if l.external is not None:
         style += "label=" + l.external + ","
-    return style[:-1]
+    sty = style[:-1]
+
+    return f"\t\\vertex ({l.id}) [{sty}] at ({l.x},{l.y});\n"
 
 
 def get_line(source_id, target_id, style):
@@ -107,12 +132,9 @@ def feynman_to_tikz_feynman(fd):
     src = "\\begin{tikzpicture}\n"
     src += "\\begin{feynman}\n"
     for v in fd.vertices:
-        style = stylize_node(v)
-        src += f"\t\\vertex ({v.id}) [{style}] at ({v.x},{v.y});\n"
-        src += f"\t\\vertex ({v.id}clone) [{style}] at ({v.x},{v.y});\n"
+        src += stylize_node(fd, v)
     for l in fd.legs:
-        style = stylize_leg_node(l)
-        src += f"\t\\vertex ({l.id}) [{style}] at ({l.x},{l.y});\n"
+        src += stylize_leg_node(l)
     src += f"\t\\diagram{direct}" + "{\n"
     for p in fd.propagators:
         style = stylize_connect(fd, p)

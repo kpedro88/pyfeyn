@@ -43,7 +43,7 @@ class Render:
 
     @classmethod
     def valid_attributes(cls) -> List[str]:
-        return ["type", "class"]
+        return ["type", "shape", "class"]
 
     @classmethod
     def valid_type(cls, typ: str) -> bool:
