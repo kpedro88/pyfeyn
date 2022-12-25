@@ -102,22 +102,8 @@ def get_line(source_id, target_id, style):
 
 
 def feynman_to_tikz_feynman(fd):
-    rankdir = fd.get_style(fd).getProperty("direction").value
-    first_in_legs = [l for l in fd.legs if l.sense[:2] == "in"]
-    first_out_legs = [l for l in fd.legs if l.sense[:3] == "out"]
-    if len(first_in_legs) == 0 or len(first_out_legs) == 0:
-        direct = "*"
-    else:
-        first_in_leg = first_in_legs[0]
-        first_out_leg = first_out_legs[0]
-        if rankdir == "right":
-            direct = f"[horizontal={first_in_leg.id} to {first_out_leg.id}]"
-        if rankdir == "left":
-            direct = f"[horizontal={first_out_leg.id} to {first_in_leg.id}]"
-        if rankdir == "down":
-            direct = f"[vertical={first_in_leg.id} to {first_out_leg.id}]"
-        if rankdir == "up":
-            direct = f"[vertical={first_out_leg.id} to {first_in_leg.id}]"
+    direct = "*"
+
     src = "\\begin{tikzpicture}\n"
     src += "\\begin{feynman}\n"
     for v in fd.vertices:
@@ -139,9 +125,10 @@ def feynman_to_tikz_feynman(fd):
             src += get_line(l.target, l.id, style)
         else:
             raise Exception("Unknown sense")
-    src += "\t};\n"
+    src += "\t};\n \diagram*{};\n"
     src += "\\end{feynman}\n"
     src += "\\end{tikzpicture}\n"
+    print(src)
     return src
 
 
@@ -186,7 +173,6 @@ class TikzFeynmanRender(LatexRender):
             "bend-loop",
             "bend-min-distance",
             "momentum-arrow",
-            "direction",
         ]
 
     @classmethod

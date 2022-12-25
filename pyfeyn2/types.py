@@ -9,7 +9,7 @@ default_sheet = cssutils.parseString(
     """
         /* Diagram */
         diagram {
-            direction: left;
+            direction: right;
             layout : neato;
         }
 
