@@ -116,8 +116,8 @@ namedlines = {
 }
 
 
-@deprecated(version="2.1.0.9", reason="Use with...().")
 class MPLRender(Render):
+    @deprecated(version="2.1.0.10", reason="Use with...().")
     def __init__(self, fd=None, *args, **kwargs):
         super().__init__(fd, *args, **kwargs)
 
