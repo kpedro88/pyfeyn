@@ -28,6 +28,8 @@ type_map = {
     "neutralino": "plain,boson",
     "squark": "charged scalar",
     "slepton": "charged scalar",
+    "anti squark": "anti charged scalar",
+    "anti slepton": "anti charged scalar",
     "gluino": "plain,gluon",
     "higgs": "scalar",
     "vector": "boson",
@@ -50,7 +52,13 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector):
         style.getProperty("momentum-arrow") is not None
         and style.getProperty("momentum-arrow").value == "true"
     ):
-        ret += ",momentum=" + c.momentum.name
+        if (
+            style.getProperty("momentum-arrow-flip") is not None
+            and style.getProperty("momentum-arrow-flip").value == "true"
+        ):
+            ret += ",momentum'=" + c.momentum.name
+        else:
+            ret += ",momentum=" + c.momentum.name
     if style.opacity is not None and style.opacity != "":
         ret += ",opacity=" + str(style.opacity)
     if style.color is not None and style.color != "":
@@ -94,6 +102,22 @@ def get_line(source_id, target_id, style):
 
 
 def feynman_to_tikz_feynman(fd):
+    rankdir = fd.get_style(fd).getProperty("direction").value
+    first_in_legs = [l for l in fd.legs if l.sense[:2] == "in"]
+    first_out_legs = [l for l in fd.legs if l.sense[:3] == "out"]
+    if len(first_in_legs) == 0 or len(first_out_legs) == 0:
+        direct = "*"
+    else:
+        first_in_leg = first_in_legs[0]
+        first_out_leg = first_out_legs[0]
+        if rankdir == "right":
+            direct = f"[horizontal={first_in_leg.id} to {first_out_leg.id}]"
+        if rankdir == "left":
+            direct = f"[horizontal={first_out_leg.id} to {first_in_leg.id}]"
+        if rankdir == "down":
+            direct = f"[vertical={first_in_leg.id} to {first_out_leg.id}]"
+        if rankdir == "up":
+            direct = f"[vertical={first_out_leg.id} to {first_in_leg.id}]"
     src = "\\begin{tikzpicture}\n"
     src += "\\begin{feynman}\n"
     for v in fd.vertices:
@@ -103,7 +127,7 @@ def feynman_to_tikz_feynman(fd):
     for l in fd.legs:
         style = stylize_leg_node(l)
         src += f"\t\\vertex ({l.id}) [{style}] at ({l.x},{l.y});\n"
-    src += "\t\\diagram*{\n"
+    src += f"\t\\diagram{direct}" + "{\n"
     for p in fd.propagators:
         style = stylize_connect(fd, p)
         src += get_line(p.source, p.target, style)
@@ -162,6 +186,7 @@ class TikzFeynmanRender(LatexRender):
             "bend-loop",
             "bend-min-distance",
             "momentum-arrow",
+            "direction",
         ]
 
     @classmethod

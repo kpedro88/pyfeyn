@@ -7,6 +7,12 @@ cssutils.log.setLevel(logging.CRITICAL)
 
 default_sheet = cssutils.parseString(
     """
+        /* Diagram */
+        diagram {
+            direction: left;
+            layout : neato;
+        }
+
         /* General */
         [type=fermion] {
             line: fermion;
@@ -22,6 +28,12 @@ default_sheet = cssutils.parseString(
         }
         [type=scalar] {
             line: scalar;
+        }
+        [type=majorana] {
+            line: majorana;
+        }
+        [type=anti majorana] {
+            line: anti majorana;
         }
         /* SM */
         [type=photon] {
@@ -48,6 +60,12 @@ default_sheet = cssutils.parseString(
         }
         [type=slepton] {
             line: slepton;
+        }
+        [type=anti squark]  {
+            line: anti squark;
+        }
+        [type=anti slepton] {
+            line: anti slepton;
         }
         [type=gaugino] {
             line: gaugino;
@@ -84,6 +102,6 @@ def get_types() -> List[str]:
     """Return the default types."""
     ret = []
     for rule in default_sheet:
-        if rule.type == rule.STYLE_RULE:
+        if rule.type == rule.STYLE_RULE and rule.selectorText.startswith("[type="):
             ret += [rule.selectorText.split("=")[1].strip('"]')]
     return sorted(ret)

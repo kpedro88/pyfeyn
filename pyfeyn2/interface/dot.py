@@ -9,11 +9,25 @@ def _fake_styler(p):
 
 def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
     # TODO better use pydot? still alive? or grpahviz?
-    # TODO style pick neato or dot or whatever
+    fdstyle = fd.get_style(fd)
+    rankdir = None
+    rdir = fdstyle.getProperty("direction").value
+    if rdir == "right":
+        rankdir = "LR"
+    elif rdir == "left":
+        rankdir = "RL"
+    elif rdir == "down":
+        rankdir = "TB"
+    elif rdir == "up":
+        rankdir = "BT"
+    else:
+        raise Exception(f"Unknown direction: {rdir}")
+    layout = fdstyle.getProperty("layout").value
+
     thestyle = ""
     src = "graph G {\n"
-    src += "rankdir=LR;\n"
-    src += "layout=neato;\n"
+    src += f"rankdir={rankdir};\n"
+    src += f"layout={layout};\n"
     # src += "mode=hier;\n"
     src += 'node [style="invis"];\n'
     for l in fd.legs:

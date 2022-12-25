@@ -412,7 +412,7 @@ class Label(Point, Texted, Identifiable):
 
 @withify()
 @dataclass
-class FeynmanDiagram:
+class FeynmanDiagram(Styled, Identifiable):
     class Meta:
         name = "diagram"
 
@@ -524,7 +524,8 @@ class FeynmanDiagram:
         # selectorText is string
         css = []
         # global style
-        css += [self._get_obj_style(obj)]
+        if isinstance(obj, Identifiable):
+            css += [self._get_obj_style(obj)]
         if isinstance(obj, str):
             css += [self._get_rule_style(obj)]
         if isinstance(obj, Styled):
@@ -572,7 +573,7 @@ class FeynmanDiagram:
                             rest.append(rule)
                         elif s.startswith("*"):
                             glob.append(rule)
-                        elif s.contains("."):
+                        elif "." in s:
                             cls.append(rule)
                         else:
                             rest.append(rule)

@@ -60,6 +60,24 @@ def stylize_line(c: Connector) -> str:
 
 
 def feynman_to_feynmp(fd):
+    dire = fd.get_style("direction").value
+    dirin = ""
+    dirout = ""
+    if dire == "left":
+        dirin = "left"
+        dirout = "right"
+    elif dire == "right":
+        dirin = "right"
+        dirout = "left"
+    elif dire == "up":
+        dirin = "bottom"
+        dirout = "top"
+    elif dire == "down":
+        dirin = "top"
+        dirout = "bottom"
+    else:
+        raise Exception(f"Unknown direction: {dire}")
+
     # get random alphanumeric string
     result_str = uuid.uuid4().hex
     src = "\\begin{fmffile}{tmp-" + result_str + "}\n"
@@ -75,13 +93,13 @@ def feynman_to_feynmp(fd):
         else:
             raise Exception("Unknown sense")
     if len(incoming) > 0:
-        src += "\t\t\\fmfleft{"
+        src += f"\t\t\\fmf{dirin}" + "{"
         for l in incoming:
             src += f"{l.id},"
         src = src[:-1]
         src += "}\n"
     if len(outgoing) > 0:
-        src += "\t\t\\fmfright{"
+        src += f"\t\t\\fmf{dirout}" + "{"
         for l in outgoing:
             src += f"{l.id},"
         src = src[:-1]
@@ -149,3 +167,9 @@ class FeynmpRender(MetaPostRender):
     @classmethod
     def valid_types(cls) -> List[str]:
         return super(FeynmpRender, cls).valid_types() + list(type_map.keys())
+
+    @classmethod
+    def valid_styles(cls) -> bool:
+        return super(FeynmpRender, cls).valid_styles() + [
+            "direction",
+        ]
