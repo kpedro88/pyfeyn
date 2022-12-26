@@ -1,5 +1,5 @@
 ============== =================== ================== ===================== ====================== ================== ================== ==================== ======================
 :ref:`style`   tikz                pyx                feynmp                feynman                dot                mpl                ascii                unicode                
 ============== =================== ================== ===================== ====================== ================== ================== ==================== ======================
-:ref:`bend`    |tikz.style.bend|   |pyx.style.bend|   |feynmp.style.bend|   |feynman.style.bend|   |dot.style.bend|   |mpl.style.bend|   |ascii.style.bend|   |unicode.style.bend|   
+:ref:`xamp`    |tikz.style.xamp|   |pyx.style.xamp|   |feynmp.style.xamp|   |feynman.style.xamp|   |dot.style.xamp|   |mpl.style.xamp|   |ascii.style.xamp|   |unicode.style.xamp|   
 ============== =================== ================== ===================== ====================== ================== ================== ==================== ======================

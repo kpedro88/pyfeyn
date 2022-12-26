@@ -1,5 +1,5 @@
 =============== ===================== ==================== ======================= ======================== ==================== ==================== ====================== ========================
 :ref:`style`    tikz                  pyx                  feynmp                  feynman                  dot                  mpl                  ascii                  unicode                  
 =============== ===================== ==================== ======================= ======================== ==================== ==================== ====================== ========================
-:ref:`layout`   |tikz.style.layout|   |pyx.style.layout|   |feynmp.style.layout|   |feynman.style.layout|   |dot.style.layout|   |mpl.style.layout|   |ascii.style.layout|   |unicode.style.layout|   
+:ref:`nloops`   |tikz.style.nloops|   |pyx.style.nloops|   |feynmp.style.nloops|   |feynman.style.nloops|   |dot.style.nloops|   |mpl.style.nloops|   |ascii.style.nloops|   |unicode.style.nloops|   
 =============== ===================== ==================== ======================= ======================== ==================== ==================== ====================== ========================

@@ -167,7 +167,7 @@ for s in types:
 
 shape_tab = {":ref:`type`": [v for v in renders.keys()]}
 original = copy.copy(shape_tab)
-for s in types:
+for s in shapes:
     arr = []
     for n, r in renders.items():
         arr += [f"|{n}.shape.{s}|"]
