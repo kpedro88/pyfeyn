@@ -208,3 +208,7 @@ class TikzFeynmanRender(LatexRender):
     @classmethod
     def valid_types(cls) -> List[str]:
         return super(TikzFeynmanRender, cls).valid_types() + list(type_map.keys())
+
+    @classmethod
+    def valid_shapes(cls) -> List[str]:
+        return super(TikzFeynmanRender, cls).valid_types() + list(shape_map.keys())

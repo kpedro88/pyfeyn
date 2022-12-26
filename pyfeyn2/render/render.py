@@ -42,12 +42,20 @@ class Render:
         return []
 
     @classmethod
+    def valid_shapes(cls) -> List[str]:
+        return []
+
+    @classmethod
     def valid_attributes(cls) -> List[str]:
         return ["type", "shape", "class"]
 
     @classmethod
     def valid_type(cls, typ: str) -> bool:
         return typ in cls.valid_types()
+
+    @classmethod
+    def valid_shape(cls, typ: str) -> bool:
+        return typ in cls.valid_shapes()
 
     @classmethod
     def valid_style(cls, style: str) -> bool:
@@ -77,6 +85,19 @@ class Render:
             .with_type("phantom")
             .with_outgoing()
             .set_length(0.0),
+        )
+
+        self.set_feynman_diagram(fd)
+        self.render(show=show)
+
+    def demo_vertex(self, d, show=True, label=None):
+        v1 = Vertex().with_xy(0, 0).with_shape(d)  # .set_label(label)
+
+        fd = FeynmanDiagram().add(
+            v1,
+            Leg().with_target(v1).set_xy(-1, 0).with_type("line").with_incoming(),
+            Leg().with_target(v1).set_xy(1, -1).with_type("line").with_incoming(),
+            Leg().with_target(v1).set_xy(1, 1).with_type("line").with_outgoing(),
         )
 
         self.set_feynman_diagram(fd)

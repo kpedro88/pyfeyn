@@ -15,7 +15,7 @@ from pyfeyn2.render.mpl.mpl import MPLRender
 from pyfeyn2.render.pyx.pyxrender import PyxRender
 from pyfeyn2.render.text.asciipdf import ASCIIPDFRender
 from pyfeyn2.render.text.unicodepdf import UnicodePDFRender
-from pyfeyn2.types import get_types
+from pyfeyn2.types import get_shapes, get_types
 
 renders = {
     "tikz": TikzFeynmanRender,
@@ -117,3 +117,7 @@ class AllRender(LatexRender):
     def valid_types(typ: str) -> List[str]:
         return sorted(get_types())
         # return [i for r in renders.values() for i in r.valid_types()]
+
+    @classmethod
+    def valid_shapes(typ: str) -> List[str]:
+        return sorted(get_shapes())

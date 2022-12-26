@@ -26,8 +26,8 @@ default_sheet = cssutils.parseString(
         [shape=empty] {
             symbol : empty;
         }
-        [shape=empty] {
-            symbol : empty;
+        [shape=square] {
+            symbol : square;
         }
         [shape=cross] {
             symbol : cross;
@@ -158,5 +158,14 @@ def get_types() -> List[str]:
     ret = []
     for rule in default_sheet:
         if rule.type == rule.STYLE_RULE and rule.selectorText.startswith("[type="):
+            ret += [rule.selectorText.split("=")[1].strip('"]')]
+    return sorted(ret)
+
+
+def get_shapes() -> List[str]:
+    """Return the default shapes."""
+    ret = []
+    for rule in default_sheet:
+        if rule.type == rule.STYLE_RULE and rule.selectorText.startswith("[shape="):
             ret += [rule.selectorText.split("=")[1].strip('"]')]
     return sorted(ret)
