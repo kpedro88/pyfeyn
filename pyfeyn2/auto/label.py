@@ -4,7 +4,7 @@ import copy
 def auto_label(objs, override=False):
     """Automatically label objects."""
     for p in objs:
-        if p.label is None or override:
+        if (p.label is None or override) and p.particle is not None:
             p.label = "$" + p.particle.latex_name + "$"
 
 

@@ -147,10 +147,9 @@ def feynman_to_tikz_feynman(fd):
             src += get_line(l.target, l.id, style)
         else:
             raise Exception("Unknown sense")
-    src += "\t};\n \diagram*{};\n"
+    src += "\t};\n"
     src += "\\end{feynman}\n"
     src += "\\end{tikzpicture}\n"
-    print(src)
     return src
 
 

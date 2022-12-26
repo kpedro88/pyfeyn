@@ -28,6 +28,7 @@ type_map = {
     "plain": ["plain"],
     "plain_arrow": ["plain_arrow"],
     "fermion": ["fermion"],
+    "anti fermion": ["fermion"],
     "electron": ["electron"],
     "quark": ["quark"],
     "double": ["double"],
@@ -60,15 +61,15 @@ def stylize_line(c: Connector) -> str:
 
 
 def feynman_to_feynmp(fd):
-    dire = fd.get_style("direction").value
+    dire = fd.get_style(fd).getProperty("direction").value
     dirin = ""
     dirout = ""
     if dire == "left":
-        dirin = "left"
-        dirout = "right"
-    elif dire == "right":
         dirin = "right"
         dirout = "left"
+    elif dire == "right":
+        dirin = "left"
+        dirout = "right"
     elif dire == "up":
         dirin = "bottom"
         dirout = "top"
@@ -109,20 +110,35 @@ def feynman_to_feynmp(fd):
         tttype = type_map[l.type]
         style = stylize_line(l)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}{style}}}{{{l.id},{l.target}}}\n"
+            lid = l.id
+            ltarget = l.target
+            if l.type.startswith("anti"):
+                lid = l.target
+                ltarget = l.id
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{lid},{ltarget}}}\n"
             style = ""
     for l in outgoing:
         tttype = type_map[l.type]
         style = stylize_line(l)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}{style}}}{{{l.target},{l.id}}}\n"
+            lid = l.id
+            ltarget = l.target
+            if l.type.startswith("anti"):
+                lid = l.target
+                ltarget = l.id
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{ltarget},{lid}}}\n"
             style = ""
 
     for p in fd.propagators:
         tttype = type_map[p.type]
         style = stylize_line(p)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}{style}}}{{{p.source},{p.target}}}\n"
+            psource = p.source
+            ptarget = p.target
+            if p.type.startswith("anti"):
+                psource = p.target
+                ptarget = p.source
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{psource},{ptarget}}}\n"
             style = ""
 
     # Add labels

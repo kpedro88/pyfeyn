@@ -534,8 +534,6 @@ class FeynmanDiagram(Styled, Identifiable):
         # global style
         if isinstance(obj, Identifiable):
             css += [self._get_obj_style(obj)]
-        if isinstance(obj, str):
-            css += [self._get_rule_style(obj)]
         if isinstance(obj, Styled):
             # specific attribute style
             css += [obj.style]

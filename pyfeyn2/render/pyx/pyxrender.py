@@ -194,6 +194,6 @@ class PyxRender(Render):
     def valid_styles(cls):
         return super(PyxRender, cls).valid_styles() + [
             "arrow-pos",
-            "parallel-arrow-sense",
-            "parallel-arrow-displace",
+            "arrow-sense",  #           "parallel-arrow-sense",
+            "arrow-displace",  #           "parallel-arrow-displace",
         ]

@@ -18,11 +18,11 @@ from pyfeyn2.render.text.unicodepdf import UnicodePDFRender
 from pyfeyn2.types import get_types
 
 renders = {
+    "tikz": TikzFeynmanRender,
     "pyx": PyxRender,
     "feynmp": FeynmpRender,
-    "tikz": TikzFeynmanRender,
-    "dot": DotRender,
     "feynman": FeynmanRender,
+    "dot": DotRender,
     "mpl": MPLRender,
     "ascii": ASCIIPDFRender,
     "unicode": UnicodePDFRender,
