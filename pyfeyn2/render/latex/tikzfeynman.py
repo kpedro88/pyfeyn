@@ -141,9 +141,9 @@ def feynman_to_tikz_feynman(fd):
         src += get_line(p.source, p.target, style)
     for l in fd.legs:
         style = stylize_connect(fd, l)
-        if l.sense[:2] == "in":
+        if l.is_incoming():
             src += get_line(l.id, l.target, style)
-        elif l.sense[:3] == "out":
+        elif l.is_outgoing():
             src += get_line(l.target, l.id, style)
         else:
             raise Exception("Unknown sense")
@@ -185,6 +185,8 @@ class TikzFeynmanRender(LatexRender):
     @classmethod
     def valid_styles(cls) -> bool:
         return super(TikzFeynmanRender, cls).valid_styles() + [
+            "line",
+            "symbol",
             "color",
             "opacity",
             "bend",

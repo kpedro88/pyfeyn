@@ -38,19 +38,27 @@ class PyxRender(Render):
                 dp.setFillstyles(PointLabel(dp, v.label, displace=3, angle=90))
             pyxfd.add(dp)
         for l in self.fd.legs:
+            lstyle = self.fd.get_style(l)
             tar = self.fd.get_vertex(l.target)
             if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
-                nl = NamedLine[l.type](Point(l.x, l.y), Point(tar.x, tar.y))
+                nl = NamedLine[lstyle.getProperty("line").value](
+                    Point(l.x, l.y), Point(tar.x, tar.y)
+                )
             elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
-                nl = NamedLine[l.type](Point(tar.x, tar.y), Point(l.x, l.y))
+                nl = NamedLine[lstyle.getProperty("line").value](
+                    Point(tar.x, tar.y), Point(l.x, l.y)
+                )
             nl = nl.bend(l.bend)
             nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(l.label)
 
         for p in self.fd.propagators:
+            pstyle = self.fd.get_style(p)
             src = self.fd.get_vertex(p.source)
             tar = self.fd.get_vertex(p.target)
-            nl = NamedLine[p.type](Point(src.x, src.y), Point(tar.x, tar.y))
+            nl = NamedLine[pstyle.getProperty("line").value](
+                Point(src.x, src.y), Point(tar.x, tar.y)
+            )
             nl = nl.bend(p.bend)
             nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(p.label)
@@ -193,6 +201,7 @@ class PyxRender(Render):
     @classmethod
     def valid_styles(cls):
         return super(PyxRender, cls).valid_styles() + [
+            "line",
             "arrow-pos",
             "arrow-sense",  #           "parallel-arrow-sense",
             "arrow-displace",  #           "parallel-arrow-displace",

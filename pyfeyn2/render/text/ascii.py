@@ -186,21 +186,29 @@ class ASCIIRender(Render):
         fmt = {"scalex": scalex, "kickx": kickx, "scaley": scaley, "kicky": kicky}
 
         for p in self.fd.propagators:
+            pstyle = self.fd.get_style(p)
             src = self.fd.get_vertex(p.source)
             tar = self.fd.get_vertex(p.target)
-            self.namedlines[p.type]().draw(pane, src, tar, **fmt)
+            self.namedlines[pstyle.getProperty("line").value]().draw(
+                pane, src, tar, **fmt
+            )
             if p.label is not None:
                 self.namedlines["label"](p.label).draw(pane, src, tar, **fmt)
         for l in self.fd.legs:
+            lstyle = self.fd.get_style(l)
             tar = self.fd.get_vertex(l.target)
-            if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
-                self.namedlines[l.type]().draw(pane, Point(l.x, l.y), tar, **fmt)
+            if l.is_incoming():
+                self.namedlines[lstyle.getProperty("line").value]().draw(
+                    pane, Point(l.x, l.y), tar, **fmt
+                )
                 if l.label is not None:
                     self.namedlines["label"](l.label).draw(
                         pane, Point(l.x, l.y), tar, **fmt
                     )
-            elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
-                self.namedlines[l.type]().draw(pane, tar, Point(l.x, l.y), **fmt)
+            elif l.is_outgoing():
+                self.namedlines[lstyle.getProperty("line").value]().draw(
+                    pane, tar, Point(l.x, l.y), **fmt
+                )
                 if l.label is not None:
                     self.namedlines["label"](l.label).draw(
                         pane, tar, Point(l.x, l.y), **fmt
@@ -228,6 +236,14 @@ class ASCIIRender(Render):
             "x",
             "y",
             "label",
+            "style",
+        ]
+
+    @classmethod
+    def valid_styles(cls) -> List[str]:
+        return super(ASCIIRender, cls).valid_styles() + [
+            "line",
+            "symbol",
         ]
 
     @classmethod

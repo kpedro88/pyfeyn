@@ -3,7 +3,7 @@ from typing import List
 from pylatex import Command
 from pylatex.utils import NoEscape
 
-from pyfeyn2.feynmandiagram import Connector
+from pyfeyn2.feynmandiagram import Connector, FeynmanDiagram
 from pyfeyn2.interface.dot import (
     REPLACE_THIS_WITH_A_BACKSLASH,
     dot_to_tikz,
@@ -29,8 +29,11 @@ map_feyn_to_tikz = {
 }
 
 
-def stylize_connect(c: Connector) -> str:
-    style = 'style="{}",texmode="raw"'.format(map_feyn_to_tikz[c.type])
+def stylize_connect(fd: FeynmanDiagram, c: Connector) -> str:
+    fstyle = fd.get_style(c)
+    style = 'style="{}",texmode="raw"'.format(
+        map_feyn_to_tikz[fstyle.getProperty("line").value]
+    )
     if c.label is None:
         label = ""
     else:
@@ -98,6 +101,7 @@ class DotRender(LatexRender):
     @classmethod
     def valid_styles(cls) -> bool:
         return super(DotRender, cls).valid_styles() + [
+            "line",
             "direction",
             "layout",
         ]

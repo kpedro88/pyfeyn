@@ -3,7 +3,7 @@ import dot2tex
 REPLACE_THIS_WITH_A_BACKSLASH = "¬"
 
 
-def _fake_styler(p):
+def _fake_styler(fd, p):
     return 'style="draw=none"'
 
 
@@ -38,7 +38,7 @@ def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
             src += f'\t\t{l.id} [ pos="{l.x},{l.y}!"];\n'
     for p in fd.propagators:
         if styler is not None:
-            thestyle = styler(p)
+            thestyle = styler(fd, p)
         src += "edge [{}];\n".format(thestyle)
         src += f"\t\t{p.source} -- {p.target};\n"
     rank_in = "{rank=min; "
@@ -46,7 +46,7 @@ def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
 
     for l in fd.legs:
         if styler is not None:
-            thestyle = styler(l)
+            thestyle = styler(fd, l)
         if l.sense == "incoming":
             src += "edge [{}];\n".format(thestyle)
             src += f"\t\t{l.id} -- {l.target};\n"

@@ -107,7 +107,8 @@ def feynman_to_feynmp(fd):
         src += "}\n"
 
     for l in incoming:
-        tttype = type_map[l.type]
+        lstyle = fd.get_style(l)
+        tttype = type_map[lstyle.getProperty("line").value]
         style = stylize_line(l)
         for ttype in tttype:
             lid = l.id
@@ -118,7 +119,8 @@ def feynman_to_feynmp(fd):
             src += f"\t\t\\fmf{{{ttype}{style}}}{{{lid},{ltarget}}}\n"
             style = ""
     for l in outgoing:
-        tttype = type_map[l.type]
+        lstyle = fd.get_style(l)
+        tttype = type_map[lstyle.getProperty("line").value]
         style = stylize_line(l)
         for ttype in tttype:
             lid = l.id
@@ -130,7 +132,8 @@ def feynman_to_feynmp(fd):
             style = ""
 
     for p in fd.propagators:
-        tttype = type_map[p.type]
+        pstyle = fd.get_style(p)
+        tttype = type_map[pstyle.getProperty("line").value]
         style = stylize_line(p)
         for ttype in tttype:
             psource = p.source
@@ -187,5 +190,6 @@ class FeynmpRender(MetaPostRender):
     @classmethod
     def valid_styles(cls) -> bool:
         return super(FeynmpRender, cls).valid_styles() + [
+            "line",
             "direction",
         ]
