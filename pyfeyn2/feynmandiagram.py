@@ -387,7 +387,7 @@ class Leg(Point, Targeting, Connector):
         """Return True if the leg is incoming, False otherwise."""
         return "in" == self.sense[:2] or self.sense[:8] == "anti-out"
 
-    def is_outgoiing(self):
+    def is_outgoing(self):
         """Return True if the leg is outgoing, False otherwise."""
         return "out" == self.sense[:3] or self.sense[:7] == "anti-in"
 
