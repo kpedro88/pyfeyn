@@ -33,6 +33,24 @@ class UFermion(ASCIILine):
         )
 
 
+class AntiUFermion(ASCIILine):
+    def __init__(self):
+        super().__init__(
+            begin="*",
+            end="*",
+            style=Compass(
+                ee="←",
+                ww="→",
+                ss="↑",
+                nn="↓",
+                se="↖",
+                nw="↘",
+                sw="↗",
+                ne="↙",
+            ),
+        )
+
+
 class UnicodeRender(ASCIIRender):
     """Renders Feynman diagrams to Unicode art."""
 
@@ -40,4 +58,5 @@ class UnicodeRender(ASCIIRender):
         **ASCIIRender.namedlines,
         "label": ULabel,
         "fermion": UFermion,
+        "anti fermion": AntiUFermion,
     }

@@ -4,6 +4,7 @@ from pyfeyn2.feynmandiagram import Point
 from pyfeyn2.render.render import Render
 from pyfeyn2.render.text.label import Label
 from pyfeyn2.render.text.line import ASCIILine
+from pyfeyn2.render.text.point import ASCIIPoint
 from pyfeyn2.render.text.style import Cross
 
 
@@ -27,6 +28,34 @@ class Fermion(ASCIILine):
                 right="-->--",
                 up="||^||",
                 down="||v||",
+            ),
+        )
+
+
+class AntiFermion(ASCIILine):
+    def __init__(self):
+        super().__init__(
+            begin="*",
+            end="*",
+            style=Cross(
+                left="-->--",
+                right="--<--",
+                up="||v||",
+                down="||^||",
+            ),
+        )
+
+
+class Line(ASCIILine):
+    def __init__(self):
+        super().__init__(
+            begin="*",
+            end="*",
+            style=Cross(
+                left="-----",
+                right="-----",
+                up="|||||",
+                down="|||||",
             ),
         )
 
@@ -96,6 +125,7 @@ class ASCIIRender(Render):
         "vector": Photon,
         "boson": Photon,
         "fermion": Fermion,
+        "anti fermion": AntiFermion,
         "ghost": Ghost,
         "higgs": Higgs,
         "scalar": Scalar,
@@ -104,7 +134,18 @@ class ASCIIRender(Render):
         "gluino": Gluino,
         "gaugino": Gaugino,
         "phantom": Phantom,
+        "line": Line,
+        # TODO what is this?
         "label": Label,
+    }
+
+    namedshapes = {
+        "dot": ASCIIPoint("."),
+        "empty": ASCIIPoint("O"),
+        "cross": ASCIIPoint("x"),
+        "square": ASCIIPoint("#"),
+        "blob": ASCIIPoint("@"),
+        "star": ASCIIPoint("*"),
     }
 
     def __init__(self, fd=None, *args, **kwargs):
@@ -164,6 +205,10 @@ class ASCIIRender(Render):
                     self.namedlines["label"](l.label).draw(
                         pane, tar, Point(l.x, l.y), **fmt
                     )
+        for v in self.fd.vertices:
+            ssss = self.fd.get_style(v)
+            if ssss.getProperty("symbol") is not None:
+                self.namedshapes[ssss.getProperty("symbol").value].draw(pane, v, **fmt)
 
         joined = "\n".join(["".join(row) for row in pane]) + "\n"
         self.set_src_txt(joined)
