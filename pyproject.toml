@@ -22,11 +22,16 @@ cssutils= "*"
 pylatexenc = "*"
 pygments = "*"
 pyhepmc = "*"
+pyqgraf = ">=0.0.3"
+#pyqgraf = {path= "../pyqgraf", develop = true }
 graphviz = "*"
 ipyparallel = "*"
 deprecated = "*"
 deprecation = "*"
 cssselect ="*"
+smpl_io = "*"
+smpl_doc = "*"
+smpl_util= "*"
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
@@ -44,7 +49,6 @@ sphinx_autobuild = "*"
 sphinx_math_dollar = "*"
 myst-parser  = "*"
 toml = "*"
-smpl = ">=1.0.3" 
 
 [tool.poetry.group.dev]
 optional = true
