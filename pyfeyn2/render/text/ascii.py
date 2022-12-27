@@ -251,3 +251,9 @@ class ASCIIRender(Render):
         return super(ASCIIRender, cls).valid_types() + list(
             ASCIIRender.namedlines.keys()
         )
+
+    @classmethod
+    def valid_shapes(cls) -> List[str]:
+        return super(ASCIIRender, cls).valid_types() + list(
+            ASCIIRender.namedshapes.keys()
+        )
