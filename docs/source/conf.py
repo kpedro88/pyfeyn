@@ -23,6 +23,13 @@ import toml
 sys.path.insert(0, os.path.abspath("../.."))
 import pyfeyn2
 
+from pyfeyn2.render import all
+
+import copy
+
+from smpl_doc import doc
+from smpl_io import io
+
 # -- Project information -----------------------------------------------------
 
 try:
@@ -94,7 +101,6 @@ html_logo = "pyfeyn-logo.svg"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
-from pyfeyn2.render import all
 
 renders = all.renders
 styles = all.AllRender.valid_styles()
@@ -141,9 +147,6 @@ for n, r in renders.items():
             + "\n\n"
         )
 
-import copy
-
-from smpl import doc, io
 
 style_tab = {":ref:`style`": [v for v in renders.keys()]}
 original = copy.copy(style_tab)
