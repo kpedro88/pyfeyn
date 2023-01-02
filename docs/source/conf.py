@@ -21,14 +21,13 @@ import sys
 import toml
 
 sys.path.insert(0, os.path.abspath("../.."))
-import pyfeyn2
-
-from pyfeyn2.render import all
-
 import copy
 
 from smpl_doc import doc
 from smpl_io import io
+
+import pyfeyn2
+from pyfeyn2.render import all
 
 # -- Project information -----------------------------------------------------
 
@@ -75,6 +74,7 @@ napoleon_use_ivar = True
 # autoapi_python_class_content = "both"
 
 autosummary_generate = True
+autosummary_imported_members = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

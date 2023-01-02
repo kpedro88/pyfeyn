@@ -565,7 +565,7 @@ numpy = ">=1.6"
 
 [[package]]
 name = "feynml"
-version = "0.0.3"
+version = "0.0.4"
 description = "Feynman diagram markup language"
 category = "main"
 optional = false
@@ -577,10 +577,15 @@ cssutils = "*"
 deprecated = "*"
 deprecation = "*"
 particle = "*"
+pyhepmc = {version = "*", optional = true, markers = "extra == \"interface\""}
+pyqgraf = {version = ">=0.0.3", optional = true, markers = "extra == \"interface\""}
 smpl_doc = "*"
 smpl_io = "*"
 smpl_util = "*"
 xsdata = {version = "*", extras = ["cli", "lxml", "soap"]}
+
+[package.extras]
+interface = ["pyhepmc", "pyqgraf (>=0.0.3)"]
 
 [[package]]
 name = "filelock"
@@ -2904,7 +2909,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "207913826a35ba964e345d00226e8028a95f08ea44ff0d3d9c4c861cc2bfa0c9"
+content-hash = "13c6d8a7ad58a28a6e4459162311392d2c9ac464c127ee1e94ac171f2d07fc45"
 
 [metadata.files]
 alabaster = [
@@ -3393,8 +3398,8 @@ feynman = [
     {file = "feynman-2.0.2.tar.gz", hash = "sha256:6e26b8a93d7fd3d484eb6ed9373fca779ac77adddfdbca76f3baa09f59460ec8"},
 ]
 feynml = [
-    {file = "feynml-0.0.3-py3-none-any.whl", hash = "sha256:382b1d98cedb0ec53d4daba400c82def560e7919246e3a3080cc274db63f8959"},
-    {file = "feynml-0.0.3.tar.gz", hash = "sha256:42e98bdbc48ddbab7beccd4e168111de0a9e970e6e419f2edd9cd0f4e2d269fa"},
+    {file = "feynml-0.0.4-py3-none-any.whl", hash = "sha256:e5c4c1b981ca91bb879797530bc756e8b77a395afdec3e32252a32129438af78"},
+    {file = "feynml-0.0.4.tar.gz", hash = "sha256:ec6c1b1b0d0f036b1dc9e1793dd3ddede280ac2af3b2a3c128298b4c6e7bd847"},
 ]
 filelock = [
     {file = "filelock-3.9.0-py3-none-any.whl", hash = "sha256:f58d535af89bb9ad5cd4df046f741f8553a418c01a7856bf0d173bbc9f6bd16d"},

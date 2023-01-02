@@ -32,7 +32,7 @@ cssselect ="*"
 smpl_io = "*"
 smpl_doc = "*"
 smpl_util= "*"
-feynml = {version = ">=0.0.3", extras = ["interface"]}
+feynml = {version = ">=0.0.4", extras = ["interface"]}
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
