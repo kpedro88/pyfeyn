@@ -2,19 +2,11 @@
 
 Forked from <https://pyfeyn.hepforge.org/> 
 
-FeynML from <https://feynml.hepforge.org/>
-
 PyFeyn is a Python-language based system for drawing Feynman diagrams. It was inspired by the C++ FeynDiagram system, and aims to provide the same functionality and quality of output as that, with the added benefits of a modern interpreted language, an improved interface and output direct to both EPS and PDF. Behind the scenes, PyFeyn uses the excellent PyX system - you can use PyX constructs in PyFeyn diagrams if you want, too.
 
 [![PyPI version][pypi image]][pypi link] [![PyPI version][pypi versions]][pypi link]  ![downloads](https://img.shields.io/pypi/dm/smpl.svg)
 
-| [Stable][doc stable]        | [Test][doc test]           |
-| ------------- |:-------------:|
-| [![workflow][a s image]][a s link]   | [![test][a t image]][a t link]     |
-| [![Coverage Status][c s i]][c s l]   | [![Coverage Status][c t i]][c t l] |
-| [![Codacy Badge][cc s c i]][cc s c l] | [![Codacy Badge][cc c i]][cc c l]  |
-| [![Codacy Badge][cc s q i]][cc s q l] | [![Codacy Badge][cc q i]][cc q l]  |
-| [![Documentation][rtd s i]][rtd s l] | [![Documentation][rtd t i]][rtd t l]|
+[![test][a t image]][a t link]      [![Coverage Status][c t i]][c t l]  [![Codacy Badge][cc c i]][cc c l]   [![Codacy Badge][cc q i]][cc q l]  [![Documentation][rtd t i]][rtd t l]
 
 ## Dependencies
 
