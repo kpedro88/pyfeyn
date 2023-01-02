@@ -38,8 +38,9 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector) -> str:
         label = ""
     else:
         label = c.label.replace("\\", REPLACE_THIS_WITH_A_BACKSLASH)
-    if c.length is not None:
-        style += f",len={c.length}"
+    if fstyle.getProperty("length") is not None:
+        len = fstyle.getProperty("length").value
+        style += f",len={len}"
     style += f',label="{label}"'
     return style
 
@@ -104,4 +105,5 @@ class DotRender(LatexRender):
             "line",
             "direction",
             "layout",
+            "length",
         ]

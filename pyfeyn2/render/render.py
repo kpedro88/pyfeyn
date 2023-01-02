@@ -72,19 +72,23 @@ class Render:
         fd = FeynmanDiagram().add(
             v1,
             v2,
-            Propagator().connect(v1, v2).with_type(d).set_label(label).set_tension(0.0),
+            Propagator()
+            .connect(v1, v2)
+            .with_type(d)
+            .with_label(label)
+            .with_tension(0.0),
             Leg()
             .with_target(v1)
-            .set_point(v1)
+            .with_point(v1)
             .with_type("phantom")
             .with_incoming()
-            .set_length(0.0),
+            .with_length(0.0),
             Leg()
             .with_target(v2)
-            .set_point(v2)
+            .with_point(v2)
             .with_type("phantom")
             .with_outgoing()
-            .set_length(0.0),
+            .with_length(0.0),
         )
 
         self.set_feynman_diagram(fd)
@@ -95,9 +99,9 @@ class Render:
 
         fd = FeynmanDiagram().add(
             v1,
-            Leg().with_target(v1).set_xy(-1, 0).with_type("line").with_incoming(),
-            Leg().with_target(v1).set_xy(1, -1).with_type("line").with_incoming(),
-            Leg().with_target(v1).set_xy(1, 1).with_type("line").with_outgoing(),
+            Leg().with_target(v1).with_xy(-1, 0).with_type("line").with_incoming(),
+            Leg().with_target(v1).with_xy(1, -1).with_type("line").with_incoming(),
+            Leg().with_target(v1).with_xy(1, 1).with_type("line").with_outgoing(),
         )
 
         self.set_feynman_diagram(fd)

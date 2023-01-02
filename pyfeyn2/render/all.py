@@ -3,6 +3,7 @@ import tempfile
 import traceback
 from typing import List
 
+from feynml.types import get_shapes, get_types
 from matplotlib import pyplot as plt
 from pylatex import Figure, NoEscape, SubFigure
 
@@ -11,11 +12,9 @@ from pyfeyn2.render.latex.feynmp import FeynmpRender
 from pyfeyn2.render.latex.latex import LatexRender
 from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
 from pyfeyn2.render.mpl.feynmanrender import FeynmanRender
-from pyfeyn2.render.mpl.mpl import MPLRender
 from pyfeyn2.render.pyx.pyxrender import PyxRender
 from pyfeyn2.render.text.asciipdf import ASCIIPDFRender
 from pyfeyn2.render.text.unicodepdf import UnicodePDFRender
-from pyfeyn2.types import get_shapes, get_types
 
 renders = {
     "tikz": TikzFeynmanRender,
@@ -23,7 +22,6 @@ renders = {
     "feynmp": FeynmpRender,
     "feynman": FeynmanRender,
     "dot": DotRender,
-    "mpl": MPLRender,
     "ascii": ASCIIPDFRender,
     "unicode": UnicodePDFRender,
 }
