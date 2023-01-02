@@ -189,7 +189,6 @@ class TikzFeynmanRender(LatexRender):
             "symbol",
             "color",
             "opacity",
-            "bend",
             "bend-direction",
             "bend-in",
             "bend-out",

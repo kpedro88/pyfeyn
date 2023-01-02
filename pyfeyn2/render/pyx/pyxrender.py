@@ -48,7 +48,8 @@ class PyxRender(Render):
                 nl = NamedLine[lstyle.getProperty("line").value](
                     Point(tar.x, tar.y), Point(l.x, l.y)
                 )
-            nl = nl.bend(l.bend)
+            if lstyle.getProperty("bend") is not None:
+                nl = nl.bend(lstyle.getProperty("bend").value)
             nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(l.label)
 
@@ -59,6 +60,8 @@ class PyxRender(Render):
             nl = NamedLine[pstyle.getProperty("line").value](
                 Point(src.x, src.y), Point(tar.x, tar.y)
             )
+            if lstyle.getProperty("bend") is not None:
+                nl = nl.bend(lstyle.getProperty("bend").value)
             nl = nl.bend(p.bend)
             nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(p.label)
@@ -202,6 +205,7 @@ class PyxRender(Render):
     def valid_styles(cls):
         return super(PyxRender, cls).valid_styles() + [
             "line",
+            "bend",
             "arrow-pos",
             "arrow-sense",  #           "parallel-arrow-sense",
             "arrow-displace",  #           "parallel-arrow-displace",
