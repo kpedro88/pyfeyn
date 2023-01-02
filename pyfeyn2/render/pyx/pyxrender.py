@@ -60,9 +60,8 @@ class PyxRender(Render):
             nl = NamedLine[pstyle.getProperty("line").value](
                 Point(src.x, src.y), Point(tar.x, tar.y)
             )
-            if lstyle.getProperty("bend") is not None:
-                nl = nl.bend(lstyle.getProperty("bend").value)
-            nl = nl.bend(p.bend)
+            if pstyle.getProperty("bend") is not None:
+                nl = nl.bend(pstyle.getProperty("bend").value)
             nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(p.label)
         pyxfd.draw(file)
