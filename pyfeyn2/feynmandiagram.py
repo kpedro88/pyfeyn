@@ -1,3 +1,4 @@
+"""Moved to :py:mod:`feynml`"""
 from importlib.metadata import version
 
 from feynml.connector import Connector

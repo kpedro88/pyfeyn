@@ -66,7 +66,7 @@ extensions = [
     "IPython.sphinxext.ipython_console_highlighting",
 ]
 
-# nbsphinx_execute = "always"
+nbsphinx_execute = "always"
 
 napoleon_use_ivar = True
 # autoapi_type = "python"

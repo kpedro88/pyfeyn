@@ -40,11 +40,11 @@ class PyxRender(Render):
         for l in self.fd.legs:
             lstyle = self.fd.get_style(l)
             tar = self.fd.get_vertex(l.target)
-            if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
+            if l.is_incoming():
                 nl = NamedLine[lstyle.getProperty("line").value](
                     Point(l.x, l.y), Point(tar.x, tar.y)
                 )
-            elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
+            elif l.is_outgoing():
                 nl = NamedLine[lstyle.getProperty("line").value](
                     Point(tar.x, tar.y), Point(l.x, l.y)
                 )
