@@ -3245,37 +3245,37 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pyhepmc"
-version = "2.10.0"
+version = "2.12.0"
 description = "Pythonic interface to the HepMC3 C++ library licensed under LGPL-v3."
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pyhepmc-2.10.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:d8d8af86c8bc7bdaa2b3e6b8b1211c9373659eb17e835bd373cbe97e63857181"},
-    {file = "pyhepmc-2.10.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:c5d7693d4683f2837f71afa0b2c92330706866e847e9ad58e657ef4c84b79fb0"},
-    {file = "pyhepmc-2.10.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2fef66c65802e9024853c34eca47273e1ffe55d70dad2bf84d74a0d11c5859db"},
-    {file = "pyhepmc-2.10.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0ebc6c7efd2a7c8211999bc89df992913a2c08c9b6a868f14b5e235eb25d3006"},
-    {file = "pyhepmc-2.10.0-cp310-cp310-win_amd64.whl", hash = "sha256:bec3f7411a44e858299f7b896c34942f5e1f0e801dee4d8f8ccfe8d30e1da6e9"},
-    {file = "pyhepmc-2.10.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:e7922c47d529a1fa259653491ba8bcc83ef50f43f5b822908bb7899659ad9a61"},
-    {file = "pyhepmc-2.10.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:668b1c885cf06184ed792e80093029749052b66f924cc48f7ec6d5282ed3c916"},
-    {file = "pyhepmc-2.10.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5980ddbcd0ee437c4a3cc10a091c3345f185511a6a491bda082dc616789aece5"},
-    {file = "pyhepmc-2.10.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:436e9d9346187602ab34c3a97a3f26cde435f352307c5b2f82b1fbe985a6a8c8"},
-    {file = "pyhepmc-2.10.0-cp311-cp311-win_amd64.whl", hash = "sha256:6df0c345ce76aeffc88d561e879f8fceda0df4fac2d5de8e771238539cb631ef"},
-    {file = "pyhepmc-2.10.0-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:cdbb1cc7cdfe4f0466ee05b569f7244bfedc13095da28dc2821d959c48a44ebc"},
-    {file = "pyhepmc-2.10.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:a2982307f97bd968092ae53ec3c45287d5f67739cfd1c3549d1a8a8441e7e61f"},
-    {file = "pyhepmc-2.10.0-cp38-cp38-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:32e6db17d40ad2ad026b9b873c11835898c3b2cf09194ab7803a3ab3311a94b9"},
-    {file = "pyhepmc-2.10.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:9b404ac69c19a31447ee6858f00e85d7cd5fd2a3fdef9810f087c1a124687f2b"},
-    {file = "pyhepmc-2.10.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1ffa19ba93846c76e66b938b44cd1831c67b1f0e4c610417062c3feb4c81c35e"},
-    {file = "pyhepmc-2.10.0-cp38-cp38-win32.whl", hash = "sha256:53294369c377a54bf5ba8b7852ea95b7ddee3bb7acaab35ba81a8a10f6b349e1"},
-    {file = "pyhepmc-2.10.0-cp38-cp38-win_amd64.whl", hash = "sha256:b088357b5e2f0c302abc4add33ca59f646cbc8a67640eabcf3cfc5a04164124b"},
-    {file = "pyhepmc-2.10.0-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:64add95e48216ed531841559d71adccc1e2f0667d3e125b1d29a3efa87c1b07c"},
-    {file = "pyhepmc-2.10.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:8d3222f4edee2ec12000fffcd8a4847e37eb58a1cad01e1b5eeded31b706fa70"},
-    {file = "pyhepmc-2.10.0-cp39-cp39-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:cb660aa330ae8c7f4e439db178aae38361aa62ffbf27625f2ee54b3a150fd50b"},
-    {file = "pyhepmc-2.10.0-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:69a51143b41d2a71bd7fb145624fbcf71b38544c212b80dbb446d7ee47ddac86"},
-    {file = "pyhepmc-2.10.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e6d74e1a8a6e9634b1d925ff32df122f89470ec9be5599792a7f56605d88d7da"},
-    {file = "pyhepmc-2.10.0-cp39-cp39-win32.whl", hash = "sha256:ea58bed209a4926062d58316724a7826d35be0ecc6d2fa3dd3990e13dcc29fc8"},
-    {file = "pyhepmc-2.10.0-cp39-cp39-win_amd64.whl", hash = "sha256:046d125fa73e24cdefcc17b32313e24be8035dbfb4c26b8713660525d5480027"},
-    {file = "pyhepmc-2.10.0.tar.gz", hash = "sha256:8c9d1969146604266284569017db8a4c03387fabf098f31c68179dc4def388b9"},
+    {file = "pyhepmc-2.12.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:abef202480ee710874520f077ccb5ab48959de5ccf9c420625e6b300257cae83"},
+    {file = "pyhepmc-2.12.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:e0558cb5a4710dad76172b0faf37d83482d12f1e2cf0a9b8281caa817e2a7b9f"},
+    {file = "pyhepmc-2.12.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d546ce087ad33eba60dbbacab52bd0beb5cd2c4e06d2fd0989acd6f8608e6e22"},
+    {file = "pyhepmc-2.12.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2a9f4f1abeca95894efe39a09eaabf7d6e5a4a02c134280151b48829f9320dfe"},
+    {file = "pyhepmc-2.12.0-cp310-cp310-win_amd64.whl", hash = "sha256:79622c08eb81c1e16e5b599b4aa8b988b00099ed88598f23cae06b2154122764"},
+    {file = "pyhepmc-2.12.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:7bb55cd4403dc868fa140da8791358e7aebe257f14e72adaa5a365f39a850fba"},
+    {file = "pyhepmc-2.12.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:dcc8336bdb40e3c78eb494d551aee19c44a559a87307addfcbd4c70c87944388"},
+    {file = "pyhepmc-2.12.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0a306d3f84b094e6cbdc86a6b10d8118062f6e0fc2f542260a239491e0561ebd"},
+    {file = "pyhepmc-2.12.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6307399619150bdcc6fe4e66a3140a7b908b7906f2d031b0ca54860a6eee2326"},
+    {file = "pyhepmc-2.12.0-cp311-cp311-win_amd64.whl", hash = "sha256:c6e3ffefca17cfabcb05288ec50152065a508c20a847c891bcfec62e08a7f46f"},
+    {file = "pyhepmc-2.12.0-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:ada16c5980ed448af2b931f36a48a51286aaac7614c301c3b684804ec28e966c"},
+    {file = "pyhepmc-2.12.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:bcfcdcef8f442f28999bc6618c3508679d5c9cf12823cd965b1c09c09b67b94b"},
+    {file = "pyhepmc-2.12.0-cp38-cp38-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:a437d8b1aa0046b709b3237df171e5ac8e342e47e74f9555399f476055ac35f0"},
+    {file = "pyhepmc-2.12.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:db9d901c1880314914547ba4741d9eb54a5d64732e5bfd7834b6e24ac7677def"},
+    {file = "pyhepmc-2.12.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2a388400dcd9d47e4986280d595a5c5f44e0f0c504f8208f6eda7c7d91cd6296"},
+    {file = "pyhepmc-2.12.0-cp38-cp38-win32.whl", hash = "sha256:2a13c8d6593f0505816e4819ef499cc94673fc5d73f58527a4e7e31c5d58360a"},
+    {file = "pyhepmc-2.12.0-cp38-cp38-win_amd64.whl", hash = "sha256:27aa8b8c299004f0e118c873cd81eefc5dff9b6a33558f82164896ac9ee1baca"},
+    {file = "pyhepmc-2.12.0-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:dfc928001fb0e3a40e483df2fd1c47f60c7a4035996a60ebe2bea51fe0d22bd3"},
+    {file = "pyhepmc-2.12.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:ee1635140fb0e0b7024ecc87fa699d3b04786a05ec0386eed437c13f696a8751"},
+    {file = "pyhepmc-2.12.0-cp39-cp39-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:1bc81a737b07c3da9bfe270358179fc3009f581f9625234cbcd589b9fd261d01"},
+    {file = "pyhepmc-2.12.0-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:8e8a5eeafcb8c3e0bf8a1cc6decdaafb110ed1e7a0f7a1690f541d85f085076f"},
+    {file = "pyhepmc-2.12.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:194a1ede2bb505474c10d9ce09852cf13b216c13adbb9d6fedbce987b8af972f"},
+    {file = "pyhepmc-2.12.0-cp39-cp39-win32.whl", hash = "sha256:4c082803f4839242118af54575bf374292a632ef901690f28a26c38fe3e5cda5"},
+    {file = "pyhepmc-2.12.0-cp39-cp39-win_amd64.whl", hash = "sha256:be1dad50f74aed05a6b42625e406fdc8ecdef4b66b1d562f63f45a3e5b6d92f7"},
+    {file = "pyhepmc-2.12.0.tar.gz", hash = "sha256:ce236572cd1609d3adb1bff90da2106c07213aeb6c60d9529fbf7b60b2480dca"},
 ]
 
 [package.dependencies]
@@ -4947,4 +4947,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "4c8b9f15cf8a02db7d15aff2b54b51589db9f12a467e923affb6c4b8cd8ddb9d"
+content-hash = "7ce416f35b84de511c01ad6a58e1694ffb384b95eda31e9b9605b756e4a0a437"
