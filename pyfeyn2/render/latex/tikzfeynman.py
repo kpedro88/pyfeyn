@@ -1,3 +1,5 @@
+from typing import List
+
 from pylatex import Command
 from pylatex.utils import NoEscape
 
@@ -26,57 +28,94 @@ type_map = {
     "neutralino": "plain,boson",
     "squark": "charged scalar",
     "slepton": "charged scalar",
+    "anti squark": "anti charged scalar",
+    "anti slepton": "anti charged scalar",
     "gluino": "plain,gluon",
     "higgs": "scalar",
     "vector": "boson",
+    # UTIL
     "phantom": "draw=none",
     "line": "plain",
+    "plain": "plain",
+}
+
+shape_map = {
+    "dot": "dot",
+    "square": "square dot",
+    "empty": "empty dot",
+    "cross": "crossed dot",
+    "blob": "blob",
 }
 
 
 def stylize_connect(fd: FeynmanDiagram, c: Connector):
     style = fd.get_style(c)
     ret = ""
-    ret += type_map[c.type]
+    ret += type_map[style.getProperty("line").value]
 
     if c.label is not None:
         ret += ",edge label=" + c.label
     # if c.edge_label_ is not None: style += ",edge label'=" + c.edge_label_
-    if c.momentum is not None:
-        ret += ",momentum=" + c.momentum
+    if (
+        style.getProperty("momentum-arrow") is not None
+        and style.getProperty("momentum-arrow").value == "true"
+    ):
+        if (
+            style.getProperty("momentum-arrow-flip") is not None
+            and style.getProperty("momentum-arrow-flip").value == "true"
+        ):
+            ret += ",momentum'=" + c.momentum.name
+        else:
+            ret += ",momentum=" + c.momentum.name
     if style.opacity is not None and style.opacity != "":
         ret += ",opacity=" + str(style.opacity)
     if style.color is not None and style.color != "":
         ret += "," + str(style.color)
-    if c.bend is not None and c.bend:
-        if style.getProperty("bend-direction") is not None:
-            ret += ",bend " + str(style.getProperty("bend-direction").value)
-        if style.getProperty("bend-loop") is not None:
-            ret += (
-                ",loop , in="
-                + str(style.getProperty("bend-in").value)
-                + ", out="
-                + str(style.getProperty("bend-out").value)
-                + ", min distance="
-                + str(style.getProperty("bend-min-distance").value)
-            )
+    if style.getProperty("bend-direction") is not None:
+        ret += ",bend " + str(style.getProperty("bend-direction").value)
+    if style.getProperty("bend-loop") is not None:
+        ret += (
+            ",loop , in="
+            + str(style.getProperty("bend-in").value)
+            + ", out="
+            + str(style.getProperty("bend-out").value)
+            + ", min distance="
+            + str(style.getProperty("bend-min-distance").value)
+        )
 
     return ret
 
 
-def stylize_node(v: Vertex):
-    style = ""
+def stylize_node(fd: FeynmanDiagram, v: Vertex):
+    style = fd.get_style(v)
+    ret = ""
+    suffix = None
     if v.label is not None:
-        style += "label=" + v.label + ","
+        ret += "label=" + v.label + ","
+    if style.getProperty("symbol") is not None:
+        ret += shape_map[style.getProperty("symbol").value] + ","
+        suffix = ""
 
-    return style[:-1]
+    end = ret[:-1]
+
+    if suffix is not None:
+        suffix = "{" + suffix + "}"
+    else:
+        suffix = ""
+
+    return (
+        f"\t\\vertex ({v.id}) [{end}] at ({v.x},{v.y}) {suffix};\n"
+        + f"\t\\vertex ({v.id}clone) [] at ({v.x},{v.y});\n"
+    )
 
 
 def stylize_leg_node(l: Leg):
     style = ""
     if l.external is not None:
         style += "label=" + l.external + ","
-    return style[:-1]
+    sty = style[:-1]
+
+    return f"\t\\vertex ({l.id}) [{sty}] at ({l.x},{l.y});\n"
 
 
 def get_line(source_id, target_id, style):
@@ -88,24 +127,23 @@ def get_line(source_id, target_id, style):
 
 
 def feynman_to_tikz_feynman(fd):
+    direct = "*"
+
     src = "\\begin{tikzpicture}\n"
     src += "\\begin{feynman}\n"
     for v in fd.vertices:
-        style = stylize_node(v)
-        src += f"\t\\vertex ({v.id}) [{style}] at ({v.x},{v.y});\n"
-        src += f"\t\\vertex ({v.id}clone) [{style}] at ({v.x},{v.y});\n"
+        src += stylize_node(fd, v)
     for l in fd.legs:
-        style = stylize_leg_node(l)
-        src += f"\t\\vertex ({l.id}) [{style}] at ({l.x},{l.y});\n"
-    src += "\t\\diagram*{\n"
+        src += stylize_leg_node(l)
+    src += f"\t\\diagram{direct}" + "{\n"
     for p in fd.propagators:
         style = stylize_connect(fd, p)
         src += get_line(p.source, p.target, style)
     for l in fd.legs:
         style = stylize_connect(fd, l)
-        if l.sense[:2] == "in":
+        if l.is_incoming():
             src += get_line(l.id, l.target, style)
-        elif l.sense[:3] == "out":
+        elif l.is_outgoing():
             src += get_line(l.target, l.id, style)
         else:
             raise Exception("Unknown sense")
@@ -144,20 +182,34 @@ class TikzFeynmanRender(LatexRender):
         super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_tikz_feynman(fd)))
 
-    @staticmethod
-    def valid_styles(style: str) -> bool:
-        return super(TikzFeynmanRender, TikzFeynmanRender).valid_styles(
-            style
-        ) or style in ["color", "opacity"]
+    @classmethod
+    def valid_styles(cls) -> bool:
+        return super(TikzFeynmanRender, cls).valid_styles() + [
+            "line",
+            "symbol",
+            "color",
+            "opacity",
+            "bend-direction",
+            "bend-in",
+            "bend-out",
+            "bend-loop",
+            "bend-min-distance",
+            "momentum-arrow",
+        ]
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(TikzFeynmanRender, TikzFeynmanRender).valid_attribute(
-            attr
-        ) or attr in ["x", "y", "label", "style", "momentum"]
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return super(TikzFeynmanRender, cls).valid_attributes() + [
+            "x",
+            "y",
+            "label",
+            "style",
+        ]
 
-    @staticmethod
-    def valid_type(typ):
-        if typ.lower() in type_map:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(TikzFeynmanRender, cls).valid_types() + list(type_map.keys())
+
+    @classmethod
+    def valid_shapes(cls) -> List[str]:
+        return super(TikzFeynmanRender, cls).valid_types() + list(shape_map.keys())

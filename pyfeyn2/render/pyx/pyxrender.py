@@ -38,20 +38,30 @@ class PyxRender(Render):
                 dp.setFillstyles(PointLabel(dp, v.label, displace=3, angle=90))
             pyxfd.add(dp)
         for l in self.fd.legs:
+            lstyle = self.fd.get_style(l)
             tar = self.fd.get_vertex(l.target)
-            if l.sense[:2] == "in" or l.sense[:8] == "anti-out":
-                nl = NamedLine[l.type](Point(l.x, l.y), Point(tar.x, tar.y))
-            elif l.sense[:3] == "out" or l.sense[:9] == "anti-in":
-                nl = NamedLine[l.type](Point(tar.x, tar.y), Point(l.x, l.y))
-            nl = nl.bend(l.bend)
+            if l.is_incoming():
+                nl = NamedLine[lstyle.getProperty("line").value](
+                    Point(l.x, l.y), Point(tar.x, tar.y)
+                )
+            elif l.is_outgoing():
+                nl = NamedLine[lstyle.getProperty("line").value](
+                    Point(tar.x, tar.y), Point(l.x, l.y)
+                )
+            if lstyle.getProperty("bend") is not None:
+                nl = nl.bend(lstyle.getProperty("bend").value)
             nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(l.label)
 
         for p in self.fd.propagators:
+            pstyle = self.fd.get_style(p)
             src = self.fd.get_vertex(p.source)
             tar = self.fd.get_vertex(p.target)
-            nl = NamedLine[p.type](Point(src.x, src.y), Point(tar.x, tar.y))
-            nl = nl.bend(p.bend)
+            nl = NamedLine[pstyle.getProperty("line").value](
+                Point(src.x, src.y), Point(tar.x, tar.y)
+            )
+            if pstyle.getProperty("bend") is not None:
+                nl = nl.bend(pstyle.getProperty("bend").value)
             nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(p.label)
         pyxfd.draw(file)
@@ -177,27 +187,26 @@ class PyxRender(Render):
                 obj.set3D(True)
         return obj
 
-    @staticmethod
-    def valid_type(typ: str):
-        if typ.lower() in NamedLine:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls):
+        return super(PyxRender, cls).valid_types() + list(NamedLine.keys())
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(PyxRender, PyxRender).valid_attribute(attr) or attr.lower() in [
+    @classmethod
+    def valid_attributes(cls):
+        return super(PyxRender, cls).valid_attributes() + [
             "style",
             "type",
-            "bend",
             "label",
             "x",
             "y",
         ]
 
-    @staticmethod
-    def valid_style(style: str) -> bool:
-        return super(PyxRender, PyxRender).valid_style(style) or style.lower() in [
+    @classmethod
+    def valid_styles(cls):
+        return super(PyxRender, cls).valid_styles() + [
+            "line",
+            "bend",
             "arrow-pos",
-            "parallel-arrow-sense",
-            "parallel-arrow-displace",
+            "arrow-sense",  #           "parallel-arrow-sense",
+            "arrow-displace",  #           "parallel-arrow-displace",
         ]

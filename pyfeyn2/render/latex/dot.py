@@ -1,15 +1,14 @@
-import copy
+from typing import List
 
-import dot2tex
+from pylatex import Command
+from pylatex.utils import NoEscape
+
+from pyfeyn2.feynmandiagram import Connector, FeynmanDiagram
 from pyfeyn2.interface.dot import (
     REPLACE_THIS_WITH_A_BACKSLASH,
     dot_to_tikz,
     feynman_to_dot,
 )
-from pylatex import Command
-from pylatex.utils import NoEscape
-
-from pyfeyn2.feynmandiagram import Connector
 from pyfeyn2.render.latex.latex import LatexRender
 
 # workaround for dot2tex bug in math mode labels
@@ -30,14 +29,18 @@ map_feyn_to_tikz = {
 }
 
 
-def stylize_connect(c: Connector) -> str:
-    style = 'style="{}",texmode="raw"'.format(map_feyn_to_tikz[c.type])
+def stylize_connect(fd: FeynmanDiagram, c: Connector) -> str:
+    fstyle = fd.get_style(c)
+    style = 'style="{}",texmode="raw"'.format(
+        map_feyn_to_tikz[fstyle.getProperty("line").value]
+    )
     if c.label is None:
         label = ""
     else:
         label = c.label.replace("\\", REPLACE_THIS_WITH_A_BACKSLASH)
-    if c.length is not None:
-        style += f",len={c.length}"
+    if fstyle.getProperty("length") is not None:
+        len = fstyle.getProperty("length").value
+        style += f",len={len}"
     style += f',label="{label}"'
     return style
 
@@ -83,16 +86,24 @@ class DotRender(LatexRender):
     def get_src_dot(self):
         return self.src_dot
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(DotRender, DotRender).valid_attribute(attr) or attr in [
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return super(DotRender, cls).valid_attributes() + [
             "x",
             "y",
             "label",
+            "style",
         ]
 
-    @staticmethod
-    def valid_type(typ):
-        if typ.lower() in map_feyn_to_tikz:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(DotRender, cls).valid_types() + list(map_feyn_to_tikz.keys())
+
+    @classmethod
+    def valid_styles(cls) -> bool:
+        return super(DotRender, cls).valid_styles() + [
+            "line",
+            "direction",
+            "layout",
+            "length",
+        ]

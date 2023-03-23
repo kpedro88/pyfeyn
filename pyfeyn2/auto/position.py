@@ -10,10 +10,10 @@ def scale_positions(fd, scale):
     return fd
 
 
-def feynman_adjust_points(feyndiag, size=5, delete_vertices=True):
+def feynman_adjust_points(feyndiag, size=5, override_vertices=True):
     """Adjust the points of the vertices and legs using Dot language algorithms."""
     fd = feyndiag
-    if delete_vertices:
+    if override_vertices:
         for v in fd.vertices:
             v.x = None
             v.y = None

@@ -31,6 +31,7 @@ pull: commit
 	git pull
 
 clean: 
+	rm -r docs/build docs/source/_autosummary
 	rm -r .eggs .pytest_cache *.egg-info dist build
 
 

@@ -1,5 +1,7 @@
-from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
 import abc
+from typing import List
+
+from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
 
 
 class Render:
@@ -31,40 +33,75 @@ class Render:
         """
         return
 
-    @staticmethod
-    def valid_style(style: str) -> bool:
-        return False
+    @classmethod
+    def valid_styles(cls) -> List[str]:
+        return []
 
-    @staticmethod
-    def valid_type(typ: str) -> bool:
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return []
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        if attr in ["id", "pdgid", "sense", "target", "source", "type"]:
-            return True
-        return False
+    @classmethod
+    def valid_shapes(cls) -> List[str]:
+        return []
+
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return ["type", "shape", "class"]
+
+    @classmethod
+    def valid_type(cls, typ: str) -> bool:
+        return typ in cls.valid_types()
+
+    @classmethod
+    def valid_shape(cls, typ: str) -> bool:
+        return typ in cls.valid_shapes()
+
+    @classmethod
+    def valid_style(cls, style: str) -> bool:
+        return style in cls.valid_styles()
+
+    @classmethod
+    def valid_attribute(cls, attr: str) -> bool:
+        return attr in cls.valid_attributes()
 
     def demo_propagator(self, d, show=True, label=None):
-        v1 = Vertex().set_xy(-2, -2)
-        v2 = Vertex().set_xy(2, -2)
+        v1 = Vertex().with_xy(-2, -2)
+        v2 = Vertex().with_xy(2, -2)
 
         fd = FeynmanDiagram().add(
             v1,
             v2,
-            Propagator().connect(v1, v2).set_type(d).set_label(label).set_tension(0.0),
+            Propagator()
+            .connect(v1, v2)
+            .with_type(d)
+            .with_label(label)
+            .with_tension(0.0),
             Leg()
-            .set_target(v1)
-            .set_point(v1)
-            .set_type("phantom")
-            .set_incoming()
-            .set_length(0.0),
+            .with_target(v1)
+            .with_point(v1)
+            .with_type("phantom")
+            .with_incoming()
+            .with_length(0.0),
             Leg()
-            .set_target(v2)
-            .set_point(v2)
-            .set_type("phantom")
-            .set_outgoing()
-            .set_length(0.0),
+            .with_target(v2)
+            .with_point(v2)
+            .with_type("phantom")
+            .with_outgoing()
+            .with_length(0.0),
+        )
+
+        self.set_feynman_diagram(fd)
+        self.render(show=show)
+
+    def demo_vertex(self, d, show=True, label=None):
+        v1 = Vertex().with_xy(0, 0).with_shape(d)  # .set_label(label)
+
+        fd = FeynmanDiagram().add(
+            v1,
+            Leg().with_target(v1).with_xy(-1, 0).with_type("line").with_incoming(),
+            Leg().with_target(v1).with_xy(1, -1).with_type("line").with_incoming(),
+            Leg().with_target(v1).with_xy(1, 1).with_type("line").with_outgoing(),
         )
 
         self.set_feynman_diagram(fd)

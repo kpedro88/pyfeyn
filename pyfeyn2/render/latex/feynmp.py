@@ -1,4 +1,5 @@
 import uuid
+from typing import List
 
 from pylatex import Command
 from pylatex.utils import NoEscape
@@ -27,6 +28,7 @@ type_map = {
     "plain": ["plain"],
     "plain_arrow": ["plain_arrow"],
     "fermion": ["fermion"],
+    "anti fermion": ["fermion"],
     "electron": ["electron"],
     "quark": ["quark"],
     "double": ["double"],
@@ -59,6 +61,24 @@ def stylize_line(c: Connector) -> str:
 
 
 def feynman_to_feynmp(fd):
+    dire = fd.get_style(fd).getProperty("direction").value
+    dirin = ""
+    dirout = ""
+    if dire == "left":
+        dirin = "right"
+        dirout = "left"
+    elif dire == "right":
+        dirin = "left"
+        dirout = "right"
+    elif dire == "up":
+        dirin = "bottom"
+        dirout = "top"
+    elif dire == "down":
+        dirin = "top"
+        dirout = "bottom"
+    else:
+        raise Exception(f"Unknown direction: {dire}")
+
     # get random alphanumeric string
     result_str = uuid.uuid4().hex
     src = "\\begin{fmffile}{tmp-" + result_str + "}\n"
@@ -74,36 +94,54 @@ def feynman_to_feynmp(fd):
         else:
             raise Exception("Unknown sense")
     if len(incoming) > 0:
-        src += "\t\t\\fmfleft{"
+        src += f"\t\t\\fmf{dirin}" + "{"
         for l in incoming:
             src += f"{l.id},"
         src = src[:-1]
         src += "}\n"
     if len(outgoing) > 0:
-        src += "\t\t\\fmfright{"
+        src += f"\t\t\\fmf{dirout}" + "{"
         for l in outgoing:
             src += f"{l.id},"
         src = src[:-1]
         src += "}\n"
 
     for l in incoming:
-        tttype = type_map[l.type]
+        lstyle = fd.get_style(l)
+        tttype = type_map[lstyle.getProperty("line").value]
         style = stylize_line(l)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}{style}}}{{{l.id},{l.target}}}\n"
+            lid = l.id
+            ltarget = l.target
+            if l.type.startswith("anti"):
+                lid = l.target
+                ltarget = l.id
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{lid},{ltarget}}}\n"
             style = ""
     for l in outgoing:
-        tttype = type_map[l.type]
+        lstyle = fd.get_style(l)
+        tttype = type_map[lstyle.getProperty("line").value]
         style = stylize_line(l)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}{style}}}{{{l.target},{l.id}}}\n"
+            lid = l.id
+            ltarget = l.target
+            if l.type.startswith("anti"):
+                lid = l.target
+                ltarget = l.id
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{ltarget},{lid}}}\n"
             style = ""
 
     for p in fd.propagators:
-        tttype = type_map[p.type]
+        pstyle = fd.get_style(p)
+        tttype = type_map[pstyle.getProperty("line").value]
         style = stylize_line(p)
         for ttype in tttype:
-            src += f"\t\t\\fmf{{{ttype}{style}}}{{{p.source},{p.target}}}\n"
+            psource = p.source
+            ptarget = p.target
+            if p.type.startswith("anti"):
+                psource = p.target
+                ptarget = p.source
+            src += f"\t\t\\fmf{{{ttype}{style}}}{{{psource},{ptarget}}}\n"
             style = ""
 
     # Add labels
@@ -141,14 +179,17 @@ class FeynmpRender(MetaPostRender):
         super().set_feynman_diagram(fd)
         self.set_src_diag(NoEscape(feynman_to_feynmp(fd)))
 
-    @staticmethod
-    def valid_attribute(attr: str) -> bool:
-        return super(FeynmpRender, FeynmpRender).valid_attribute(attr) or attr in [
-            "label"
-        ]
+    @classmethod
+    def valid_attributes(cls) -> List[str]:
+        return super(FeynmpRender, cls).valid_attributes() + ["label", "style"]
 
-    @staticmethod
-    def valid_type(typ: str):
-        if typ.lower() in type_map:
-            return True
-        return False
+    @classmethod
+    def valid_types(cls) -> List[str]:
+        return super(FeynmpRender, cls).valid_types() + list(type_map.keys())
+
+    @classmethod
+    def valid_styles(cls) -> bool:
+        return super(FeynmpRender, cls).valid_styles() + [
+            "line",
+            "direction",
+        ]

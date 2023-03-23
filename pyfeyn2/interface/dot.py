@@ -1,21 +1,33 @@
-import copy
-
 import dot2tex
 
 REPLACE_THIS_WITH_A_BACKSLASH = "¬"
 
 
-def _fake_styler(p):
+def _fake_styler(fd, p):
     return 'style="draw=none"'
 
 
 def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
     # TODO better use pydot? still alive? or grpahviz?
-    # TODO style pick neato or dot or whatever
+    fdstyle = fd.get_style(fd)
+    rankdir = None
+    rdir = fdstyle.getProperty("direction").value
+    if rdir == "right":
+        rankdir = "LR"
+    elif rdir == "left":
+        rankdir = "RL"
+    elif rdir == "down":
+        rankdir = "TB"
+    elif rdir == "up":
+        rankdir = "BT"
+    else:
+        raise Exception(f"Unknown direction: {rdir}")
+    layout = fdstyle.getProperty("layout").value
+
     thestyle = ""
     src = "graph G {\n"
-    src += "rankdir=LR;\n"
-    src += "layout=neato;\n"
+    src += f"rankdir={rankdir};\n"
+    src += f"layout={layout};\n"
     # src += "mode=hier;\n"
     src += 'node [style="invis"];\n'
     for l in fd.legs:
@@ -26,7 +38,7 @@ def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
             src += f'\t\t{l.id} [ pos="{l.x},{l.y}!"];\n'
     for p in fd.propagators:
         if styler is not None:
-            thestyle = styler(p)
+            thestyle = styler(fd, p)
         src += "edge [{}];\n".format(thestyle)
         src += f"\t\t{p.source} -- {p.target};\n"
     rank_in = "{rank=min; "
@@ -34,7 +46,7 @@ def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
 
     for l in fd.legs:
         if styler is not None:
-            thestyle = styler(l)
+            thestyle = styler(fd, l)
         if l.sense == "incoming":
             src += "edge [{}];\n".format(thestyle)
             src += f"\t\t{l.id} -- {l.target};\n"

@@ -14,18 +14,23 @@ pylatex = "*"
 dot2tex = "*"
 matplotlib = ">=1.4.0"
 Wand = "*"
-numpy = ">=1.6"
+numpy = ">=1.6,<1.24" # Upper limit due to feynman using np.complex
 pyx = ">=0.12"
 pydot = "*"
 feynman=">=2.0.0"
 cssutils= "*"
 pylatexenc = "*"
 pygments = "*"
-pyhepmc = "*"
 graphviz = "*"
 ipyparallel = "*"
 deprecated = "*"
 deprecation = "*"
+cssselect ="*"
+smpl_io = "*"
+smpl_doc = "*"
+smpl_util= "*"
+feynml = {version = ">=0.0.5", extras = ["interface"]}
+#feynml= {path= "../feynml", develop = true }
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
@@ -39,14 +44,10 @@ sphinx-rtd-theme = "*"
 sphinxcontrib-napoleon = "*"
 nbsphinx = "*"
 jupyter-sphinx = "*"
-sphinx-autoapi = "*"
 sphinx_autobuild = "*"
 sphinx_math_dollar = "*"
 myst-parser  = "*"
 toml = "*"
-smpl = ">=1.0.3" 
-#smpl = {path = "/home/apn/git/smpl", develop = true}
-#smpl = {git = "https://github.com/APN-Pucky/smpl.git", branch = "master"}
 
 [tool.poetry.group.dev]
 optional = true

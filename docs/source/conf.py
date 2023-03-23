@@ -21,7 +21,13 @@ import sys
 import toml
 
 sys.path.insert(0, os.path.abspath("../.."))
+import copy
+
+from smpl_doc import doc
+from smpl_io import io
+
 import pyfeyn2
+from pyfeyn2.render import all
 
 # -- Project information -----------------------------------------------------
 
@@ -58,15 +64,18 @@ extensions = [
     "jupyter_sphinx",
     "IPython.sphinxext.ipython_directive",
     "IPython.sphinxext.ipython_console_highlighting",
-    "autoapi.extension",
 ]
 
 # nbsphinx_execute = "always"
+# nbsphinx_execute = "never"
 
 napoleon_use_ivar = True
-autoapi_type = "python"
-autoapi_dirs = ["../../" + project]
-autoapi_python_class_content = "both"
+# autoapi_type = "python"
+# autoapi_dirs = ["../../" + project]
+# autoapi_python_class_content = "both"
+
+autosummary_generate = True
+# autosummary_imported_members = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -94,10 +103,11 @@ html_logo = "pyfeyn-logo.svg"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-renders = pyfeyn2.renders
-styles = pyfeyn2.styles
-types = pyfeyn2.types
-attributes = pyfeyn2.attributes
+renders = all.renders
+styles = all.AllRender.valid_styles()
+types = all.AllRender.valid_types()
+shapes = all.AllRender.valid_shapes()
+attributes = all.AllRender.valid_attributes()
 
 rst_epilog = (
     rst_epilog
@@ -116,25 +126,28 @@ for n, r in renders.items():
     for s in styles:
         rst_epilog += (
             f".. |{n}.style.{s}| replace:: "
-            + ("|check|" if r().valid_style(s) else "|uncheck|")
+            + ("|check|" if r.valid_style(s) else "|uncheck|")
             + "\n\n"
         )
     for s in types:
         rst_epilog += (
             f".. |{n}.type.{s}| replace:: "
-            + ("|check|" if r().valid_type(s) else "|uncheck|")
+            + ("|check|" if r.valid_type(s) else "|uncheck|")
+            + "\n\n"
+        )
+    for s in shapes:
+        rst_epilog += (
+            f".. |{n}.shape.{s}| replace:: "
+            + ("|check|" if r.valid_shape(s) else "|uncheck|")
             + "\n\n"
         )
     for s in attributes:
         rst_epilog += (
             f".. |{n}.attribute.{s}| replace:: "
-            + ("|check|" if r().valid_attribute(s) else "|uncheck|")
+            + ("|check|" if r.valid_attribute(s) else "|uncheck|")
             + "\n\n"
         )
 
-import copy
-
-from smpl import doc, io
 
 style_tab = {":ref:`style`": [v for v in renders.keys()]}
 original = copy.copy(style_tab)
@@ -149,17 +162,23 @@ for s in styles:
     )
 
 type_tab = {":ref:`type`": [v for v in renders.keys()]}
+original = copy.copy(type_tab)
 for s in types:
     arr = []
     for n, r in renders.items():
         arr += [f"|{n}.type.{s}|"]
     type_tab[f":ref:`/feynml/attributes/type/{s}.ipynb`"] = arr
-    # io.write(
-    #    "shared/type/" + s + ".rst",
-    #    doc.array_table({**original, f":ref:`{s}`": arr}, tabs=0, init=True),
-    # )
+
+shape_tab = {":ref:`type`": [v for v in renders.keys()]}
+original = copy.copy(shape_tab)
+for s in shapes:
+    arr = []
+    for n, r in renders.items():
+        arr += [f"|{n}.shape.{s}|"]
+    shape_tab[f":ref:`/feynml/attributes/shape/{s}.ipynb`"] = arr
 
 attr_tab = {":ref:`attributes`": [v for v in renders.keys()]}
+original = copy.copy(attr_tab)
 for s in attributes:
     arr = []
     for n, r in renders.items():
@@ -173,4 +192,5 @@ for s in attributes:
 
 io.write("shared/style_tab.rst", doc.array_table(style_tab, tabs=0, init=True))
 io.write("shared/type_tab.rst", doc.array_table(type_tab, tabs=0, init=True))
+io.write("shared/shape_tab.rst", doc.array_table(shape_tab, tabs=0, init=True))
 io.write("shared/attr_tab.rst", doc.array_table(attr_tab, tabs=0, init=True))
