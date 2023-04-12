@@ -107,37 +107,29 @@ def feynman_to_feynmp(fd):
             src += f"{l.id},"
         src = src[:-1]
         src += "}\n"
-
-    for l in incoming:
-        lstyle = fd.get_style(l)
-        if lstyle.getProperty("line") is not None:
-            tttype = type_map[lstyle.getProperty("line").value]
-        else:
-            tttype = l.type  # fallback to type if no line style is set
-        style = stylize_line(fd, l)
-        for ttype in tttype:
-            lid = l.id
-            ltarget = l.target
-            if l.type.startswith("anti"):
-                lid = l.target
-                ltarget = l.id
-            src += f"\t\t\\fmf{{{ttype}{style}}}{{{lid},{ltarget}}}\n"
-            style = ""
-    for l in outgoing:
-        lstyle = fd.get_style(l)
-        if lstyle.getProperty("line") is not None:
-            tttype = type_map[lstyle.getProperty("line").value]
-        else:
-            tttype = l.type  # fallback to type if no line style is set
-        style = stylize_line(fd, l)
-        for ttype in tttype:
-            lid = l.id
-            ltarget = l.target
-            if l.type.startswith("anti"):
-                lid = l.target
-                ltarget = l.id
-            src += f"\t\t\\fmf{{{ttype}{style}}}{{{ltarget},{lid}}}\n"
-            style = ""
+        
+    def do_legs(legs,inward):
+        for l in legs:
+            lstyle = fd.get_style(l)
+            if lstyle.getProperty("line") is not None:
+                tttype = type_map[lstyle.getProperty("line").value]
+            else:
+                tttype = l.type  # fallback to type if no line style is set
+            style = stylize_line(fd, l)
+            for ttype in tttype:
+                lid = l.id
+                ltarget = l.target
+                if l.type.startswith("anti"):
+                    lid = l.target
+                    ltarget = l.id
+                if inward:
+                    src += f"\t\t\\fmf{{{ttype}{style}}}{{{lid},{ltarget}}}\n"
+                else:
+                    src += f"\t\t\\fmf{{{ttype}{style}}}{{{psource},{ptarget}}}\n"
+                style = ""
+                
+    do_legs(incoming,True)
+    do_legs(outgoing,False)
 
     for p in fd.propagators:
         pstyle = fd.get_style(p)
