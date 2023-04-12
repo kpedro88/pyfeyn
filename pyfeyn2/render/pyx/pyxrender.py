@@ -40,14 +40,14 @@ class PyxRender(Render):
         for l in self.fd.legs:
             lstyle = self.fd.get_style(l)
             tar = self.fd.get_vertex(l.target)
+            if lstyle.getProperty("line") is not None:
+                lname = lstyle.getProperty("line").value
+            else:
+                lname = l.type  # fallback to type
             if l.is_incoming():
-                nl = NamedLine[lstyle.getProperty("line").value](
-                    Point(l.x, l.y), Point(tar.x, tar.y)
-                )
+                nl = NamedLine[lname](Point(l.x, l.y), Point(tar.x, tar.y))
             elif l.is_outgoing():
-                nl = NamedLine[lstyle.getProperty("line").value](
-                    Point(tar.x, tar.y), Point(l.x, l.y)
-                )
+                nl = NamedLine[lname](Point(tar.x, tar.y), Point(l.x, l.y))
             if lstyle.getProperty("bend") is not None:
                 nl = nl.bend(lstyle.getProperty("bend").value)
             nl = self.apply_layout(v.raw_style(), nl)
@@ -57,9 +57,11 @@ class PyxRender(Render):
             pstyle = self.fd.get_style(p)
             src = self.fd.get_vertex(p.source)
             tar = self.fd.get_vertex(p.target)
-            nl = NamedLine[pstyle.getProperty("line").value](
-                Point(src.x, src.y), Point(tar.x, tar.y)
-            )
+            if pstyle.getProperty("line") is not None:
+                lname = pstyle.getProperty("line").value
+            else:
+                lname = p.type
+            nl = NamedLine[lname](Point(src.x, src.y), Point(tar.x, tar.y))
             if pstyle.getProperty("bend") is not None:
                 nl = nl.bend(pstyle.getProperty("bend").value)
             nl = self.apply_layout(v.raw_style(), nl)

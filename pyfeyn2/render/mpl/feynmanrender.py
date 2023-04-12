@@ -32,7 +32,11 @@ namedlines = {
 def get_styled_lines(fd: FeynmanDiagram, p: Union[Propagator, Leg]) -> List[dict]:
     ret = []
     style = fd.get_style(p)
-    for i in namedlines[style.getProperty("line").value]:
+    if style.getProperty("line") is not None:
+        lname = style.getProperty("line").value
+    else:
+        lname = p.type
+    for i in namedlines[lname]:
         d = {**i}
         if style.getProperty("arrow-sense") is not None:
             val = style.getProperty("arrow-sense").value

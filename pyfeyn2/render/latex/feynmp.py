@@ -4,6 +4,7 @@ from typing import List
 from pylatex import Command
 from pylatex.utils import NoEscape
 
+from pyfeyn2 import feynmandiagram
 from pyfeyn2.feynmandiagram import Connector
 from pyfeyn2.render.latex.metapost import MetaPostRender
 
@@ -51,12 +52,13 @@ type_map = {
 }
 
 
-def stylize_line(c: Connector) -> str:
+def stylize_line(fd: feynmandiagram, c: Connector) -> str:
+    cstyle = fd.get_style(c)
     style = ""
     if c.label is not None:
         style += f",label={c.label}"
-    if c.tension is not None:
-        style += f",tension={c.tension}"
+    if cstyle.getProperty("tension") is not None:
+        style += f",tension=" + str(cstyle.getProperty("tension").value)
     return style
 
 
@@ -108,8 +110,11 @@ def feynman_to_feynmp(fd):
 
     for l in incoming:
         lstyle = fd.get_style(l)
-        tttype = type_map[lstyle.getProperty("line").value]
-        style = stylize_line(l)
+        if lstyle.getProperty("line") is not None:
+            tttype = type_map[lstyle.getProperty("line").value]
+        else:
+            tttype = l.type  # fallback to type if no line style is set
+        style = stylize_line(fd, l)
         for ttype in tttype:
             lid = l.id
             ltarget = l.target
@@ -120,8 +125,11 @@ def feynman_to_feynmp(fd):
             style = ""
     for l in outgoing:
         lstyle = fd.get_style(l)
-        tttype = type_map[lstyle.getProperty("line").value]
-        style = stylize_line(l)
+        if lstyle.getProperty("line") is not None:
+            tttype = type_map[lstyle.getProperty("line").value]
+        else:
+            tttype = l.type  # fallback to type if no line style is set
+        style = stylize_line(fd, l)
         for ttype in tttype:
             lid = l.id
             ltarget = l.target
@@ -133,8 +141,11 @@ def feynman_to_feynmp(fd):
 
     for p in fd.propagators:
         pstyle = fd.get_style(p)
-        tttype = type_map[pstyle.getProperty("line").value]
-        style = stylize_line(p)
+        if pstyle.getProperty("line") is not None:
+            tttype = type_map[pstyle.getProperty("line").value]
+        else:
+            tttype = p.type  # fallback to type if no line style is set
+        style = stylize_line(fd, p)
         for ttype in tttype:
             psource = p.source
             ptarget = p.target
@@ -192,4 +203,5 @@ class FeynmpRender(MetaPostRender):
         return super(FeynmpRender, cls).valid_styles() + [
             "line",
             "direction",
+            "tension",
         ]

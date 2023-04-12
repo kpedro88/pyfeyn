@@ -5,13 +5,27 @@ from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
 from pyfeyn2.render.all import AllRender, renders
 
 
-def test_all_demo_propagator():
-    for prop in AllRender.valid_types():
-        AllRender().demo_propagator(prop, show=False)
-        plt.close()
+# Python program to illustrate the intersection
+# of two lists in most simple way
+def intersection(lst1, lst2):
+    lst3 = [value for value in lst1 if value in lst2]
+    return lst3
 
 
-def test_all_2_to_2_gluons():
+@pytest.mark.parametrize(
+    "render,prop",
+    [
+        (r, p)
+        for r in renders.values()
+        for p in intersection(AllRender.valid_types(), r.valid_types())
+    ],
+)
+def test_renders_demo_propagator(render, prop):
+    render().demo_propagator(prop, show=False)
+
+
+@pytest.mark.parametrize("render", renders.values())
+def test_renders_2_to_2_gluons(render):
     fd = FeynmanDiagram()
     v1 = Vertex("v1").with_xy(-1, 0)
     v2 = Vertex("v2").with_xy(1, 0)
@@ -25,4 +39,4 @@ def test_all_2_to_2_gluons():
     fd.propagators.append(p1)
     fd.vertices.extend([v1, v2])
     fd.legs.extend([l1, l2, l3, l4])
-    AllRender(fd).render()
+    render(fd).render()

@@ -488,7 +488,15 @@ class Ghost(Scalar):
         **kwargs
     ):
         Scalar.__init__(
-            self, point1, point2, styles, arcthrupoint, is3D, arrows, labels, linestyle
+            self,
+            point1=point1,
+            point2=point2,
+            styles=styles,
+            arcthrupoint=arcthrupoint,
+            is3D=is3D,
+            arrows=arrows,
+            labels=labels,
+            linestyle=linestyle,
         )
 
 
@@ -755,7 +763,7 @@ class Graviton(DecoratedLine):
             labels,
         )
 
-    def getDeformedPath(self):
+    def getDeformedPath(self, sign=1):
         """Get the path with the decorative deformation."""
         intwindings = int(
             self.frequency
@@ -763,9 +771,9 @@ class Graviton(DecoratedLine):
             / pyx.unit.tocm(self.arcradius)
         )
         intwindings += self.extras
-        sign = 1
+        sign *= 1
         if self.inverted:
-            sign = -1
+            sign *= -1
 
         vispath = self.getVisiblePath()
         # TODO curveradius is not implemented in pyx 0.12
@@ -1181,7 +1189,7 @@ class Gravitino(DecoratedLine):
             labels,
         )
 
-    def getDeformedPath(self):
+    def getDeformedPath(self, sign=1):
         """Get the path with the decorative deformation."""
         intwindings = int(
             self.frequency
@@ -1189,9 +1197,9 @@ class Gravitino(DecoratedLine):
             / pyx.unit.tocm(self.arcradius)
         )
         intwindings += self.extras
-        sign = 1
+        sign *= 1
         if self.inverted:
-            sign = -1
+            sign *= -1
         vispath = self.getVisiblePath()
         # TODO curveradius is deprecated in pyx 0.14
         # curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
