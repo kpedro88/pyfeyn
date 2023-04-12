@@ -25,7 +25,7 @@ namedlines = {
         {"style": "wiggly"},
         {"style": "simple"},
     ],
-    "phantom": [],
+    "phantom": [{"style": "simple", "alpha": 0.0}],
 }
 
 
@@ -53,6 +53,8 @@ def get_styled_lines(fd: FeynmanDiagram, p: Union[Propagator, Leg]) -> List[dict
                     )
                 if style.getProperty("color") is not None:
                     d["arrow_param"]["color"] = style.getProperty("color").value
+            else:
+                d["arrow"] = False
         else:
             d["arrow"] = False
         # copy css style to feynman kwargs dict
@@ -134,12 +136,6 @@ class FeynmanRender(Render):
             cur = None
             for style in get_styled_lines(self.fd, p):
                 cur = diagram.line(byid[p.source], byid[p.target], **style)
-            if (
-                cur is None
-            ):  # phantom case create fake vertex for label. TODO is it possible to draw a 'fake' line with no/empty style
-                cur = diagram.vertex(
-                    xy=((p.x + kickx) * scalex, (p.y + kicky) * scaley), marker=""
-                )
             if p.label is not None:
                 cur.text(p.label)
         for l in self.fd.legs:
@@ -151,12 +147,6 @@ class FeynmanRender(Render):
                     cur = diagram.line(byid[l.target], byid[l.id], **style)
                 else:
                     raise Exception("Unknown sense")
-            if (
-                cur is None
-            ):  # phantom case create fake vertex for label. TODO is it possible to draw a 'fake' line with no/empty style
-                cur = diagram.vertex(
-                    xy=((p.x + kickx) * scalex, (p.y + kicky) * scaley), marker=""
-                )
             if l.label is not None:
                 cur.text(l.label)
 

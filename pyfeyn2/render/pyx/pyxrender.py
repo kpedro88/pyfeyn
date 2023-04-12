@@ -210,6 +210,6 @@ class PyxRender(Render):
             "line",
             "bend",
             "arrow-pos",
-            "arrow-sense",  #           "parallel-arrow-sense",
-            "arrow-displace",  #           "parallel-arrow-displace",
+            # "arrow-sense",  #           "parallel-arrow-sense",
+            # "arrow-displace",  #           "parallel-arrow-displace",
         ]
