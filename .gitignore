@@ -147,3 +147,5 @@ test.pdf
 #qgraf
 docs/source/_autosummary/
 _minted-tmp/
+tmp.pdf
+tmp.tex

@@ -39,4 +39,4 @@ def test_renders_2_to_2_gluons(render):
     fd.propagators.append(p1)
     fd.vertices.extend([v1, v2])
     fd.legs.extend([l1, l2, l3, l4])
-    render(fd).render()
+    render(fd).render(show=False)

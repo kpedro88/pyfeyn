@@ -121,17 +121,29 @@ class FeynmanRender(Render):
             byid[v.id] = diagram.vertex(
                 xy=((v.x + kickx) * scalex, (v.y + kicky) * scaley)
             )
+            if v.label is not None:
+                byid[v.id].text(v.label)
         for v in self.fd.legs:
             byid[v.id] = diagram.vertex(
                 xy=((v.x + kickx) * scalex, (v.y + kicky) * scaley), marker=""
             )
+            if v.label is not None:
+                byid[v.id].text(v.label)
 
         for p in self.fd.propagators:
+            cur = None
             for style in get_styled_lines(self.fd, p):
                 cur = diagram.line(byid[p.source], byid[p.target], **style)
+            if (
+                cur is None
+            ):  # phantom case create fake vertex for label. TODO is it possible to draw a 'fake' line with no/empty style
+                cur = diagram.vertex(
+                    xy=((p.x + kickx) * scalex, (p.y + kicky) * scaley), marker=""
+                )
             if p.label is not None:
                 cur.text(p.label)
         for l in self.fd.legs:
+            cur = None
             for style in get_styled_lines(self.fd, l):
                 if l.sense[:2] == "in":
                     cur = diagram.line(byid[l.id], byid[l.target], **style)
@@ -139,6 +151,12 @@ class FeynmanRender(Render):
                     cur = diagram.line(byid[l.target], byid[l.id], **style)
                 else:
                     raise Exception("Unknown sense")
+            if (
+                cur is None
+            ):  # phantom case create fake vertex for label. TODO is it possible to draw a 'fake' line with no/empty style
+                cur = diagram.vertex(
+                    xy=((p.x + kickx) * scalex, (p.y + kicky) * scaley), marker=""
+                )
             if l.label is not None:
                 cur.text(l.label)
 

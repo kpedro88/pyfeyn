@@ -62,11 +62,13 @@ class PyxRender(Render):
             else:
                 lname = p.type
             nl = NamedLine[lname](Point(src.x, src.y), Point(tar.x, tar.y))
+            print(nl, lname)
             if pstyle.getProperty("bend") is not None:
                 nl = nl.bend(pstyle.getProperty("bend").value)
             nl = self.apply_layout(v.raw_style(), nl)
             nl = nl.addLabel(p.label)
         pyxfd.draw(file)
+        print("Drawing to %s" % file)
         wi = WImage(filename=file, resolution=resolution, width=width, height=height)
         if delete:
             os.remove(file)

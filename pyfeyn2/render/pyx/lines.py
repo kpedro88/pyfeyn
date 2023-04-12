@@ -380,7 +380,7 @@ class Line(Visible):
         return vispath
 
     def draw(self, canvas):
-        """Drwa this line on the given canvas."""
+        """Draw this line on the given canvas."""
         path = self.getVisiblePath()
         styles = self.styles + self.arrows
         if config.getOptions().DEBUG:
@@ -1295,6 +1295,7 @@ class Phantom(DecoratedLine):
     ):
         """Constructor."""
         DecoratedLine.__init__(
+            self,
             point1,
             point2,
             amplitude,
@@ -1310,23 +1311,26 @@ class Phantom(DecoratedLine):
         )
 
     def draw(self, canvas):
-        """Draw the line on the supplied canvas (does nothing for a phantom)."""
+        """Draw the line on the supplied canvas (does nothing for a phantom apart from labels)."""
+        for l in self.labels:
+            l.draw(canvas)
         return
 
 
 # A dictionary for mapping FeynML line types to line classes
 NamedLine = {
-    "higgs": Higgs,
-    "photon": Photon,
-    "vector": Photon,
+    "line": Line,
+    "higgs": Scalar,
+    "photon": Vector,
+    "vector": Vector,
     "gluon": Gluon,
-    "fermion": Fermion,
+    "fermion": Line,
     "graviton": Graviton,
     "gaugino": Gaugino,
     "gluino": Gluino,
     "gravitino": Gravitino,
-    "scalar": Higgs,
+    "scalar": Scalar,
     "ghost": Ghost,
     "phantom": Phantom,
-    "boson": Photon,
+    "boson": Vector,
 }
