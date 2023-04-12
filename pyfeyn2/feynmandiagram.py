@@ -1,5 +1,4 @@
 """Moved to :py:mod:`feynml`"""
-from dataclasses import dataclass
 from importlib.metadata import version
 
 from feynml.connector import Connector as Connector_
