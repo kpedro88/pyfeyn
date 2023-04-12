@@ -1,17 +1,19 @@
 """Moved to :py:mod:`feynml`"""
 from importlib.metadata import version
 
-from feynml.connector import Connector_
-from feynml.feynmandiagram import FeynmanDiagram_
+from feynml.connector import Connector as Connector_
+from feynml.feynmandiagram import FeynmanDiagram as FeynmanDiagram_
 from feynml.feynml import FeynML as FeynML_
-from feynml.feynml import Head_, Meta_, Tool_
-from feynml.leg import Leg_
-from feynml.momentum import Momentum_
-from feynml.pdgid import PDG_
-from feynml.point import Point_
-from feynml.propagator import Propagator_
-from feynml.styled import Styled_
-from feynml.vertex import Vertex_
+from feynml.feynml import Head as Head_
+from feynml.feynml import Meta as Meta_
+from feynml.feynml import Tool as Tool_
+from feynml.leg import Leg as Leg_
+from feynml.momentum import Momentum as Momentum_
+from feynml.pdgid import PDG as PDG_
+from feynml.point import Point as Point_
+from feynml.propagator import Propagator as Propagator_
+from feynml.styled import Styled as Styled_
+from feynml.vertex import Vertex as Vertex_
 from smpl_doc import doc
 
 Head = doc.deprecated("2.2.6", "Directly use feynml.feynml.Head")(Head_)
