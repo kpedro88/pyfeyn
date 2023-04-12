@@ -1,4 +1,5 @@
 from warnings import warn
+
 import dot2tex
 
 REPLACE_THIS_WITH_A_BACKSLASH = "¬"
@@ -6,6 +7,7 @@ REPLACE_THIS_WITH_A_BACKSLASH = "¬"
 
 def _fake_styler(fd, p):
     return 'style="draw=none"'
+
 
 def get_rankdir(fdstyle):
     rankdir = None
@@ -26,6 +28,7 @@ def get_rankdir(fdstyle):
             raise Exception(f"Unknown direction: {rdir}")
     return rankdir
 
+
 def get_layout(fdstyle):
     layout = None
     if fdstyle.getProperty("layout") is not None:
@@ -34,6 +37,7 @@ def get_layout(fdstyle):
     else:
         layout = fdstyle.getProperty("layout").value
     return layout
+
 
 def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
     # TODO better use pydot? still alive? or grpahviz?
