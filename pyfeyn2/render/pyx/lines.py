@@ -563,7 +563,7 @@ class DecoratedLine(Line):
         self.extras = extras
         return self
 
-    def getDeformedPath(self):
+    def getDeformedPath(self, sign=1):
         """Get the deformed path."""
         return self.getVisiblePath()
 
@@ -603,7 +603,7 @@ class Gluon(DecoratedLine):
             labels,
         )
 
-    def getDeformedPath(self):
+    def getDeformedPath(self, sign=1):
         """Get the path modified by the coil warping."""
         needwindings = (
             self.frequency
@@ -692,7 +692,7 @@ class Vector(DecoratedLine):
             labels,
         )
 
-    def getDeformedPath(self):
+    def getDeformedPath(self, sign=1):
         """Get the path with the decorative deformation."""
         intwindings = int(
             self.frequency
@@ -900,7 +900,7 @@ class Gaugino(DecoratedLine):
             labels,
         )
 
-    def getDeformedPath(self):
+    def getDeformedPath(self, sign=1):
         """Get the path with the decorative deformation."""
         intwindings = int(
             self.frequency
@@ -1035,7 +1035,7 @@ class Gluino(DecoratedLine):
             labels,
         )
 
-    def getDeformedPath(self):
+    def getDeformedPath(self, sign=1):
         """Get the path with the decorative deformation."""
         needwindings = (
             self.frequency

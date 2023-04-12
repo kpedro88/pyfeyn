@@ -1,4 +1,3 @@
-import pytest
 from matplotlib import pyplot as plt
 
 from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex

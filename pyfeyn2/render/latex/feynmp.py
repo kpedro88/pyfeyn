@@ -58,7 +58,7 @@ def stylize_line(fd: feynmandiagram, c: Connector) -> str:
     if c.label is not None:
         style += f",label={c.label}"
     if cstyle.getProperty("tension") is not None:
-        style += f",tension=" + str(cstyle.getProperty("tension").value)
+        style += ",tension=" + str(cstyle.getProperty("tension").value)
     return style
 
 

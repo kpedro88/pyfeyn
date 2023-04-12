@@ -14,7 +14,6 @@ from pyfeyn2.feynmandiagram import (
     Meta,
     Momentum,
     Propagator,
-    Tool,
     Vertex,
 )
 from pyfeyn2.render.pyx.pyxrender import PyxRender

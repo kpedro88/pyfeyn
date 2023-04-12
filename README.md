@@ -50,9 +50,6 @@ Several of these are integrated into pyfeyn2.
 *   <https://mathspp.com/blog/how-to-create-a-python-package-in-2022>
 *   <https://www.brainsorting.com/posts/publish-a-package-on-pypi-using-poetry/>
 
-[doc stable]: https://apn-pucky.github.io/pyfeyn2/index.html
-[doc test]: https://apn-pucky.github.io/pyfeyn2/test/index.html
-
 [pypi image]: https://badge.fury.io/py/pyfeyn2.svg
 [pypi link]: https://pypi.org/project/pyfeyn2/
 [pypi versions]: https://img.shields.io/pypi/pyversions/pyfeyn2.svg
