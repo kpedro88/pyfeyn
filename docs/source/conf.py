@@ -103,6 +103,9 @@ html_logo = "pyfeyn-logo.svg"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
+# UTF-8 characters in PDF
+latex_engine = "xelatex"
+
 renders = all.renders
 styles = all.AllRender.valid_styles()
 types = all.AllRender.valid_types()
