@@ -25,14 +25,18 @@ namedlines = {
         {"style": "wiggly"},
         {"style": "simple"},
     ],
-    "phantom": [],
+    "phantom": [{"style": "simple", "alpha": 0.0}],
 }
 
 
 def get_styled_lines(fd: FeynmanDiagram, p: Union[Propagator, Leg]) -> List[dict]:
     ret = []
     style = fd.get_style(p)
-    for i in namedlines[style.getProperty("line").value]:
+    if style.getProperty("line") is not None:
+        lname = style.getProperty("line").value
+    else:
+        lname = p.type
+    for i in namedlines[lname]:
         d = {**i}
         if style.getProperty("arrow-sense") is not None:
             val = style.getProperty("arrow-sense").value
@@ -49,6 +53,8 @@ def get_styled_lines(fd: FeynmanDiagram, p: Union[Propagator, Leg]) -> List[dict
                     )
                 if style.getProperty("color") is not None:
                     d["arrow_param"]["color"] = style.getProperty("color").value
+            else:
+                d["arrow"] = False
         else:
             d["arrow"] = False
         # copy css style to feynman kwargs dict
@@ -117,17 +123,23 @@ class FeynmanRender(Render):
             byid[v.id] = diagram.vertex(
                 xy=((v.x + kickx) * scalex, (v.y + kicky) * scaley)
             )
+            if v.label is not None:
+                byid[v.id].text(v.label)
         for v in self.fd.legs:
             byid[v.id] = diagram.vertex(
                 xy=((v.x + kickx) * scalex, (v.y + kicky) * scaley), marker=""
             )
+            if v.label is not None:
+                byid[v.id].text(v.label)
 
         for p in self.fd.propagators:
+            cur = None
             for style in get_styled_lines(self.fd, p):
                 cur = diagram.line(byid[p.source], byid[p.target], **style)
             if p.label is not None:
                 cur.text(p.label)
         for l in self.fd.legs:
+            cur = None
             for style in get_styled_lines(self.fd, l):
                 if l.sense[:2] == "in":
                     cur = diagram.line(byid[l.id], byid[l.target], **style)
@@ -138,12 +150,13 @@ class FeynmanRender(Render):
             if l.label is not None:
                 cur.text(l.label)
 
-        for l in self.fd.labels:
-            diagram.text(
-                l.x,
-                l.y,
-                l.text,
-            )
+        # TODO maybe reintroduce labels
+        # for l in self.fd.labels:
+        #    diagram.text(
+        #        l.x,
+        #        l.y,
+        #        l.text,
+        #    )
         diagram.plot()
         if show:
             plt.show()

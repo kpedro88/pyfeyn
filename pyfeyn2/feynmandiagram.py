@@ -10,7 +10,7 @@ from feynml.momentum import Momentum
 from feynml.pdgid import PDG
 from feynml.point import Point
 from feynml.propagator import Propagator
-from feynml.style import Styled
+from feynml.styled import Styled
 from feynml.vertex import Vertex
 
 

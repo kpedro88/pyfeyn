@@ -189,26 +189,28 @@ class ASCIIRender(Render):
             pstyle = self.fd.get_style(p)
             src = self.fd.get_vertex(p.source)
             tar = self.fd.get_vertex(p.target)
-            self.namedlines[pstyle.getProperty("line").value]().draw(
-                pane, src, tar, **fmt
-            )
+            if pstyle.getProperty("line") is not None:
+                lname = pstyle.getProperty("line").value
+            else:
+                lname = p.type  # fallback no style
+            self.namedlines[lname]().draw(pane, src, tar, **fmt)
             if p.label is not None:
                 self.namedlines["label"](p.label).draw(pane, src, tar, **fmt)
         for l in self.fd.legs:
             lstyle = self.fd.get_style(l)
             tar = self.fd.get_vertex(l.target)
+            if lstyle.getProperty("line") is not None:
+                lname = lstyle.getProperty("line").value
+            else:
+                lname = l.type  # fallback no style
             if l.is_incoming():
-                self.namedlines[lstyle.getProperty("line").value]().draw(
-                    pane, Point(l.x, l.y), tar, **fmt
-                )
+                self.namedlines[lname]().draw(pane, Point(l.x, l.y), tar, **fmt)
                 if l.label is not None:
                     self.namedlines["label"](l.label).draw(
                         pane, Point(l.x, l.y), tar, **fmt
                     )
             elif l.is_outgoing():
-                self.namedlines[lstyle.getProperty("line").value]().draw(
-                    pane, tar, Point(l.x, l.y), **fmt
-                )
+                self.namedlines[lname]().draw(pane, tar, Point(l.x, l.y), **fmt)
                 if l.label is not None:
                     self.namedlines["label"](l.label).draw(
                         pane, tar, Point(l.x, l.y), **fmt

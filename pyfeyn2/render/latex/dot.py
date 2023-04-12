@@ -31,9 +31,11 @@ map_feyn_to_tikz = {
 
 def stylize_connect(fd: FeynmanDiagram, c: Connector) -> str:
     fstyle = fd.get_style(c)
-    style = 'style="{}",texmode="raw"'.format(
-        map_feyn_to_tikz[fstyle.getProperty("line").value]
-    )
+    if fstyle.getProperty("line") is not None:
+        lname = fstyle.getProperty("line").value
+    else:
+        lname = c.type  # fallback to type if no style
+    style = 'style="{}",texmode="raw"'.format(map_feyn_to_tikz[lname])
     if c.label is None:
         label = ""
     else:

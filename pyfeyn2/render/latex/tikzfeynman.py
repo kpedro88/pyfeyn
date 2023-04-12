@@ -51,7 +51,10 @@ shape_map = {
 def stylize_connect(fd: FeynmanDiagram, c: Connector):
     style = fd.get_style(c)
     ret = ""
-    ret += type_map[style.getProperty("line").value]
+    if style.getProperty("line") is not None:
+        ret += type_map[style.getProperty("line").value]
+    else:
+        ret += type_map[c.type]  # fallback to type if no style
 
     if c.label is not None:
         ret += ",edge label=" + c.label

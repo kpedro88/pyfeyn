@@ -65,17 +65,20 @@ class Render:
     def valid_attribute(cls, attr: str) -> bool:
         return attr in cls.valid_attributes()
 
-    def demo_propagator(self, d, show=True, label=None):
+    def demo_propagator(self, propagator, show=True, label=None, shape=None, **kwargs):
         v1 = Vertex().with_xy(-2, -2)
         v2 = Vertex().with_xy(2, -2)
+        if shape is not None:
+            v1 = v1.with_shape(shape)
+            v1 = v2.with_shape(shape)
 
         fd = FeynmanDiagram().add(
             v1,
             v2,
             Propagator()
             .connect(v1, v2)
-            .with_type(d)
-            .with_label(label)
+            .with_type(propagator)
+            .with_label(label if label else propagator)
             .with_tension(0.0),
             Leg()
             .with_target(v1)
@@ -92,10 +95,15 @@ class Render:
         )
 
         self.set_feynman_diagram(fd)
-        self.render(show=show)
+        self.render(show=show, **kwargs)
 
-    def demo_vertex(self, d, show=True, label=None):
-        v1 = Vertex().with_xy(0, 0).with_shape(d)  # .set_label(label)
+    def demo_vertex(self, vertex, show=True, label=None):
+        v1 = (
+            Vertex()
+            .with_xy(0, 0)
+            .with_shape(vertex)
+            .with_label(label if label else vertex)
+        )
 
         fd = FeynmanDiagram().add(
             v1,
