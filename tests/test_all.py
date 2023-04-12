@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 
 from pyfeyn2.feynmandiagram import FeynmanDiagram, Leg, Propagator, Vertex
-from pyfeyn2.render.all import AllRender, renders
+from pyfeyn2.render.all import AllRender
 
 
 def test_all_demo_propagator():

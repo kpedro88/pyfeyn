@@ -41,8 +41,8 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector) -> str:
     else:
         label = c.label.replace("\\", REPLACE_THIS_WITH_A_BACKSLASH)
     if fstyle.getProperty("length") is not None:
-        len = fstyle.getProperty("length").value
-        style += f",len={len}"
+        leng = fstyle.getProperty("length").value
+        style += f",len={leng}"
     style += f',label="{label}"'
     return style
 
