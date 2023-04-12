@@ -142,12 +142,13 @@ class FeynmanRender(Render):
             if l.label is not None:
                 cur.text(l.label)
 
-        for l in self.fd.labels:
-            diagram.text(
-                l.x,
-                l.y,
-                l.text,
-            )
+        # TODO maybe reintroduce labels
+        # for l in self.fd.labels:
+        #    diagram.text(
+        #        l.x,
+        #        l.y,
+        #        l.text,
+        #    )
         diagram.plot()
         if show:
             plt.show()
