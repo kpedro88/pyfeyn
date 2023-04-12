@@ -107,8 +107,8 @@ def feynman_to_feynmp(fd):
             src += f"{l.id},"
         src = src[:-1]
         src += "}\n"
-        
-    def do_legs(legs,inward):
+
+    def do_legs(legs, inward):
         for l in legs:
             lstyle = fd.get_style(l)
             if lstyle.getProperty("line") is not None:
@@ -127,9 +127,9 @@ def feynman_to_feynmp(fd):
                 else:
                     src += f"\t\t\\fmf{{{ttype}{style}}}{{{psource},{ptarget}}}\n"
                 style = ""
-                
-    do_legs(incoming,True)
-    do_legs(outgoing,False)
+
+    do_legs(incoming, True)
+    do_legs(outgoing, False)
 
     for p in fd.propagators:
         pstyle = fd.get_style(p)
