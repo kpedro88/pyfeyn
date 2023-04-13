@@ -33,7 +33,7 @@ class PyxRender(Render):
         pyxfd = FeynDiagram()
         for v in self.fd.vertices:
             dp = DecoratedPoint(v.x, v.y)
-            dp = self.apply_layout(v.raw_style(), dp)
+            dp = self.apply_layout(self.fd.get_style(v).cssText.replace("\n", " "), dp)
             if v.label is not None:
                 dp.setFillstyles(PointLabel(dp, v.label, displace=3, angle=90))
             pyxfd.add(dp)
@@ -50,7 +50,7 @@ class PyxRender(Render):
                 nl = NamedLine[lname](Point(tar.x, tar.y), Point(l.x, l.y))
             if lstyle.getProperty("bend") is not None:
                 nl = nl.bend(lstyle.getProperty("bend").value)
-            nl = self.apply_layout(v.raw_style(), nl)
+            nl = self.apply_layout(self.fd.get_style(l).cssText.replace("\n", " "), nl)
             nl = nl.addLabel(l.label)
 
         for p in self.fd.propagators:
@@ -62,10 +62,11 @@ class PyxRender(Render):
             else:
                 lname = p.type
             nl = NamedLine[lname](Point(src.x, src.y), Point(tar.x, tar.y))
-            print(nl, lname)
             if pstyle.getProperty("bend") is not None:
                 nl = nl.bend(pstyle.getProperty("bend").value)
-            nl = self.apply_layout(v.raw_style(), nl)
+            print("raw_style:" + p.raw_style())
+            print("get_style:" + self.fd.get_style(p).cssText.replace("\n", " "))
+            nl = self.apply_layout(self.fd.get_style(p).cssText.replace("\n", " "), nl)
             nl = nl.addLabel(p.label)
         pyxfd.draw(file)
         print("Drawing to %s" % file)
@@ -122,6 +123,8 @@ class PyxRender(Render):
             or "arrow-angle" in styledict
             or "arrow-constrict" in styledict
             or "arrow-pos" in styledict
+            or "arrow-sense" in styledict
+            or "arrow-displace" in styledict
         ) and isinstance(obj, Line):
             try:
                 arrsize = pyx.unit.length(float(styledict["arrow-size"]), unit="cm")
@@ -139,7 +142,11 @@ class PyxRender(Render):
                 arrpos = float(styledict["arrow-pos"])
             except Exception:
                 arrpos = 0.5
-            obj.addArrow(arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict))
+            try:
+                arrsense = float(styledict["arrow-sense"])
+            except Exception:
+                arrsense = 1
+            obj.addArrow(arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict, arrsense))
         if (
             "parallel-arrow-size" in styledict
             or "parallel-arrow-angle" in styledict
@@ -211,6 +218,6 @@ class PyxRender(Render):
             "line",
             "bend",
             "arrow-pos",
-            # "arrow-sense",  #           "parallel-arrow-sense",
+            "arrow-sense",  #           "parallel-arrow-sense",
             # "arrow-displace",  #           "parallel-arrow-displace",
         ]

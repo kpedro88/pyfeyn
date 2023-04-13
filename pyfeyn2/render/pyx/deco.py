@@ -26,14 +26,17 @@ def getarrowpath(
 class Arrow(pyx.deco.deco, pyx.attr.attr):
     """Arrow for Feynman diagram lines"""
 
-    def __init__(self, pos=0.5, size=6 * pyx.unit.v_pt, angle=45, constriction=0.8):
+    def __init__(
+        self, pos=0.5, size=6 * pyx.unit.v_pt, angle=45, constriction=0.8, sense=1
+    ):
         """Constructor."""
         self.pos = pos
         self.size = size
         self.angle = angle
         self.constriction = constriction
+        self.sense = sense
 
-    def decorate(self, dp):
+    def decorate(self, dp, textengine=None):
         """Attach arrow to a path (usually a line)."""
         dp.ensurenormpath()
         constrictionlen = (
@@ -44,7 +47,7 @@ class Arrow(pyx.deco.deco, pyx.attr.attr):
         arrowpath = getarrowpath(
             arrowtopath,
             self.pos * dp.path.arclen(),
-            1,
+            self.sense,
             self.size,
             45,
             self.constriction,
