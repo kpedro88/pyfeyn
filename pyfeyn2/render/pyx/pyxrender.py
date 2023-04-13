@@ -148,7 +148,9 @@ class PyxRender(Render):
                 arrsense = 1
             obj.addArrow(arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict, arrsense))
         if (
-            "parallel-arrow-size" in styledict
+            "momentum-arrow" in styledict
+            or "momentum-arrow-sense" in styledict
+            or "parallel-arrow-size" in styledict
             or "parallel-arrow-angle" in styledict
             or "parallel-arrow-constrict" in styledict
             or "parallel-arrow-pos" in styledict
@@ -183,9 +185,13 @@ class PyxRender(Render):
             except Exception:
                 arrdisp = 0.3
             try:
-                arrsense = int(styledict["parallel-arrow-sense"])
+                arrsense = int(styledict["momentum-arrow-sense"])
             except Exception:
                 arrsense = +1
+                try:
+                    arrsense = int(styledict["parallel-arrow-sense"])
+                except Exception:
+                    arrsense = +1
             obj.addParallelArrow(
                 arrpos, arrdisp, arrlen, arrsize, arrangle, arrconstrict, arrsense
             )
@@ -218,6 +224,8 @@ class PyxRender(Render):
             "line",
             "bend",
             "arrow-pos",
-            "arrow-sense",  #           "parallel-arrow-sense",
-            # "arrow-displace",  #           "parallel-arrow-displace",
+            "arrow-sense",
+            "arrow-size",
+            "arrow-angle",
+            "arrow-constrict",
         ]

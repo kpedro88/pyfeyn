@@ -1,4 +1,5 @@
 from typing import List
+from warnings import warn
 
 from pylatex import Command
 from pylatex.utils import NoEscape
@@ -63,11 +64,16 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector):
         style.getProperty("momentum-arrow") is not None
         and style.getProperty("momentum-arrow").value == "true"
     ):
-        if (
-            style.getProperty("momentum-arrow-flip") is not None
-            and style.getProperty("momentum-arrow-flip").value == "true"
-        ):
-            ret += ",momentum'=" + c.momentum.name
+        if style.getProperty("momentum-arrow-sense") is not None:
+            if style.getProperty("momentum-arrow-sense").value == -1:
+                ret += ",momentum'=" + c.momentum.name
+            elif style.getProperty("momentum-arrow-sense").value == 0:
+                warn(
+                    "momentum-arrow=true but momentum-arrow-sense=0, ignoring momentum-arrow"
+                )
+                pass
+            else:
+                ret += ",momentum=" + c.momentum.name
         else:
             ret += ",momentum=" + c.momentum.name
     if style.opacity is not None and style.opacity != "":
@@ -198,6 +204,7 @@ class TikzFeynmanRender(LatexRender):
             "bend-loop",
             "bend-min-distance",
             "momentum-arrow",
+            "momentum-arrow-sense",
         ]
 
     @classmethod
