@@ -1,4 +1,5 @@
 import os
+from warnings import warn
 
 import pyx
 from IPython.display import display
@@ -146,7 +147,16 @@ class PyxRender(Render):
                 arrsense = float(styledict["arrow-sense"])
             except Exception:
                 arrsense = 1
-            obj.addArrow(arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict, arrsense))
+            if arrsense == 1 or arrsense == -1:
+                obj.addArrow(
+                    arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict, arrsense)
+                )
+            elif arrsense == 0:
+                # no arrow
+                pass
+            else:
+                warn("arrow-sense must be 1, -1 or 0 (no arrow).")
+            # obj.addArrow(arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict, arrsense))
         if (
             "momentum-arrow" in styledict
             or "momentum-arrow-sense" in styledict
@@ -192,9 +202,18 @@ class PyxRender(Render):
                     arrsense = int(styledict["parallel-arrow-sense"])
                 except Exception:
                     arrsense = +1
-            obj.addParallelArrow(
-                arrpos, arrdisp, arrlen, arrsize, arrangle, arrconstrict, arrsense
-            )
+            if arrsense == 1 or arrsense == -1:
+                obj.addParallelArrow(
+                    arrpos, arrdisp, arrlen, arrsize, arrangle, arrconstrict, arrsense
+                )
+                obj.addArrow(
+                    arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict, arrsense)
+                )
+            elif arrsense == 0:
+                # no arrow
+                pass
+            else:
+                warn("momentum-arrow-sense must be 1, -1 or 0 (no arrow).")
         if "is3d" in styledict and isinstance(obj, Line):
             fwords = ["0", "no", "false", "f", "off"]
             twords = ["1", "yes", "true", "t", "on"]
