@@ -206,9 +206,6 @@ class PyxRender(Render):
                 obj.addParallelArrow(
                     arrpos, arrdisp, arrlen, arrsize, arrangle, arrconstrict, arrsense
                 )
-                obj.addArrow(
-                    arrow=Arrow(arrpos, arrsize, arrangle, arrconstrict, arrsense)
-                )
             elif arrsense == 0:
                 # no arrow
                 pass
