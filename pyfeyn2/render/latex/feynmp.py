@@ -11,6 +11,7 @@ from pyfeyn2.render.latex.metapost import MetaPostRender
 # converte FeynmanDiagram to tikz-feynman
 
 type_map = {
+    "line": ["plain"],
     "gluon": ["gluon"],
     "curly": ["curly"],
     "dbl_curly": ["dbl_curly"],
@@ -27,7 +28,7 @@ type_map = {
     "phantom": ["phantom"],
     "phantom_arrow": ["phantom_arrow"],
     "plain": ["plain"],
-    "plain_arrow": ["plain_arrow"],
+    "plain_arrow": ["plain_arrkddow"],
     "fermion": ["fermion"],
     "anti fermion": ["fermion"],
     "electron": ["electron"],
@@ -127,9 +128,10 @@ def feynman_to_feynmp(fd):
                 else:
                     src += f"\t\t\\fmf{{{ttype}{style}}}{{{ltarget},{lid}}}\n"
                 style = ""
+        return src
 
-    do_legs(src, incoming, True)
-    do_legs(src, outgoing, False)
+    src = do_legs(src, incoming, True)
+    src = do_legs(src, outgoing, False)
 
     for p in fd.propagators:
         pstyle = fd.get_style(p)
