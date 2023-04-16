@@ -93,4 +93,5 @@ def main():
             diagram.external_sheet = cssutils.parseString(style_string)
 
     # TODO think about how to handle multiple diagrams
-    renderer(fml.diagrams[0]).render(file=args.output)
+    for i, d in enumerate(fml.diagrams):
+        renderer(d).render(file=args.output + f"_{i}", show=args.show)
