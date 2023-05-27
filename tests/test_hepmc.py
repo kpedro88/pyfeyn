@@ -2,7 +2,7 @@ import pyhepmc
 from feynml.interface.hepmc import hepmc_event_to_feynman
 
 from pyfeyn2.auto.position import feynman_adjust_points
-from pyfeyn2.render.all import AllRender
+from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
 
 
 def test_render_hepmc():
@@ -10,5 +10,8 @@ def test_render_hepmc():
         for event in f:
             fd = hepmc_event_to_feynman(event)
             fd = feynman_adjust_points(fd, clear_vertices=True)
-            AllRender(fd).render()
+            TikzFeynmanRender(fd).render()
             break
+
+
+# test_render_hepmc()
