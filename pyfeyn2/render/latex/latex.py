@@ -51,7 +51,7 @@ class LatexRender(Document, Render):
         if file is None:
             delete = True
             file = "tmp"
-        file = re.sub("\.pdf$", "", file.strip())
+        file = re.sub(r"\.pdf$", "", file.strip())
         self.generate_pdf(
             file,
             clean_tex=clean_up,

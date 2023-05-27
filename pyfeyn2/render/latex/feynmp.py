@@ -186,15 +186,15 @@ class FeynmpRender(MetaPostRender):
 
     @classmethod
     def valid_attributes(cls) -> List[str]:
-        return super(FeynmpRender, cls).valid_attributes() + ["label", "style"]
+        return super().valid_attributes() + ["label", "style"]
 
     @classmethod
     def valid_types(cls) -> List[str]:
-        return super(FeynmpRender, cls).valid_types() + list(type_map.keys())
+        return super().valid_types() + list(type_map.keys())
 
     @classmethod
     def valid_styles(cls) -> bool:
-        return super(FeynmpRender, cls).valid_styles() + [
+        return super().valid_styles() + [
             "line",
             "direction",
             "tension",

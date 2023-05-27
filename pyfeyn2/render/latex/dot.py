@@ -92,7 +92,7 @@ class DotRender(LatexRender):
 
     @classmethod
     def valid_attributes(cls) -> List[str]:
-        return super(DotRender, cls).valid_attributes() + [
+        return super().valid_attributes() + [
             "x",
             "y",
             "label",
@@ -101,11 +101,11 @@ class DotRender(LatexRender):
 
     @classmethod
     def valid_types(cls) -> List[str]:
-        return super(DotRender, cls).valid_types() + list(map_feyn_to_tikz.keys())
+        return super().valid_types() + list(map_feyn_to_tikz.keys())
 
     @classmethod
     def valid_styles(cls) -> bool:
-        return super(DotRender, cls).valid_styles() + [
+        return super().valid_styles() + [
             "line",
             "direction",
             "layout",

@@ -192,7 +192,7 @@ class FeynmanRender(Render):
 
     @classmethod
     def valid_attributes(cls) -> List[str]:
-        return super(FeynmanRender, cls).valid_attributes() + [
+        return super().valid_attributes() + [
             "x",
             "y",
             "label",
@@ -201,11 +201,11 @@ class FeynmanRender(Render):
 
     @classmethod
     def valid_types(cls) -> List[str]:
-        return super(FeynmanRender, cls).valid_types() + list(namedlines.keys())
+        return super().valid_types() + list(namedlines.keys())
 
     @classmethod
     def valid_styles(cls) -> List[str]:
-        return super(FeynmanRender, cls).valid_styles() + [
+        return super().valid_styles() + [
             "line",
             "color",
             "arrow-sense",
@@ -218,4 +218,4 @@ class FeynmanRender(Render):
 
     @classmethod
     def valid_shapes(cls) -> List[str]:
-        return super(FeynmanRender, cls).valid_types() + list(marker_map.keys())
+        return super().valid_types() + list(marker_map.keys())

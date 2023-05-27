@@ -39,7 +39,7 @@ class PlainPDFRender(LatexRender):
             Command(
                 "lstset",
                 NoEscape(
-                    "moredelim=[is][\color{"
+                    r"moredelim=[is][\color{"
                     + color
                     + "}]{@"
                     + color
