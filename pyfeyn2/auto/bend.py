@@ -8,12 +8,12 @@ def _auto_bend_1(i, fd):
     # collect all references to the same vertex
     for c in fd.propagators:
         if c.target == p.target:
-            ref += [fd.get_vertex(c.source)]
+            ref += [fd.get_point(c.source)]
         if c.source == p.target:
-            ref += [fd.get_vertex(c.target)]
+            ref += [fd.get_point(c.target)]
     sumrefx = 0
     sumrefy = 0
-    me = fd.get_vertex(p.target)
+    me = fd.get_point(p.target)
     for r in ref:
         sumrefx += r.x - me.x
         sumrefy += r.y - me.y

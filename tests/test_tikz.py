@@ -13,7 +13,7 @@ def test_tikz():
 
 def test_dot_positions():
     fd = test_many_gluons()
-    fd = feynman_adjust_points(fd)
+    fd = feynman_adjust_points(fd, clear_vertices=True)
 
     tfd = TikzFeynmanRender(fd)
     print(tfd.get_src())

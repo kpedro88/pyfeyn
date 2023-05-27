@@ -150,3 +150,5 @@ _minted-tmp/
 tmp.pdf
 tmp.tex
 tests/out.pdf
+
+.vscode/*

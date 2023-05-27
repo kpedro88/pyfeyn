@@ -238,17 +238,17 @@ class ASCIIRender(Render):
         fmt = {"scalex": scalex, "kickx": kickx, "scaley": scaley, "kicky": kicky}
 
         for p in self.fd.propagators:
-            src = self.fd.get_vertex(p.source)
-            tar = self.fd.get_vertex(p.target)
+            src = self.fd.get_point(p.source)
+            tar = self.fd.get_point(p.target)
             self.draw_connector(pane, p, src, tar, fmt)
 
         for l in self.fd.legs:
             if l.is_incoming():
                 src = Point(l.x, l.y)
-                tar = self.fd.get_vertex(l.target)
+                tar = self.fd.get_point(l.target)
                 self.draw_connector(pane, l, src, tar, fmt)
             elif l.is_outgoing():
-                src = self.fd.get_vertex(l.target)
+                src = self.fd.get_point(l.target)
                 tar = Point(l.x, l.y)
                 self.draw_connector(pane, l, src, tar, fmt)
         for v in self.fd.vertices:
@@ -294,7 +294,7 @@ class ASCIIRender(Render):
 
     @classmethod
     def valid_attributes(cls) -> List[str]:
-        return super(ASCIIRender, cls).valid_attributes() + [
+        return super().valid_attributes() + [
             "x",
             "y",
             "label",
@@ -303,7 +303,7 @@ class ASCIIRender(Render):
 
     @classmethod
     def valid_styles(cls) -> List[str]:
-        return super(ASCIIRender, cls).valid_styles() + [
+        return super().valid_styles() + [
             "line",
             "symbol",
             "color",
@@ -312,12 +312,8 @@ class ASCIIRender(Render):
 
     @classmethod
     def valid_types(cls) -> List[str]:
-        return super(ASCIIRender, cls).valid_types() + list(
-            ASCIIRender.namedlines.keys()
-        )
+        return super().valid_types() + list(ASCIIRender.namedlines.keys())
 
     @classmethod
     def valid_shapes(cls) -> List[str]:
-        return super(ASCIIRender, cls).valid_types() + list(
-            ASCIIRender.namedshapes.keys()
-        )
+        return super().valid_types() + list(ASCIIRender.namedshapes.keys())

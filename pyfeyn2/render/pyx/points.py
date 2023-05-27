@@ -147,6 +147,8 @@ class Point:
 
     def setXY(self, xpos, ypos):
         "Set the x and y coordinates of this point."
+        if xpos is None or ypos is None:
+            raise Exception("Point coordinates cannot be None")
         self.setX(float(xpos))
         self.setY(float(ypos))
         return self
@@ -190,7 +192,7 @@ class DecoratedPoint(Point, Visible):
             xx = center.getX()
             yy = center.getY()
         else:
-            raise Exception("No center specified for blob.")
+            raise Exception("No (x,y) or no center specified for blob.")
 
         Point.__init__(self, xx, yy, blob, labels)
         self.setMark(copy(mark))

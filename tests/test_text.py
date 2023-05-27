@@ -6,7 +6,7 @@ from tests.test_feynman import test_many_gluons
 
 def test_ascii():
     fd = test_many_gluons()
-    fd = feynman_adjust_points(fd)
+    fd = feynman_adjust_points(fd, clear_vertices=True)
 
     tfd = ASCIIRender(fd)
     tfd.render()
@@ -15,7 +15,7 @@ def test_ascii():
 
 def test_unicode():
     fd = test_many_gluons()
-    fd = feynman_adjust_points(fd)
+    fd = feynman_adjust_points(fd, clear_vertices=True)
 
     tfd = UnicodeRender(fd)
     tfd.render()

@@ -39,16 +39,17 @@ class PyxRender(Render):
                 dp.setFillstyles(PointLabel(dp, v.label, displace=3, angle=90))
             pyxfd.add(dp)
         for l in self.fd.legs:
+            lp = Point(l.x, l.y)
             lstyle = self.fd.get_style(l)
-            tar = self.fd.get_vertex(l.target)
+            tar = self.fd.get_point(l.target)
             if lstyle.getProperty("line") is not None:
                 lname = lstyle.getProperty("line").value
             else:
                 lname = l.type  # fallback to type
             if l.is_incoming():
-                nl = NamedLine[lname](Point(l.x, l.y), Point(tar.x, tar.y))
+                nl = NamedLine[lname](lp, Point(tar.x, tar.y))
             elif l.is_outgoing():
-                nl = NamedLine[lname](Point(tar.x, tar.y), Point(l.x, l.y))
+                nl = NamedLine[lname](Point(tar.x, tar.y), lp)
             if lstyle.getProperty("bend") is not None:
                 nl = nl.bend(lstyle.getProperty("bend").value)
             nl = self.apply_layout(self.fd.get_style(l).cssText.replace("\n", " "), nl)
@@ -56,8 +57,8 @@ class PyxRender(Render):
 
         for p in self.fd.propagators:
             pstyle = self.fd.get_style(p)
-            src = self.fd.get_vertex(p.source)
-            tar = self.fd.get_vertex(p.target)
+            src = self.fd.get_point(p.source)
+            tar = self.fd.get_point(p.target)
             if pstyle.getProperty("line") is not None:
                 lname = pstyle.getProperty("line").value
             else:
@@ -220,11 +221,11 @@ class PyxRender(Render):
 
     @classmethod
     def valid_types(cls):
-        return super(PyxRender, cls).valid_types() + list(NamedLine.keys())
+        return super().valid_types() + list(NamedLine.keys())
 
     @classmethod
     def valid_attributes(cls):
-        return super(PyxRender, cls).valid_attributes() + [
+        return super().valid_attributes() + [
             "style",
             "type",
             "label",
@@ -234,7 +235,7 @@ class PyxRender(Render):
 
     @classmethod
     def valid_styles(cls):
-        return super(PyxRender, cls).valid_styles() + [
+        return super().valid_styles() + [
             "line",
             "bend",
             "arrow-pos",

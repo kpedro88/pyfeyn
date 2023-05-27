@@ -4,10 +4,11 @@ from importlib.metadata import version
 from feynml.connector import Connector as Connector_
 from feynml.feynmandiagram import FeynmanDiagram as FeynmanDiagram_
 from feynml.feynml import FeynML as FeynML_
-from feynml.feynml import Head as Head_
-from feynml.feynml import Meta as Meta_
-from feynml.feynml import Tool as Tool_
+from feynml.head import Head as Head_
+
+# from feynml.feynml import Tool as Tool_
 from feynml.leg import Leg as Leg_
+from feynml.meta import Meta as Meta_
 from feynml.momentum import Momentum as Momentum_
 from feynml.pdgid import PDG as PDG_
 from feynml.point import Point as Point_
@@ -21,7 +22,7 @@ class Head(Head_):
     class Meta(Head_.Meta):
         pass
 
-    @doc.deprecated("2.2.6", "Directly use feynml.feynml.Head")
+    @doc.deprecated("2.2.6", "Directly use feynml.head.Head")
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -30,18 +31,18 @@ class Meta(Meta_):
     class Meta(Meta_.Meta):
         pass
 
-    @doc.deprecated("2.2.6", "Directly use feynml.feynml.Meta")
+    @doc.deprecated("2.2.6", "Directly use feynml.meta.Meta")
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 
-class Tool(Tool_):
-    class Meta(Tool_.Meta):
-        pass
-
-    @doc.deprecated("2.2.6", "Directly use feynml.feynml.Tool")
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+# class Tool(Tool_):
+#    class Meta(Tool_.Meta):
+#        pass
+#
+#    @doc.deprecated("2.2.6", "Directly use feynml.feynml.Tool")
+#    def __init__(self, *args, **kwargs):
+#        super().__init__(*args, **kwargs)
 
 
 class Connector(Connector_):

@@ -34,8 +34,10 @@ def test_fml_print():
 
     fml = FeynML(
         head=Head(
-            metas=[Meta(name="pyfeyn2", content="test")],
-            description="Simple single test diagram",
+            metas=[
+                Meta(name="pyfeyn2", content="test"),
+                Meta(name="description", content="Simple single test diagram"),
+            ],
         ),
         diagrams=[fd],
     )

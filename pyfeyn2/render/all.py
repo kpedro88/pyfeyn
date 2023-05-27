@@ -3,7 +3,8 @@ import tempfile
 import traceback
 from typing import List
 
-from feynml.types import get_shapes, get_types
+from feynml.shape import get_shapes
+from feynml.type import get_types
 from matplotlib import pyplot as plt
 from pylatex import Figure, NoEscape, SubFigure
 
@@ -101,15 +102,11 @@ class AllRender(LatexRender):
 
     @classmethod
     def valid_styles(style: str) -> List[str]:
-        return sorted(
-            list(set([i for r in renders.values() for i in r.valid_styles()]))
-        )
+        return sorted(list({i for r in renders.values() for i in r.valid_styles()}))
 
     @classmethod
     def valid_attributes(attr: str) -> List[str]:
-        return sorted(
-            list(set([i for r in renders.values() for i in r.valid_attributes()]))
-        )
+        return sorted(list({i for r in renders.values() for i in r.valid_attributes()}))
 
     @classmethod
     def valid_types(typ: str) -> List[str]:

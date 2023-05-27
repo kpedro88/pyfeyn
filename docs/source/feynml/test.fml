@@ -2,9 +2,6 @@
 <feynml>
  <head>
    <meta name="creator" value="PyFeyn"/>
-   <description>
-   A sample diagram showing a QCD correction to the Drell-Yan process.
-   </description>
  </head>
  <diagram legs="4">
    <vertex id="V0" x="-2.0" y="0.0">

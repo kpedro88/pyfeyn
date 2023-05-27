@@ -59,16 +59,16 @@ class Cross(Style):
     def next(self, dirx, diry):
         angle = super().next(dirx, diry)
         # right
-        if angle < math.pi / 4 or angle > 7 * math.pi / 4:
+        if angle <= math.pi / 4 or angle > 7 * math.pi / 4:
             return self.left.get(self.index)
         # left
-        elif angle > 3 * math.pi / 4 and angle < 5 * math.pi / 4:
+        elif angle >= 3 * math.pi / 4 and angle < 5 * math.pi / 4:
             return self.right.get(self.index)
         # up
-        elif angle > math.pi / 4 and angle < 3 * math.pi / 4:
+        elif angle >= math.pi / 4 and angle < 3 * math.pi / 4:
             return self.up.get(self.index)
         # down
-        elif angle > 5 * math.pi / 4 and angle < 7 * math.pi / 4:
+        elif angle >= 5 * math.pi / 4 and angle < 7 * math.pi / 4:
             return self.down.get(self.index)
         else:
             raise Exception("Angle not in range")

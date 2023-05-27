@@ -1,3 +1,4 @@
+import warnings
 from typing import List
 from warnings import warn
 
@@ -112,6 +113,13 @@ def stylize_node(fd: FeynmanDiagram, v: Vertex):
     else:
         suffix = ""
 
+    if v.x is None or v.y is None:
+        warnings.warn("Vertex position not set")
+        return (
+            f"\t\\vertex ({v.id}) [{end}] {suffix};\n"
+            + f"\t\\vertex ({v.id}clone) [] {suffix};\n"
+        )
+
     return (
         f"\t\\vertex ({v.id}) [{end}] at ({v.x},{v.y}) {suffix};\n"
         + f"\t\\vertex ({v.id}clone) [] at ({v.x},{v.y});\n"
@@ -124,6 +132,9 @@ def stylize_leg_node(l: Leg):
         style += "label=" + l.external + ","
     sty = style[:-1]
 
+    if l.x is None or l.y is None:
+        warnings.warn("Leg position not set")
+        return f"\t\\vertex ({l.id}) [{sty}];\n"
     return f"\t\\vertex ({l.id}) [{sty}] at ({l.x},{l.y});\n"
 
 
@@ -193,7 +204,7 @@ class TikzFeynmanRender(LatexRender):
 
     @classmethod
     def valid_styles(cls) -> bool:
-        return super(TikzFeynmanRender, cls).valid_styles() + [
+        return super().valid_styles() + [
             "line",
             "symbol",
             "color",
@@ -209,7 +220,7 @@ class TikzFeynmanRender(LatexRender):
 
     @classmethod
     def valid_attributes(cls) -> List[str]:
-        return super(TikzFeynmanRender, cls).valid_attributes() + [
+        return super().valid_attributes() + [
             "x",
             "y",
             "label",
@@ -218,8 +229,8 @@ class TikzFeynmanRender(LatexRender):
 
     @classmethod
     def valid_types(cls) -> List[str]:
-        return super(TikzFeynmanRender, cls).valid_types() + list(type_map.keys())
+        return super().valid_types() + list(type_map.keys())
 
     @classmethod
     def valid_shapes(cls) -> List[str]:
-        return super(TikzFeynmanRender, cls).valid_types() + list(shape_map.keys())
+        return super().valid_types() + list(shape_map.keys())

@@ -1,13 +1,15 @@
 import pyhepmc
+from feynml.interface.hepmc import hepmc_event_to_feynman
 
-from pyfeyn2.interface.hepmc import event_to_feynman
+from pyfeyn2.render.all import AllRender
 
 
-def test_hepmc():
+def test_render_hepmc():
     with pyhepmc.open("tests/example.HepMC") as f:
         for event in f:
-            event_to_feynman(event)
+            fd = hepmc_event_to_feynman(event)
+            AllRender(fd).render()
             break
 
 
-test_hepmc()
+test_render_hepmc()

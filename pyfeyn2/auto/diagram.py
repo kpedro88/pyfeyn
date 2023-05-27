@@ -14,7 +14,7 @@ def auto_diagram(fd: FeynmanDiagram, scale=2, size=15):
     d.legs[1].with_xy(-SCALE, -SCALE)
     d.legs[2].with_xy(SCALE, SCALE)
     d.legs[3].with_xy(SCALE, -SCALE)
-    d = feynman_adjust_points(d, size=15, override_vertices=False)
+    d = feynman_adjust_points(d, size=15, clear_vertices=False)
     auto_bend(d)
     auto_label(d.propagators)
     auto_label(d.legs)

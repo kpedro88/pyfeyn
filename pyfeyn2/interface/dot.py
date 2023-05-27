@@ -12,7 +12,7 @@ def _fake_styler(fd, p):
 def get_rankdir(fdstyle):
     rankdir = None
     if fdstyle.getProperty("direction") is None:
-        warn("direction is unkown, using default of 'right'")
+        warn("direction is unknown, using default of 'right'")
         rankdir = "LR"
     else:
         rdir = fdstyle.getProperty("direction").value
@@ -32,7 +32,7 @@ def get_rankdir(fdstyle):
 def get_layout(fdstyle):
     layout = None
     if fdstyle.getProperty("layout") is None:
-        warn("layout is unknwon, using default of 'dot'")
+        warn("layout is unknown, using default of 'dot'")
         layout = "dot"
     else:
         layout = fdstyle.getProperty("layout").value
@@ -40,7 +40,7 @@ def get_layout(fdstyle):
 
 
 def feynman_to_dot(fd, resubstituteslash=True, styler=_fake_styler):
-    # TODO better use pydot? still alive? or grpahviz?
+    # TODO better use pydot? still alive? or graphviz?
     fdstyle = fd.get_style(fd)
     rankdir = get_rankdir(fdstyle)
     layout = get_layout(fdstyle)
