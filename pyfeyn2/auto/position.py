@@ -2,6 +2,48 @@ from pyfeyn2.feynmandiagram import Propagator
 from pyfeyn2.interface.dot import dot_to_positions, feynman_to_dot
 
 
+def auto_position(fd, layout="neato", clear_vertices=True):
+    """Automatically position the vertices and legs."""
+    # fd = scale_positions(fd, 10)
+    fd = fd.with_style(f"layout : {layout}")
+    fd = incoming_to_left(fd)
+    fd = outgoing_to_right(fd)
+    fd = feynman_adjust_points(fd, size=5, clear_vertices=clear_vertices)
+    # fd = remove_unnecessary_vertices(fd)
+    return fd
+
+
+def incoming_to_left(fd):
+    """Set the incoming legs to the left."""
+    n = 0
+    for l in fd.legs:
+        if l.is_incoming():
+            l.x = -2
+            n = n + 1
+    i = 0
+    for l in fd.legs:
+        if l.is_incoming():
+            l.y = 4 / n * i
+            i = i + 1
+
+    return fd
+
+
+def outgoing_to_right(fd):
+    """Set the outgoing legs to the right."""
+    n = 0
+    for l in fd.legs:
+        if not l.is_incoming():
+            l.x = 2
+            n = n + 1
+    i = 0
+    for l in fd.legs:
+        if not l.is_incoming():
+            l.y = 4 / n * i
+            i = i + 1
+    return fd
+
+
 def scale_positions(fd, scale):
     """Scale the positions of the vertices and legs."""
     for v in fd.vertices:

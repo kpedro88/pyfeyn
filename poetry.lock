@@ -1175,15 +1175,13 @@ numpy = ">=1.6"
 
 [[package]]
 name = "feynml"
-version = "0.2.0"
+version = "0.2.1"
 description = "Feynman diagram markup language"
 category = "main"
 optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "feynml-0.2.0-py3-none-any.whl", hash = "sha256:5116f3e5e73243ccabbec46cda72bafd0162676370326f55bb81dc68495c2005"},
-    {file = "feynml-0.2.0.tar.gz", hash = "sha256:15efc83cd2310ca557c5233da5bd8ba1cb565c5371fc1c37cc83cc1700e9c9d5"},
-]
+python-versions = "^3.8"
+files = []
+develop = true
 
 [package.dependencies]
 cssselect = "*"
@@ -1191,16 +1189,20 @@ cssutils = "*"
 deprecated = "*"
 deprecation = "*"
 particle = "*"
-pyhepmc = {version = "*", optional = true, markers = "extra == \"interfaces\""}
-pylhe = {version = "*", optional = true, markers = "extra == \"interfaces\""}
-pyqgraf = {version = ">=0.0.3", optional = true, markers = "extra == \"interfaces\""}
-smpl_doc = ">=1.1.3,<2.0.0"
-smpl_io = ">=1.1.2,<2.0.0"
+pyhepmc = {version = "*", optional = true}
+pylhe = {version = "*", optional = true}
+pyqgraf = {version = ">=0.0.3", optional = true}
+smpl_doc = "^1.1.3"
+smpl_io = "^1.1.2"
 smpl_util = "*"
 xsdata = {version = "*", extras = ["cli", "lxml", "soap"]}
 
 [package.extras]
 interfaces = ["pyhepmc", "pylhe", "pyqgraf (>=0.0.3)"]
+
+[package.source]
+type = "directory"
+url = "../feynml"
 
 [[package]]
 name = "filelock"
@@ -1830,14 +1832,14 @@ test = ["click", "coverage", "pre-commit", "pytest (>=7.0)", "pytest-asyncio (>=
 
 [[package]]
 name = "jupyter-lsp"
-version = "2.1.0"
+version = "2.2.0"
 description = "Multi-Language Server WebSocket proxy for Jupyter Notebook/Lab server"
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "jupyter-lsp-2.1.0.tar.gz", hash = "sha256:3aa2cbd81d3446256c34e3647d71b8f50617d07862a1c60fbe123f901cdb0dd2"},
-    {file = "jupyter_lsp-2.1.0-py3-none-any.whl", hash = "sha256:d7c058cfe8bd7a76859734f3a142edb50a2d1e265a7e323c2fdcd8b1db80a91b"},
+    {file = "jupyter-lsp-2.2.0.tar.gz", hash = "sha256:8ebbcb533adb41e5d635eb8fe82956b0aafbf0fd443b6c4bfa906edeeb8635a1"},
+    {file = "jupyter_lsp-2.2.0-py3-none-any.whl", hash = "sha256:9e06b8b4f7dd50300b70dd1a78c0c3b0c3d8fa68e0f2d8a5d1fbab62072aca3f"},
 ]
 
 [package.dependencies]
@@ -3141,14 +3143,14 @@ six = ">=1.5.2"
 
 [[package]]
 name = "poetry"
-version = "1.5.0"
+version = "1.5.1"
 description = "Python dependency management and packaging made easy."
 category = "dev"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "poetry-1.5.0-py3-none-any.whl", hash = "sha256:e66c728b3c645a12c24f553a3e60f3b1ee425aa4a09c331dd372ff14e0976d26"},
-    {file = "poetry-1.5.0.tar.gz", hash = "sha256:4fc7d37cf400739dcfcbb666db97fd74c46eaae119dd6ed9c8d5dd7e32c6f06a"},
+    {file = "poetry-1.5.1-py3-none-any.whl", hash = "sha256:dfc7ce3a38ae216c0465694e2e674bef6eb1a2ba81aa47a26f9dc03362fe2f5f"},
+    {file = "poetry-1.5.1.tar.gz", hash = "sha256:cc7ea4524d1a11558006224bfe8ba8ed071417d4eb5ef6c89decc6a37d437eeb"},
 ]
 
 [package.dependencies]
@@ -3168,8 +3170,8 @@ packaging = ">=20.4"
 pexpect = ">=4.7.0,<5.0.0"
 pkginfo = ">=1.9.4,<2.0.0"
 platformdirs = ">=3.0.0,<4.0.0"
-poetry-core = "1.6.0"
-poetry-plugin-export = ">=1.3.1,<2.0.0"
+poetry-core = "1.6.1"
+poetry-plugin-export = ">=1.4.0,<2.0.0"
 pyproject-hooks = ">=1.0.0,<2.0.0"
 requests = ">=2.18,<3.0"
 requests-toolbelt = ">=0.9.1,<2"
@@ -3183,14 +3185,14 @@ xattr = {version = ">=0.10.0,<0.11.0", markers = "sys_platform == \"darwin\""}
 
 [[package]]
 name = "poetry-core"
-version = "1.6.0"
+version = "1.6.1"
 description = "Poetry PEP 517 Build Backend"
 category = "dev"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "poetry_core-1.6.0-py3-none-any.whl", hash = "sha256:ff96620579f02ec30ee9f789fa5dfdcddd9ab4ac848394f6f8f2f4e88306b534"},
-    {file = "poetry_core-1.6.0.tar.gz", hash = "sha256:a9c7296a12d6c8e4f8aa50a66ef3c967b2b50fba634da144d358e676fad9989f"},
+    {file = "poetry_core-1.6.1-py3-none-any.whl", hash = "sha256:70707340447dee0e7f334f9495ae652481c67b32d8d218f296a376ac2ed73573"},
+    {file = "poetry_core-1.6.1.tar.gz", hash = "sha256:0f9b0de39665f36d6594657e7d57b6f463cc10f30c28e6d1c3b9ff54c26c9ac3"},
 ]
 
 [[package]]
@@ -3216,19 +3218,19 @@ plugin = ["poetry (>=1.2.0,<2.0.0)"]
 
 [[package]]
 name = "poetry-plugin-export"
-version = "1.3.1"
+version = "1.4.0"
 description = "Poetry plugin to export the dependencies to various formats"
 category = "dev"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "poetry_plugin_export-1.3.1-py3-none-any.whl", hash = "sha256:941d7ba02a59671d6327b16dc6deecc9262477abbc120d728a500cf125bc1e06"},
-    {file = "poetry_plugin_export-1.3.1.tar.gz", hash = "sha256:d949742757a8a5f0b5810495bffaf4ed8a767f2e2ffda9887cf72f896deabf84"},
+    {file = "poetry_plugin_export-1.4.0-py3-none-any.whl", hash = "sha256:5d9186d6f77cf2bf35fc96bd11fe650cc7656e515b17d99cb65018d50ba22589"},
+    {file = "poetry_plugin_export-1.4.0.tar.gz", hash = "sha256:f16974cd9f222d4ef640fa97a8d661b04d4fb339e51da93973f1bc9d578e183f"},
 ]
 
 [package.dependencies]
-poetry = ">=1.3.0,<2.0.0"
-poetry-core = ">=1.3.0,<2.0.0"
+poetry = ">=1.5.0,<2.0.0"
+poetry-core = ">=1.6.0,<2.0.0"
 
 [[package]]
 name = "pre-commit"
@@ -5104,4 +5106,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "efe0798a6f0ab4a3aecb40799c2daf82b4b3d0c998066986e6149d7a124a775b"
+content-hash = "c20b1910d0b655131ac1dcd73ff84ca5f2b9a419931f52d68a4a9592c2856c04"
