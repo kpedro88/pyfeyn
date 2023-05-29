@@ -29,8 +29,8 @@ cssselect ="*"
 smpl_io = "*"
 smpl_doc = "*"
 smpl_util= "*"
-#feynml = {version = ">=0.1.6", extras = ["interfaces"]}
-feynml= {path= "../feynml", develop = true, extras = ["interfaces"]}
+feynml = {version = ">=0.1.6", extras = ["interfaces"]}
+#feynml= {path= "../feynml", develop = true, extras = ["interfaces"]}
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
@@ -68,7 +68,7 @@ pre-commit = ">=2.20,<4.0"
 ipython =  "*"
 jupyterlab =  "*"
 jupyter = "*"
-poetry-dynamic-versioning = {extras = ["plugin"], version = "^0.21.1"}
+poetry-dynamic-versioning = {extras = ["plugin"], version = ">=0.21.1,<0.23.0"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
