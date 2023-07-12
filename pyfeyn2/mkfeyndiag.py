@@ -64,6 +64,13 @@ def main():
         action="store_true",
         help="Show the output file.",
     )
+    parser.add_argument(
+        "--diagram",
+        metavar="DIAGRAM",
+        default=None,
+        type=str,
+        help="Diagram id to render.",
+    )
 
     args = parser.parse_args()
 
@@ -92,6 +99,6 @@ def main():
         for diagram in fml.diagrams:
             diagram.external_sheet = cssutils.parseString(style_string)
 
-    # TODO think about how to handle multiple diagrams
     for i, d in enumerate(fml.diagrams):
-        renderer(d).render(file=args.output + f"_{i}", show=args.show)
+        if args.diagram is None or args.diagram == d.id:
+            renderer(d).render(file=args.output + f"_{i}", show=args.show)
