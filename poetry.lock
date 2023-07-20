@@ -1125,13 +1125,13 @@ numpy = ">=1.6"
 
 [[package]]
 name = "feynml"
-version = "0.2.1"
+version = "0.2.5"
 description = "Feynman diagram markup language"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "feynml-0.2.1-py3-none-any.whl", hash = "sha256:f47cae807798469bbee183d8ec2859ff3111beb864d5f725a262c4929ec2b9cc"},
-    {file = "feynml-0.2.1.tar.gz", hash = "sha256:1564d06570461043ff945515ec3263abf1b44c0c9c859122e0f446885e902946"},
+    {file = "feynml-0.2.5-py3-none-any.whl", hash = "sha256:10f9e3248e94cc58bdcf50d723559f3880b6b68d2bac809d29989dfab65e1b99"},
+    {file = "feynml-0.2.5.tar.gz", hash = "sha256:1ba6cbd446d72d6f4d6eef3aa40135cecacca01436ccf41c80f834fa7ee4841f"},
 ]
 
 [package.dependencies]
