@@ -113,5 +113,5 @@ class FeynML(FeynML_):
         pass
 
     def __post_init__(self):
-        self.head.metas.append(Meta("pyfeyn2", version("pyfeyn2")))
+        self.head.metas.append(Meta_("pyfeyn2", version("pyfeyn2")))
         return super().__post_init__()
