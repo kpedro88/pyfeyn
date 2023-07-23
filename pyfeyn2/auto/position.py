@@ -1,9 +1,96 @@
+import itertools
 import logging
+from itertools import permutations
 
 import numpy as np
+from feynml import Point, Propagator
 
-from pyfeyn2.feynmandiagram import Propagator
 from pyfeyn2.interface.dot import dot_to_positions, feynman_to_dot
+
+
+# from https://stackoverflow.com/a/9997374
+def ccw(A, B, C):
+    return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x)
+
+
+# Return true if line segments AB and CD intersect
+def intersect(A, B, C, D):
+    return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
+
+
+def require_xy(points):
+    # check if a vertex or leg is missing a x or y position
+    for v in points:
+        if v.x is None:
+            raise Exception(f"Vertex or leg {v} is missing x position.")
+        if v.y is None:
+            raise Exception(f"Vertex or leg {v} is missing y position.")
+
+
+def _compute_number_of_intersects(fd):
+    """
+    Computes the number of crossed propagators/legs in a Feynman diagram
+    """
+    # check if a vertex or leg is missing a x or y position
+    require_xy(points)
+    points = [*fd.vertices, *fd.legs]
+    lines = []
+    for p in fd.propagators:
+        src = fd.get_point(p.source)
+        tar = fd.get_point(p.target)
+        lines.append([src, tar])
+    for l in fd.legs:
+        if l.is_incoming():
+            src = Point(l.x, l.y)
+            tar = fd.get_point(l.target)
+            lines.append([src, tar])
+        elif l.is_outgoing():
+            src = fd.get_point(l.target)
+            tar = Point(l.x, l.y)
+            lines.append([src, tar])
+
+    ci = 0
+    for i, l1 in enumerate(lines):
+        for j, l2 in enumerate(lines):
+            # test if the lines cross, without changing the lines
+            if i == j:
+                continue
+            if intersect(l1[0], l1[1], l2[0], l2[1]):
+                ci += 1
+    return ci
+
+
+def auto_remove_intersections_by_align_legs(fd):
+    fd = auto_align_legs(fd)
+    min_intersections = _compute_number_of_intersects(fd)
+    min_perm = 0
+    inc = [l for l in fd.legs if l.is_incoming()]
+    outc = [l for l in fd.legs if l.is_outgoing()]
+    xyin = [[l.x, l.y] for l in inc]
+    xyout = [[l.x, l.y] for l in outc]
+    # loop over all permutations of incoming and outgoing legs
+    for i, o in itertools.product(set(permutations(inc)), set(permutations(outc))):
+        for xyi, l in zip(xyin, i):
+            l.x = xyi[0]
+            l.y = xyi[1]
+        for xyo, l in zip(xyout, o):
+            l.x = xyo[0]
+            l.y = xyo[1]
+        ci = _compute_number_of_intersects(fd)
+        if ci < min_intersections:
+            min_intersections = ci
+            min_perm = (i, o)
+            logging.debug(f"auto_remove_intersections_by_align_legs: {ci}")
+            logging.debug(f"auto_remove_intersections_by_align_legs: {i} {o}")
+            logging.debug(f"auto_remove_intersections_by_align_legs: {xyin} {xyout}")
+    # use/return best permutation
+    for xyi, l in zip(xyin, min_perm[0]):
+        l.x = xyi[0]
+        l.y = xyi[1]
+    for xyo, l in zip(xyout, min_perm[1]):
+        l.x = xyo[0]
+        l.y = xyo[1]
+    return fd
 
 
 def auto_align_legs(fd, incoming=None, outgoing=None):
@@ -19,19 +106,18 @@ def auto_align_legs(fd, incoming=None, outgoing=None):
         outgoing = [
             [f_max_x, y] for y in np.linspace(f_min_y, f_max_y, len(fd.outgoing))
         ]
-    fd = _auto_align([l for l in fd.legs if l.is_incoming()], incoming)
-    fd = _auto_align([l for l in fd.legs if l.is_outgoing()], outgoing)
+    _auto_align([l for l in fd.legs if l.is_incoming()], incoming)
+    _auto_align([l for l in fd.legs if l.is_outgoing()], outgoing)
     return fd
 
 
 def _auto_align(points, positions):
+    """
+    Automatically position the vertices and legs on a list of positions.
+    """
     logging.debug(f"_auto_align: positions {positions}")
     # check if a vertex or leg is missing a x or y position
-    for v in points:
-        if v.x is None:
-            raise Exception(f"Vertex or leg {v} is missing x position for auto_grid.")
-        if v.y is None:
-            raise Exception(f"Vertex or leg {v} is missing y position for auto_grid.")
+    require_xy(points)
     vpl = len(points)
     # table of distances between vertices v and points p
     dist = np.ones((vpl, len(positions))) * np.inf
