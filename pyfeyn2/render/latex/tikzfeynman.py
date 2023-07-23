@@ -56,7 +56,13 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector):
     if style.getProperty("line") is not None:
         ret += type_map[style.getProperty("line").value]
     else:
-        ret += type_map[c.type]  # fallback to type if no style
+        if c.type is not None:
+            ret += type_map[c.type]  # fallback to type if no style
+        else:
+            warnings.warn(
+                f"No type or style set for connector  {c.id} {c.type} {c.pdgid}"
+            )
+            ret += "plain"
 
     if c.label is not None:
         ret += ",edge label=" + c.label

@@ -6,6 +6,48 @@ from pyfeyn2.feynmandiagram import Propagator
 from pyfeyn2.interface.dot import dot_to_positions, feynman_to_dot
 
 
+def auto_align_legs(fd, incoming=None, outgoing=None):
+    """
+    Automatically reshuffle the legs of a Feynman diagram.
+    """
+    f_min_x, f_min_y, f_max_x, f_max_y = fd.get_bounding_box()
+    if incoming is None:
+        incoming = [
+            [f_min_x, y] for y in np.linspace(f_min_y, f_max_y, len(fd.incoming))
+        ]
+    if outgoing is None:
+        outgoing = [
+            [f_max_x, y] for y in np.linspace(f_min_y, f_max_y, len(fd.outgoing))
+        ]
+    fd = _auto_align([l for l in fd.legs if l.is_incoming()], incoming)
+    fd = _auto_align([l for l in fd.legs if l.is_outgoing()], outgoing)
+    return fd
+
+
+def _auto_align(points, positions):
+    logging.debug(f"_auto_align: positions {positions}")
+    # check if a vertex or leg is missing a x or y position
+    for v in points:
+        if v.x is None:
+            raise Exception(f"Vertex or leg {v} is missing x position for auto_grid.")
+        if v.y is None:
+            raise Exception(f"Vertex or leg {v} is missing y position for auto_grid.")
+    vpl = len(points)
+    # table of distances between vertices v and points p
+    dist = np.ones((vpl, len(positions))) * np.inf
+    for i, v in enumerate():
+        for j, p in enumerate(positions):
+            dist[i][j] = np.sqrt((v.x - p[0]) ** 2 + (v.y - p[1]) ** 2)
+    for i in range(vpl):
+        min_i, min_j = np.unravel_index(dist.argmin(), dist.shape)
+        v = points[min_i]
+        v.x = positions[min_j][0]
+        v.y = positions[min_j][1]
+        # remove min_i and min_j from dist
+        dist[min_i, :] = np.inf
+        dist[:, min_j] = np.inf
+
+
 def auto_align(fd, positions):
     """
     Automatically position the vertices and legs on a list of positions.
@@ -22,27 +64,7 @@ def auto_align(fd, positions):
     FeynmanDiagram
         The Feynman diagram with the vertices and legs positioned.
     """
-    logging.debug(f"auto_align: positions {positions}")
-    # check if a vertex or leg is missing a x or y position
-    for v in [*fd.vertices, *fd.legs]:
-        if v.x is None:
-            raise Exception(f"Vertex or leg {v} is missing x position for auto_grid.")
-        if v.y is None:
-            raise Exception(f"Vertex or leg {v} is missing y position for auto_grid.")
-    vpl = len(fd.vertices) + len(fd.legs)
-    # table of distances between vertices v and points p
-    dist = np.ones((vpl, len(positions))) * np.inf
-    for i, v in enumerate([*fd.vertices, *fd.legs]):
-        for j, p in enumerate(positions):
-            dist[i][j] = np.sqrt((v.x - p[0]) ** 2 + (v.y - p[1]) ** 2)
-    for i in range(vpl):
-        min_i, min_j = np.unravel_index(dist.argmin(), dist.shape)
-        v = [*fd.vertices, *fd.legs][min_i]
-        v.x = positions[min_j][0]
-        v.y = positions[min_j][1]
-        # remove min_i and min_j from dist
-        dist[min_i, :] = np.inf
-        dist[:, min_j] = np.inf
+    _auto_align([*fd.vertices, *fd.legs], positions)
     return fd
 
 
