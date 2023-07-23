@@ -22,7 +22,7 @@ def auto_align(fd, positions):
     FeynmanDiagram
         The Feynman diagram with the vertices and legs positioned.
     """
-    logging.debug("auto_align: positions", positions)
+    logging.debug(f"auto_align: positions {positions}")
     # check if a vertex or leg is missing a x or y position
     for v in [*fd.vertices, *fd.legs]:
         if v.x is None:
@@ -66,7 +66,7 @@ def auto_grid(fd, n_x=None, n_y=None, min_x=None, min_y=None, max_x=None, max_y=
         min_y = f_min_y
     if max_y is None:
         max_y = f_max_y
-    logging.debug("auto_grid ", n_x, n_y, min_x, max_x, min_y, max_y)
+    logging.debug(f"auto_grid {n_x}, {n_y}, {min_x}, {min_y}, {max_x}, {max_y}")
 
     xvalues = np.linspace(min_x, max_x, n_x)
     yvalues = np.linspace(min_y, max_y, n_y)
