@@ -15,6 +15,14 @@ def ccw(A, B, C):
 
 # Return true if line segments AB and CD intersect
 def intersect(A, B, C, D):
+    if A.x == C.x and A.y == C.y:
+        return False
+    if A.x == D.x and A.y == D.y:
+        return False
+    if B.x == C.x and B.y == C.y:
+        return False
+    if B.x == D.x and B.y == D.y:
+        return False
     return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
 
 
@@ -32,8 +40,8 @@ def _compute_number_of_intersects(fd):
     Computes the number of crossed propagators/legs in a Feynman diagram
     """
     # check if a vertex or leg is missing a x or y position
-    require_xy(points)
     points = [*fd.vertices, *fd.legs]
+    require_xy(points)
     lines = []
     for p in fd.propagators:
         src = fd.get_point(p.source)
@@ -51,32 +59,38 @@ def _compute_number_of_intersects(fd):
 
     ci = 0
     for i, l1 in enumerate(lines):
-        for j, l2 in enumerate(lines):
+        for j, l2 in enumerate(lines[i + 1 :]):
             # test if the lines cross, without changing the lines
-            if i == j:
-                continue
             if intersect(l1[0], l1[1], l2[0], l2[1]):
                 ci += 1
     return ci
 
 
-def auto_remove_intersections_by_align_legs(fd):
+def auto_remove_intersections_by_align_legs(fd, adjust_points=False, size=5):
     fd = auto_align_legs(fd)
-    min_intersections = _compute_number_of_intersects(fd)
+    if adjust_points:
+        fd = feynman_adjust_points(fd, size=size, clear_vertices=True)
+    min_intersections = np.inf
     min_perm = 0
     inc = [l for l in fd.legs if l.is_incoming()]
     outc = [l for l in fd.legs if l.is_outgoing()]
     xyin = [[l.x, l.y] for l in inc]
     xyout = [[l.x, l.y] for l in outc]
     # loop over all permutations of incoming and outgoing legs
-    for i, o in itertools.product(set(permutations(inc)), set(permutations(outc))):
+    for i, o in itertools.product(
+        set(permutations(range(len(inc)))), set(permutations(range(len(outc))))
+    ):
         for xyi, l in zip(xyin, i):
-            l.x = xyi[0]
-            l.y = xyi[1]
+            inc[l].x = xyi[0]
+            inc[l].y = xyi[1]
         for xyo, l in zip(xyout, o):
-            l.x = xyo[0]
-            l.y = xyo[1]
+            outc[l].x = xyo[0]
+            outc[l].y = xyo[1]
+        if adjust_points:
+            fd = feynman_adjust_points(fd, size=size, clear_vertices=True)
         ci = _compute_number_of_intersects(fd)
+        print(ci)
+        logging.debug(f"auto_remove_intersections_by_align_legs: {ci}")
         if ci < min_intersections:
             min_intersections = ci
             min_perm = (i, o)
@@ -85,11 +99,13 @@ def auto_remove_intersections_by_align_legs(fd):
             logging.debug(f"auto_remove_intersections_by_align_legs: {xyin} {xyout}")
     # use/return best permutation
     for xyi, l in zip(xyin, min_perm[0]):
-        l.x = xyi[0]
-        l.y = xyi[1]
+        inc[l].x = xyi[0]
+        inc[l].y = xyi[1]
     for xyo, l in zip(xyout, min_perm[1]):
-        l.x = xyo[0]
-        l.y = xyo[1]
+        outc[l].x = xyo[0]
+        outc[l].y = xyo[1]
+    if adjust_points:
+        fd = feynman_adjust_points(fd, size=size, clear_vertices=True)
     return fd
 
 
@@ -98,16 +114,14 @@ def auto_align_legs(fd, incoming=None, outgoing=None):
     Automatically reshuffle the legs of a Feynman diagram.
     """
     f_min_x, f_min_y, f_max_x, f_max_y = fd.get_bounding_box()
+    inc = [l for l in fd.legs if l.is_incoming()]
+    outc = [l for l in fd.legs if l.is_outgoing()]
     if incoming is None:
-        incoming = [
-            [f_min_x, y] for y in np.linspace(f_min_y, f_max_y, len(fd.incoming))
-        ]
+        incoming = [[f_min_x, y] for y in np.linspace(f_min_y, f_max_y, len(inc))]
     if outgoing is None:
-        outgoing = [
-            [f_max_x, y] for y in np.linspace(f_min_y, f_max_y, len(fd.outgoing))
-        ]
-    _auto_align([l for l in fd.legs if l.is_incoming()], incoming)
-    _auto_align([l for l in fd.legs if l.is_outgoing()], outgoing)
+        outgoing = [[f_max_x, y] for y in np.linspace(f_min_y, f_max_y, len(outc))]
+    _auto_align(inc, incoming)
+    _auto_align(outc, outgoing)
     return fd
 
 
@@ -121,7 +135,7 @@ def _auto_align(points, positions):
     vpl = len(points)
     # table of distances between vertices v and points p
     dist = np.ones((vpl, len(positions))) * np.inf
-    for i, v in enumerate():
+    for i, v in enumerate(points):
         for j, p in enumerate(positions):
             dist[i][j] = np.sqrt((v.x - p[0]) ** 2 + (v.y - p[1]) ** 2)
     for i in range(vpl):
