@@ -1,5 +1,78 @@
+import logging
+
+import numpy as np
+
 from pyfeyn2.feynmandiagram import Propagator
 from pyfeyn2.interface.dot import dot_to_positions, feynman_to_dot
+
+
+def auto_align(fd, positions):
+    """
+    Automatically position the vertices and legs on a list of positions.
+
+    Parameters
+    ----------
+    fd : FeynmanDiagram
+        The Feynman diagram to be positioned.
+    positions : list of tuple
+        A list of tuples of the form (x,y) with the positions of the vertices
+
+    Returns
+    -------
+    FeynmanDiagram
+        The Feynman diagram with the vertices and legs positioned.
+    """
+    logging.debug("auto_align: positions", positions)
+    # check if a vertex or leg is missing a x or y position
+    for v in [*fd.vertices, *fd.legs]:
+        if v.x is None:
+            raise Exception(f"Vertex or leg {v} is missing x position for auto_grid.")
+        if v.y is None:
+            raise Exception(f"Vertex or leg {v} is missing y position for auto_grid.")
+    vpl = len(fd.vertices) + len(fd.legs)
+    # table of distances between vertices v and points p
+    dist = np.ones((vpl, len(positions))) * np.inf
+    for i, v in enumerate([*fd.vertices, *fd.legs]):
+        for j, p in enumerate(positions):
+            dist[i][j] = np.sqrt((v.x - p[0]) ** 2 + (v.y - p[1]) ** 2)
+    for i in range(vpl):
+        min_i, min_j = np.unravel_index(dist.argmin(), dist.shape)
+        v = [*fd.vertices, *fd.legs][min_i]
+        v.x = positions[min_j][0]
+        v.y = positions[min_j][1]
+        # remove min_i and min_j from dist
+        dist[min_i, :] = np.inf
+        dist[:, min_j] = np.inf
+    return fd
+
+
+def auto_grid(fd, n_x=None, n_y=None, min_x=None, min_y=None, max_x=None, max_y=None):
+    """
+    Automatically position the vertices and legs on a grid, with the given
+    minimum and maximum values for x and y, and the number of grid points, but
+    avoid placing vertices or legs on the same position.
+    """
+    # get the bounding box and construct grid from that
+    f_min_x, f_min_y, f_max_x, f_max_y = fd.get_bounding_box()
+    if n_x is None:
+        n_x = len(fd.vertices) + len(fd.legs)
+    if n_y is None:
+        n_y = len(fd.vertices) + len(fd.legs)
+    if min_x is None:
+        min_x = f_min_x
+    if max_x is None:
+        max_x = f_max_x
+    if min_y is None:
+        min_y = f_min_y
+    if max_y is None:
+        max_y = f_max_y
+    logging.debug("auto_grid ", n_x, n_y, min_x, max_x, min_y, max_y)
+
+    xvalues = np.linspace(min_x, max_x, n_x)
+    yvalues = np.linspace(min_y, max_y, n_y)
+    xx, yy = np.meshgrid(xvalues, yvalues)
+    positions = [[x, y] for x, y in zip(xx.flatten(), yy.flatten())]
+    return auto_align(fd, positions)
 
 
 def auto_position(fd, layout="neato", clear_vertices=True):
