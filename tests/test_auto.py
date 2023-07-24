@@ -5,6 +5,7 @@ from pyfeyn2.auto.position import (
     auto_align,
     auto_align_legs,
     auto_grid,
+    auto_gridded_springs,
     auto_remove_intersections_by_align_legs,
     feynman_adjust_points,
 )
@@ -95,3 +96,9 @@ def test_auto_remove_intersections_by_align_legs():
     fd = _get_fd_2_4()
     fd = feynman_adjust_points(fd, size=10)
     fd = auto_remove_intersections_by_align_legs(fd)
+
+
+def test_auto_gridded_springs():
+    fd = _get_fd_2_4()
+    fd = feynman_adjust_points(fd, size=10)
+    fd = auto_gridded_springs(fd)

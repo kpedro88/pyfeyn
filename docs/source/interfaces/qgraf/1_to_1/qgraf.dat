@@ -2,8 +2,8 @@
  output= 'output.out' ;
  style= 'tmp.sty' ;
  model = 'tmp.model';
- in= nu_e[p1];
- out= nu_e[p1];
+ in= i6e755f65i[p1];
+ out= i6e755f65i[p1];
  loops= 2;
  loop_momentum= l;
  options= notadpole,onshell;

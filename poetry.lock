@@ -1114,14 +1114,12 @@ numpy = ">=1.6"
 
 [[package]]
 name = "feynml"
-version = "0.2.8"
+version = "0.2.9.2"
 description = "Feynman diagram markup language"
 optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "feynml-0.2.8-py3-none-any.whl", hash = "sha256:dfca3177ba6241a43b9f18ee9d0165c7763d044e4377fc848836c7fb739e25d9"},
-    {file = "feynml-0.2.8.tar.gz", hash = "sha256:ed458b89e0e4b736749e68e9cef3524ca269c0fb0d1d677b1d4fcaffeff6c5b2"},
-]
+python-versions = "^3.8"
+files = []
+develop = true
 
 [package.dependencies]
 cssselect = "*"
@@ -1129,16 +1127,20 @@ cssutils = "*"
 deprecated = "*"
 deprecation = "*"
 particle = "*"
-pyhepmc = {version = "*", optional = true, markers = "extra == \"interfaces\""}
-pylhe = {version = "*", optional = true, markers = "extra == \"interfaces\""}
-pyqgraf = {version = ">=0.0.3", optional = true, markers = "extra == \"interfaces\""}
-smpl_doc = ">=1.1.3,<2.0.0"
-smpl_io = ">=1.1.2,<2.0.0"
+pyhepmc = {version = "*", optional = true}
+pylhe = {version = "*", optional = true}
+pyqgraf = {version = ">=0.0.3", optional = true}
+smpl_doc = "^1.1.3"
+smpl_io = "^1.1.2"
 smpl_util = "*"
 xsdata = {version = "*", extras = ["cli", "lxml", "soap"]}
 
 [package.extras]
 interfaces = ["pyhepmc", "pylhe", "pyqgraf (>=0.0.3)"]
+
+[package.source]
+type = "directory"
+url = "../feynml"
 
 [[package]]
 name = "filelock"
@@ -1917,13 +1919,13 @@ files = [
 
 [[package]]
 name = "jupyterlab-server"
-version = "2.23.0"
+version = "2.24.0"
 description = "A set of server components for JupyterLab and JupyterLab like applications."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "jupyterlab_server-2.23.0-py3-none-any.whl", hash = "sha256:a5ea2c839336a8ba7c38c8e7b2f24cedf919f0d439f4d2e606d9322013a95788"},
-    {file = "jupyterlab_server-2.23.0.tar.gz", hash = "sha256:83c01aa4ad9451cd61b383e634d939ff713850f4640c0056b2cdb2b6211a74c7"},
+    {file = "jupyterlab_server-2.24.0-py3-none-any.whl", hash = "sha256:5f077e142bb8dc9b843d960f940c513581bceca3793a0d80f9c67d9522c4e876"},
+    {file = "jupyterlab_server-2.24.0.tar.gz", hash = "sha256:4e6f99e0a5579bbbc32e449c4dbb039561d4f1a7827d5733273ed56738f21f07"},
 ]
 
 [package.dependencies]
@@ -1939,7 +1941,7 @@ requests = ">=2.28"
 [package.extras]
 docs = ["autodoc-traits", "jinja2 (<3.2.0)", "mistune (<4)", "myst-parser", "pydata-sphinx-theme", "sphinx", "sphinx-copybutton", "sphinxcontrib-openapi (>0.8)"]
 openapi = ["openapi-core (>=0.16.1,<0.17.0)", "ruamel-yaml"]
-test = ["hatch", "ipykernel", "jupyterlab-server[openapi]", "openapi-spec-validator (>=0.5.1,<0.6.0)", "pytest (>=7.0)", "pytest-console-scripts", "pytest-cov", "pytest-jupyter[server] (>=0.6.2)", "pytest-timeout", "requests-mock", "sphinxcontrib-spelling", "strict-rfc3339", "werkzeug"]
+test = ["hatch", "ipykernel", "jupyterlab-server[openapi]", "openapi-spec-validator (>=0.5.1,<0.7.0)", "pytest (>=7.0)", "pytest-console-scripts", "pytest-cov", "pytest-jupyter[server] (>=0.6.2)", "pytest-timeout", "requests-mock", "sphinxcontrib-spelling", "strict-rfc3339", "werkzeug"]
 
 [[package]]
 name = "jupyterlab-widgets"
@@ -2893,6 +2895,7 @@ files = [
     {file = "Pillow-10.0.0-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:3b08d4cc24f471b2c8ca24ec060abf4bebc6b144cb89cba638c720546b1cf538"},
     {file = "Pillow-10.0.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:d737a602fbd82afd892ca746392401b634e278cb65d55c4b7a8f48e9ef8d008d"},
     {file = "Pillow-10.0.0-cp311-cp311-win_amd64.whl", hash = "sha256:3a82c40d706d9aa9734289740ce26460a11aeec2d9c79b7af87bb35f0073c12f"},
+    {file = "Pillow-10.0.0-cp311-cp311-win_arm64.whl", hash = "sha256:bc2ec7c7b5d66b8ec9ce9f720dbb5fa4bace0f545acd34870eff4a369b44bf37"},
     {file = "Pillow-10.0.0-cp312-cp312-macosx_10_10_x86_64.whl", hash = "sha256:d80cf684b541685fccdd84c485b31ce73fc5c9b5d7523bf1394ce134a60c6883"},
     {file = "Pillow-10.0.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:76de421f9c326da8f43d690110f0e79fe3ad1e54be811545d7d91898b4c8493e"},
     {file = "Pillow-10.0.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:81ff539a12457809666fef6624684c008e00ff6bf455b4b89fd00a140eecd640"},
@@ -2902,6 +2905,7 @@ files = [
     {file = "Pillow-10.0.0-cp312-cp312-musllinux_1_1_aarch64.whl", hash = "sha256:d50b6aec14bc737742ca96e85d6d0a5f9bfbded018264b3b70ff9d8c33485551"},
     {file = "Pillow-10.0.0-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:00e65f5e822decd501e374b0650146063fbb30a7264b4d2744bdd7b913e0cab5"},
     {file = "Pillow-10.0.0-cp312-cp312-win_amd64.whl", hash = "sha256:f31f9fdbfecb042d046f9d91270a0ba28368a723302786c0009ee9b9f1f60199"},
+    {file = "Pillow-10.0.0-cp312-cp312-win_arm64.whl", hash = "sha256:1ce91b6ec08d866b14413d3f0bbdea7e24dfdc8e59f562bb77bc3fe60b6144ca"},
     {file = "Pillow-10.0.0-cp38-cp38-macosx_10_10_x86_64.whl", hash = "sha256:349930d6e9c685c089284b013478d6f76e3a534e36ddfa912cde493f235372f3"},
     {file = "Pillow-10.0.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:3a684105f7c32488f7153905a4e3015a3b6c7182e106fe3c37fbb5ef3e6994c3"},
     {file = "Pillow-10.0.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b4f69b3700201b80bb82c3a97d5e9254084f6dd5fb5b16fc1a7b974260f89f43"},
@@ -4960,4 +4964,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "9a26b8fafcaa418aa3b2115fb066bc84b0754292054fa506ed754f79dab0eb43"
+content-hash = "ee4cbb1712c203e4559a9879094393d2849ce72044aa06fece42bac73a847e97"

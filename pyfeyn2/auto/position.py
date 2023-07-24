@@ -2,6 +2,7 @@ import itertools
 import logging
 from itertools import permutations
 
+import iminuit
 import numpy as np
 from feynml import Point, Propagator
 
@@ -58,6 +59,14 @@ def intersect(A, B, C, D):
     if B.x == D.x and B.y == D.y:
         return False
     return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
+
+
+def set_none_xy_to_zero(points):
+    for p in points:
+        if p.x is None:
+            p.x = 0
+        if p.y is None:
+            p.y = 0
 
 
 def require_xy(points):
@@ -162,6 +171,14 @@ def auto_align_legs(fd, incoming=None, outgoing=None):
     return fd
 
 
+def _get_dist(points, positions):
+    dist = np.ones((len(points), len(positions))) * np.inf
+    for i, v in enumerate(points):
+        for j, p in enumerate(positions):
+            dist[i][j] = np.sqrt((v.x - p[0]) ** 2 + (v.y - p[1]) ** 2)
+    return dist
+
+
 def _auto_align(points, positions):
     """
     Automatically position the vertices and legs on a list of positions.
@@ -169,13 +186,9 @@ def _auto_align(points, positions):
     logging.debug(f"_auto_align: positions {positions}")
     # check if a vertex or leg is missing a x or y position
     require_xy(points)
-    vpl = len(points)
     # table of distances between vertices v and points p
-    dist = np.ones((vpl, len(positions))) * np.inf
-    for i, v in enumerate(points):
-        for j, p in enumerate(positions):
-            dist[i][j] = np.sqrt((v.x - p[0]) ** 2 + (v.y - p[1]) ** 2)
-    for i in range(vpl):
+    dist = _get_dist(points, positions)
+    for i in range(len(points)):
         min_i, min_j = np.unravel_index(dist.argmin(), dist.shape)
         v = points[min_i]
         v.x = positions[min_j][0]
@@ -212,6 +225,12 @@ def auto_grid(fd, n_x=None, n_y=None, min_x=None, min_y=None, max_x=None, max_y=
     avoid placing vertices or legs on the same position.
     """
     # get the bounding box and construct grid from that
+    positions = _get_grid(fd, n_x, n_y, min_x, min_y, max_x, max_y)
+    return auto_align(fd, positions)
+
+
+def _get_grid(fd, n_x=None, n_y=None, min_x=None, min_y=None, max_x=None, max_y=None):
+    logging.debug(f"_get_grid {n_x}, {n_y}, {min_x}, {min_y}, {max_x}, {max_y}")
     f_min_x, f_min_y, f_max_x, f_max_y = fd.get_bounding_box()
     if n_x is None:
         n_x = len(fd.vertices) + len(fd.legs)
@@ -225,13 +244,12 @@ def auto_grid(fd, n_x=None, n_y=None, min_x=None, min_y=None, max_x=None, max_y=
         min_y = f_min_y
     if max_y is None:
         max_y = f_max_y
-    logging.debug(f"auto_grid {n_x}, {n_y}, {min_x}, {min_y}, {max_x}, {max_y}")
-
+    # print(min_x, max_x, min_y, max_y, n_x, n_y)
     xvalues = np.linspace(min_x, max_x, n_x)
     yvalues = np.linspace(min_y, max_y, n_y)
     xx, yy = np.meshgrid(xvalues, yvalues)
     positions = [[x, y] for x, y in zip(xx.flatten(), yy.flatten())]
-    return auto_align(fd, positions)
+    return positions
 
 
 def auto_position(fd, layout="neato", clear_vertices=True):
@@ -335,4 +353,140 @@ def remove_unnecessary_vertices(feyndiag):
             continue
         vertices.append(v)
     fd.vertices = vertices
+    return fd
+
+
+def auto_vdw(
+    fd, fix_legs=True, LJ=1.0, y_symmetry=0.0, x_symmetry=0.0, intersection=0.0
+):
+    """
+    Minimizes Lennard-Jones potential between vertices and legs (scaled by LJ).
+    Further the function to be minimized gets punished by the number of intersections scaled by intersection.
+    The function to be minimized gets punished by the asymmetry in x and y direction scaled by x_symmetry and y_symmetry.
+    """
+    r = LJ
+    if fix_legs:
+        points = [*fd.vertices]
+    else:
+        points = [*fd.vertices, *fd.legs]
+    all_points = [*fd.vertices, *fd.legs]
+    set_none_xy_to_zero(points)
+    # get distance to connected points
+    cons = []
+    # dist = []
+    for p in points:
+        n = []
+        # dd = []
+        for c in fd.get_neighbours(p):
+            for j, pp in enumerate(all_points):
+                if pp.id == c.id:
+                    n.append(j)
+                    # dd.append(np.sqrt((p.x - pp.x) ** 2 + (p.y - pp.y) ** 2))
+        cons.append(n)
+        # dist.append(dd)
+
+    def fun(*args):
+        for i, p in enumerate(points):
+            p.x = args[2 * i]
+            p.y = args[2 * i + 1]
+        LenJ = 0
+        if LJ != 0.0:
+            for i, p in enumerate(points):
+                for j in cons[i]:
+                    LenJ = (
+                        LenJ
+                        - (
+                            (
+                                (
+                                    (
+                                        (p.x - all_points[j].x) ** 2
+                                        + (p.y - all_points[j].y) ** 2
+                                    )
+                                    ** 0.5
+                                )
+                                / r
+                            )
+                            ** 6
+                        )
+                        + (
+                            (
+                                (
+                                    (p.x - all_points[j].x) ** 2
+                                    + (p.y - all_points[j].y) ** 2
+                                )
+                                ** 0.5
+                            )
+                            / r
+                        )
+                        ** 12
+                    )
+        inter = 0
+        if intersection != 0.0:
+            inter += intersection * _compute_number_of_intersects(fd)
+        pun_x = 0
+        if x_symmetry != 0.0:
+            min_x, min_y, max_x, max_y = fd.get_bounding_box()
+            # get averate x and y
+            avg_x = (min_x + max_x) / 2
+            avg_y = (min_y + max_y) / 2
+            pun = 0
+            for p in points:
+                nx = p.x - 2 * (p.x - avg_x)
+                # find nearest point to (nx, p.y)
+                min_dist = np.inf
+                for pp in all_points:
+                    if pp.id == p.id:
+                        continue
+                    dist = np.sqrt((nx - pp.x) ** 2 + (p.y - pp.y) ** 2)
+                    if dist < min_dist:
+                        min_dist = dist
+                pun += min_dist
+            pun_x = pun
+        pun_y = 0
+        if y_symmetry != 0.0:
+            min_x, min_y, max_x, max_y = fd.get_bounding_box()
+            # get averate x and y
+            avg_x = (min_x + max_x) / 2
+            avg_y = (min_y + max_y) / 2
+            pun = 0
+            for p in points:
+                ny = p.y - 2 * (p.y - avg_y)
+                # find nearest point to (p.x, ny)
+                min_dist = np.inf
+                for pp in all_points:
+                    if pp.id == p.id:
+                        continue
+                    dist = np.sqrt((p.x - pp.x) ** 2 + (ny - pp.y) ** 2)
+                    if dist < min_dist:
+                        min_dist = dist
+                pun += min_dist
+            pun_y = pun
+        # TODO add punishment for intersections
+        # TODO add punishment for asymmetry
+        return LenJ + inter + pun_x * x_symmetry + pun_y * y_symmetry
+
+    m = iminuit.Minuit(fun, *[0 for _ in range(len(points) * 2)])
+    v = m.migrad()
+    args = list(v.values.to_dict().values())
+    for i, p in enumerate(points):
+        p.x = args[2 * i]
+        p.y = args[2 * i + 1]
+    return fd
+
+
+def auto_gridded_springs(
+    fd,
+    n_x=None,
+    n_y=None,
+    min_x=None,
+    min_y=None,
+    max_x=None,
+    max_y=None,
+    fix_legs=True,
+    **kwargs,
+):
+    fd = auto_vdw(fd, fix_legs=fix_legs, **kwargs)
+    fd = auto_grid(
+        fd, n_x=n_x, n_y=n_y, min_x=min_x, min_y=min_y, max_x=max_x, max_y=max_y
+    )
     return fd
