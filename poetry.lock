@@ -1114,12 +1114,14 @@ numpy = ">=1.6"
 
 [[package]]
 name = "feynml"
-version = "0.2.9.2"
+version = "0.2.10"
 description = "Feynman diagram markup language"
 optional = false
-python-versions = "^3.8"
-files = []
-develop = true
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "feynml-0.2.10-py3-none-any.whl", hash = "sha256:120daa9483999211783889410bf1752989b57f35de93465535841d59b7cc9360"},
+    {file = "feynml-0.2.10.tar.gz", hash = "sha256:031dba00e8a14bbc4277348e9f8310d518b77662360f23339168852856fef280"},
+]
 
 [package.dependencies]
 cssselect = "*"
@@ -1127,20 +1129,16 @@ cssutils = "*"
 deprecated = "*"
 deprecation = "*"
 particle = "*"
-pyhepmc = {version = "*", optional = true}
-pylhe = {version = "*", optional = true}
-pyqgraf = {version = ">=0.0.3", optional = true}
-smpl_doc = "^1.1.3"
-smpl_io = "^1.1.2"
+pyhepmc = {version = "*", optional = true, markers = "extra == \"interfaces\""}
+pylhe = {version = "*", optional = true, markers = "extra == \"interfaces\""}
+pyqgraf = {version = ">=0.0.3", optional = true, markers = "extra == \"interfaces\""}
+smpl_doc = ">=1.1.3,<2.0.0"
+smpl_io = ">=1.1.2,<2.0.0"
 smpl_util = "*"
 xsdata = {version = "*", extras = ["cli", "lxml", "soap"]}
 
 [package.extras]
 interfaces = ["pyhepmc", "pylhe", "pyqgraf (>=0.0.3)"]
-
-[package.source]
-type = "directory"
-url = "../feynml"
 
 [[package]]
 name = "filelock"
@@ -1324,6 +1322,44 @@ files = [
     {file = "imagesize-1.4.1-py2.py3-none-any.whl", hash = "sha256:0d8d18d08f840c19d0ee7ca1fd82490fdc3729b7ac93f49870406ddde8ef8d8b"},
     {file = "imagesize-1.4.1.tar.gz", hash = "sha256:69150444affb9cb0d5cc5a92b3676f0b2fb7cd9ae39e947a5e11a36b4497cd4a"},
 ]
+
+[[package]]
+name = "iminuit"
+version = "2.22.0"
+description = "Jupyter-friendly Python frontend for MINUIT2 in C++"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "iminuit-2.22.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:37ba9bc05546fb08b03347bd048d5a201ad312d5729babac7688675f3ffa1897"},
+    {file = "iminuit-2.22.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:49323a59ee9a3a501b4732df4fef0c644b5dec32868150357c8122121e434e43"},
+    {file = "iminuit-2.22.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e8ca52500f163aa3b80792a94078f64b4e2815262511a9f97c1667ba4b407b72"},
+    {file = "iminuit-2.22.0-cp310-cp310-win_amd64.whl", hash = "sha256:f68de432a5e8c0ec05991c50947e2b1003077d55a7c1949c3475bd55ad6bb768"},
+    {file = "iminuit-2.22.0-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:6b5066680528c4ee87ae8f7e762e2a494bdf25d633846f6196d5622523c20873"},
+    {file = "iminuit-2.22.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:18cc7cee15c8c63880d1e56a6961ea9884f4ebf6c2b4316a02207706db4f44c3"},
+    {file = "iminuit-2.22.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d2f87fb8da9a019f86d900c8a8cc23458ce0093c6522b6e95c8cffd3969636bf"},
+    {file = "iminuit-2.22.0-cp311-cp311-win_amd64.whl", hash = "sha256:ed1dab824b92c20cb9ce8d495dbe6c437af4161ced6386fcff43efdae3a5a55a"},
+    {file = "iminuit-2.22.0-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:399a2190cb32b3accc9806b49d9e81c660bdade7133fb1f703a8aab43f4effc7"},
+    {file = "iminuit-2.22.0-cp38-cp38-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:6ba19df13d4f4f2df213bb21f7336b154a05785574b2f752ef82f8ba330de3be"},
+    {file = "iminuit-2.22.0-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:4ae663e2597d3d91ca4a34febf1f44b56a657331a31c62991794173ee819ab52"},
+    {file = "iminuit-2.22.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:84f9a55aaf3fcd5c331bcb102fff492be085d51623740481ba9c60e280e25db0"},
+    {file = "iminuit-2.22.0-cp38-cp38-win32.whl", hash = "sha256:b26acf8ba3eef0d2ce055ce28b29a2c9e708e88018e4a6566e6f81ddb21639fd"},
+    {file = "iminuit-2.22.0-cp38-cp38-win_amd64.whl", hash = "sha256:ece1f48a50c3a59eea1923ebbf4efe320159b9172c8660ab91a2f4daf01f2b5a"},
+    {file = "iminuit-2.22.0-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:d35eaad97ccb85f88662525dc00418a1a29a586aca6f91fdf3ea6b504fb6e325"},
+    {file = "iminuit-2.22.0-cp39-cp39-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:2b26530aa7ce1aba03450960e3622fb81d68ac9072bacc676f761bcf0de5c75d"},
+    {file = "iminuit-2.22.0-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:cfbbb76ce39eec028db9e513733d80f01a56a620c6cdc6d64a6774267a18c894"},
+    {file = "iminuit-2.22.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:56cb740d82b1819d4a40b5f02433f50839de8e4f61a5e10d665c774fa7a861fc"},
+    {file = "iminuit-2.22.0-cp39-cp39-win32.whl", hash = "sha256:b6aa3ac087e3a1ffa4c92abc7203af689344ff0160f05d0627458273e9fea02b"},
+    {file = "iminuit-2.22.0-cp39-cp39-win_amd64.whl", hash = "sha256:5e73fcd919b0777abd8fe0d37f3bcb2983c5986f8f937222be036ffe5bb4f9a6"},
+    {file = "iminuit-2.22.0.tar.gz", hash = "sha256:e0ccc37bad8bc1bd3b9d3fa07d28d4c0407e25a888faa9b559be2d9afbd2d97c"},
+]
+
+[package.dependencies]
+numpy = ">=1.21"
+typing_extensions = {version = "*", markers = "python_version < \"3.9\""}
+
+[package.extras]
+doc = ["ipykernel", "jax", "jaxlib", "jupyter_client", "nbconvert", "nbformat", "nbsphinx", "sphinx (<7)", "sphinx-rtd-theme"]
+test = ["boost_histogram", "coverage", "cython", "ipykernel", "ipywidgets (<8.0.5)", "jacobi", "joblib", "matplotlib", "numba", "numba-stats", "numpy", "pytest", "resample", "scipy", "tabulate", "unicodeitplus"]
 
 [[package]]
 name = "importlib-metadata"
@@ -2452,13 +2488,13 @@ files = [
 
 [[package]]
 name = "more-itertools"
-version = "9.1.0"
+version = "10.0.0"
 description = "More routines for operating on iterables, beyond itertools"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "more-itertools-9.1.0.tar.gz", hash = "sha256:cabaa341ad0389ea83c17a94566a53ae4c9d07349861ecb14dc6d0345cf9ac5d"},
-    {file = "more_itertools-9.1.0-py3-none-any.whl", hash = "sha256:d2bc7f02446e86a68911e58ded76d6561eea00cddfb2a91e7019bbb586c799f3"},
+    {file = "more-itertools-10.0.0.tar.gz", hash = "sha256:cd65437d7c4b615ab81c0640c0480bc29a550ea032891977681efd28344d51e1"},
+    {file = "more_itertools-10.0.0-py3-none-any.whl", hash = "sha256:928d514ffd22b5b0a8fce326d57f423a55d2ff783b093bab217eda71e732330f"},
 ]
 
 [[package]]
@@ -4639,23 +4675,23 @@ test-extras = ["spark-parser", "uncompyle6"]
 
 [[package]]
 name = "virtualenv"
-version = "20.24.1"
+version = "20.24.2"
 description = "Virtual Python Environment builder"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "virtualenv-20.24.1-py3-none-any.whl", hash = "sha256:01aacf8decd346cf9a865ae85c0cdc7f64c8caa07ff0d8b1dfc1733d10677442"},
-    {file = "virtualenv-20.24.1.tar.gz", hash = "sha256:2ef6a237c31629da6442b0bcaa3999748108c7166318d1f55cc9f8d7294e97bd"},
+    {file = "virtualenv-20.24.2-py3-none-any.whl", hash = "sha256:43a3052be36080548bdee0b42919c88072037d50d56c28bd3f853cbe92b953ff"},
+    {file = "virtualenv-20.24.2.tar.gz", hash = "sha256:fd8a78f46f6b99a67b7ec5cf73f92357891a7b3a40fd97637c27f854aae3b9e0"},
 ]
 
 [package.dependencies]
-distlib = ">=0.3.6,<1"
-filelock = ">=3.12,<4"
-platformdirs = ">=3.5.1,<4"
+distlib = ">=0.3.7,<1"
+filelock = ">=3.12.2,<4"
+platformdirs = ">=3.9.1,<4"
 
 [package.extras]
 docs = ["furo (>=2023.5.20)", "proselint (>=0.13)", "sphinx (>=7.0.1)", "sphinx-argparse (>=0.4)", "sphinxcontrib-towncrier (>=0.2.1a0)", "towncrier (>=23.6)"]
-test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7)", "packaging (>=23.1)", "pytest (>=7.3.1)", "pytest-env (>=0.8.1)", "pytest-freezer (>=0.4.6)", "pytest-mock (>=3.10)", "pytest-randomly (>=3.12)", "pytest-timeout (>=2.1)", "setuptools (>=67.8)", "time-machine (>=2.9)"]
+test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7)", "packaging (>=23.1)", "pytest (>=7.4)", "pytest-env (>=0.8.2)", "pytest-freezer (>=0.4.8)", "pytest-mock (>=3.11.1)", "pytest-randomly (>=3.12)", "pytest-timeout (>=2.1)", "setuptools (>=68)", "time-machine (>=2.10)"]
 
 [[package]]
 name = "wand"
@@ -4964,4 +5000,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "ee4cbb1712c203e4559a9879094393d2849ce72044aa06fece42bac73a847e97"
+content-hash = "4e634561aae9712dc174c0fd4ca2835bcc9643b22b6ca439bca0dbc168e47cb7"

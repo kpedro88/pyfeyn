@@ -30,8 +30,8 @@ smpl_io = "*"
 smpl_doc = "*"
 smpl_util= "*"
 iminuit = "*"
-#feynml = {version = ">=0.2.8", extras = ["interfaces"]}
-feynml= {path= "../feynml", develop = true, extras = ["interfaces"]}
+feynml = {version = ">=0.2.10", extras = ["interfaces"]}
+#feynml= {path= "../feynml", develop = true, extras = ["interfaces"]}
 
 [tool.poetry.scripts]
 mkfeyndiag = "pyfeyn2.mkfeyndiag:main"
