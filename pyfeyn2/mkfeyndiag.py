@@ -24,7 +24,7 @@ def renderer_from_string(s):
     return class_for_name(".".join(s.split(".")[0:-1]), s.split(".")[-1])
 
 
-def main():
+def main(argv=None):
     # parse command line options with argparse
     parser = argparse.ArgumentParser(
         prog="pyfeyn2.mkfeyndiag",
@@ -72,7 +72,7 @@ def main():
         help="Diagram id to render.",
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     arenderer = args.renderer
     renderer = None
