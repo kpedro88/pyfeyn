@@ -1,7 +1,6 @@
 import numpy as np
-from feynml import PDG, FeynmanDiagram, Leg, Propagator, Vertex
+from feynml import FeynmanDiagram, Leg, Propagator, Vertex
 
-import pyfeyn2
 from pyfeyn2.auto.position import (
     auto_align,
     auto_align_legs,
