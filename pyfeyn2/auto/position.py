@@ -10,11 +10,45 @@ from pyfeyn2.interface.dot import dot_to_positions, feynman_to_dot
 
 # from https://stackoverflow.com/a/9997374
 def ccw(A, B, C):
+    """
+    Return true if the points A, B, and C are in counter-clockwise order.
+    """
     return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x)
 
 
 # Return true if line segments AB and CD intersect
 def intersect(A, B, C, D):
+    """
+    Return true if line segments AB and CD intersect
+
+    Parameters
+    ----------
+    A : Point
+        The first point of the first line segment.
+    B : Point
+        The second point of the first line segment.
+    C : Point
+        The first point of the second line segment.
+    D : Point
+        The second point of the second line segment.
+
+    Returns
+    -------
+    bool
+        True if the line segments intersect, False otherwise.
+
+    Examples
+    --------
+    >>> A = Point(0, 0)
+    >>> B = Point(1, 1)
+    >>> C = Point(0, 1)
+    >>> D = Point(1, 0)
+    >>> intersect(A, B, C, D)
+    True
+    >>> A,B,C,D = Point(0,0), Point(1,1), Point(0,0), Point(1,0)
+    >>> intersect(A, B, C, D)
+    False
+    """
     if A.x == C.x and A.y == C.y:
         return False
     if A.x == D.x and A.y == D.y:
@@ -59,7 +93,7 @@ def _compute_number_of_intersects(fd):
 
     ci = 0
     for i, l1 in enumerate(lines):
-        for j, l2 in enumerate(lines[i + 1 :]):
+        for _, l2 in enumerate(lines[i + 1 :]):
             # test if the lines cross, without changing the lines
             if intersect(l1[0], l1[1], l2[0], l2[1]):
                 ci += 1
@@ -67,6 +101,9 @@ def _compute_number_of_intersects(fd):
 
 
 def auto_remove_intersections_by_align_legs(fd, adjust_points=False, size=5):
+    """
+    Automatically remove intersections by aligning the legs and reshufffling (permuting) them.
+    """
     fd = auto_align_legs(fd)
     if adjust_points:
         fd = feynman_adjust_points(fd, size=size, clear_vertices=True)
