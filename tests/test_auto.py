@@ -69,6 +69,7 @@ def _get_fd_2_4():
     fd.propagators.extend([p1, p2, p3, p4, p5])
     fd.vertices.extend([v1, v2, v3, v4])
     fd.legs.extend([l1, l2, l3, l4, l5, l6])
+    return fd
 
 
 def test_auto_grid():
