@@ -4,7 +4,7 @@ from itertools import permutations
 
 import iminuit
 import numpy as np
-from feynml import Point, Propagator
+from feynml import Leg, Point, Propagator
 
 from pyfeyn2.interface.dot import dot_to_positions, feynman_to_dot
 
@@ -356,19 +356,38 @@ def remove_unnecessary_vertices(feyndiag):
     return fd
 
 
-def auto_vdw(
-    fd, fix_legs=True, LJ=1.0, y_symmetry=0.0, x_symmetry=0.0, intersection=0.0
-):
+def auto_vdw(fd, points=None, LJ=1.0, y_symmetry=0.0, x_symmetry=0.0, intersection=0.0):
     """
     Minimizes Lennard-Jones potential between vertices and legs (scaled by LJ).
     Further the function to be minimized gets punished by the number of intersections scaled by intersection.
     The function to be minimized gets punished by the asymmetry in x and y direction scaled by x_symmetry and y_symmetry.
+
+    Parameters
+    ----------
+    fd : FeynmanDiagram
+        The Feynman diagram to be positioned.
+    points : list of Point, optional
+        The points (leg or vertex) to be positioned. Recommended values are fd.vertices or [*fd.vertices, *fd.legs]
+    LJ : float, optional
+        The strength of the Lennard-Jones potential, by default 1.0
+    y_symmetry : float, optional
+        The strength of the punishment for asymmetry in y direction, by default 0.0
+    x_symmetry : float, optional
+        The strength of the punishment for asymmetry in x direction, by default 0.0
+    intersection : float, optional
+        The strength of the punishment for intersections, by default 0.0
+
+    Returns
+    -------
+    FeynmanDiagram
+        The Feynman diagram with the vertices and legs positioned.
+
+
+
     """
+    if points is None:
+        points = fd.vertices
     r = LJ
-    if fix_legs:
-        points = [*fd.vertices]
-    else:
-        points = [*fd.vertices, *fd.legs]
     all_points = [*fd.vertices, *fd.legs]
     set_none_xy_to_zero(points)
     # get distance to connected points
@@ -379,6 +398,8 @@ def auto_vdw(
         # dd = []
         for c in fd.get_neighbours(p):
             for j, pp in enumerate(all_points):
+                if pp.x is None or pp.y is None:
+                    continue
                 if pp.id == c.id:
                     n.append(j)
                     # dd.append(np.sqrt((p.x - pp.x) ** 2 + (p.y - pp.y) ** 2))
@@ -393,10 +414,23 @@ def auto_vdw(
         if LJ != 0.0:
             for i, p in enumerate(points):
                 for j in cons[i]:
-                    LenJ = (
-                        LenJ
-                        - (
-                            (
+                    if all_points[j].x is not None and all_points[j].y is not None:
+                        LenJ = (
+                            LenJ
+                            - (
+                                (
+                                    (
+                                        (
+                                            (p.x - all_points[j].x) ** 2
+                                            + (p.y - all_points[j].y) ** 2
+                                        )
+                                        ** 0.5
+                                    )
+                                    / r
+                                )
+                                ** 6
+                            )
+                            + (
                                 (
                                     (
                                         (p.x - all_points[j].x) ** 2
@@ -406,20 +440,8 @@ def auto_vdw(
                                 )
                                 / r
                             )
-                            ** 6
+                            ** 12
                         )
-                        + (
-                            (
-                                (
-                                    (p.x - all_points[j].x) ** 2
-                                    + (p.y - all_points[j].y) ** 2
-                                )
-                                ** 0.5
-                            )
-                            / r
-                        )
-                        ** 12
-                    )
         inter = 0
         if intersection != 0.0:
             inter += intersection * _compute_number_of_intersects(fd)
@@ -435,7 +457,7 @@ def auto_vdw(
                 # find nearest point to (nx, p.y)
                 min_dist = np.inf
                 for pp in all_points:
-                    if pp.id == p.id:
+                    if pp.id == p.id or pp.x is None or pp.y is None:
                         continue
                     dist = np.sqrt((nx - pp.x) ** 2 + (p.y - pp.y) ** 2)
                     if dist < min_dist:
@@ -454,7 +476,7 @@ def auto_vdw(
                 # find nearest point to (p.x, ny)
                 min_dist = np.inf
                 for pp in all_points:
-                    if pp.id == p.id:
+                    if pp.id == p.id or pp.x is None or pp.y is None:
                         continue
                     dist = np.sqrt((p.x - pp.x) ** 2 + (ny - pp.y) ** 2)
                     if dist < min_dist:
@@ -476,16 +498,16 @@ def auto_vdw(
 
 def auto_gridded_springs(
     fd,
+    points=None,
     n_x=None,
     n_y=None,
     min_x=None,
     min_y=None,
     max_x=None,
     max_y=None,
-    fix_legs=True,
     **kwargs,
-):
-    fd = auto_vdw(fd, fix_legs=fix_legs, **kwargs)
+):  # TODO replace kwargs by actual arguments (i.e. for documentation)
+    fd = auto_vdw(fd, points, **kwargs)
     fd = auto_grid(
         fd, n_x=n_x, n_y=n_y, min_x=min_x, min_y=min_y, max_x=max_x, max_y=max_y
     )
