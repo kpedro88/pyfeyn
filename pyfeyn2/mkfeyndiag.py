@@ -12,18 +12,6 @@ from pyfeyn2.render.text.ascii import ASCIIRender
 from pyfeyn2.render.text.unicode import UnicodeRender
 
 
-def class_for_name(module_name, class_name):
-    # load the module, will raise ImportError if module cannot be loaded
-    m = importlib.import_module(module_name)
-    # get the class, will raise AttributeError if class cannot be found
-    c = getattr(m, class_name)
-    return c
-
-
-def renderer_from_string(s):
-    return class_for_name(".".join(s.split(".")[0:-1]), s.split(".")[-1])
-
-
 def main(argv=None):
     # parse command line options with argparse
     parser = argparse.ArgumentParser(
@@ -76,16 +64,7 @@ def main(argv=None):
 
     arenderer = args.renderer
     renderer = None
-    if arenderer is None:
-        pass
-    elif arenderer.lower() == "ascii":
-        renderer = ASCIIRender
-    elif arenderer.lower() == "unicode":
-        renderer = UnicodeRender
-    elif arenderer.lower() in renderall.renders:
-        renderer = renderall.renders[arenderer.lower()]
-    else:
-        renderer = renderer_from_string(arenderer)
+    renderer = renderall.renderer_from_string(arenderer)
 
     xml_string = Path(args.input).read_text()
     parser = XmlParser()
@@ -93,7 +72,7 @@ def main(argv=None):
 
     if renderer is None:
         arenderer = fml.head.get_meta_dict()["renderer"]
-        renderer = renderer_from_string(arenderer)
+        renderer = renderall.renderer_from_string(arenderer)
     if args.style is not None:
         style_string = Path(args.style).read_text()
         for diagram in fml.diagrams:

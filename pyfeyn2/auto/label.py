@@ -10,7 +10,8 @@ def auto_label(objs, replace=False):
 
 def auto_label_propagators(ifd, replace=False):
     """Automatically label propagators."""
-    fd = copy.deepcopy(ifd)
+    # fd = copy.deepcopy(ifd)
+    fd = ifd
     objs = fd.propagators
     for p in objs:
         if p.label is None or replace:
@@ -20,7 +21,8 @@ def auto_label_propagators(ifd, replace=False):
 
 def auto_label_legs(ifd, replace=False):
     """Automatically label legs."""
-    fd = copy.deepcopy(ifd)
+    # fd = copy.deepcopy(ifd)
+    fd = ifd
     objs = fd.legs
     for p in objs:
         if p.particle is None or replace:

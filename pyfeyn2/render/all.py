@@ -1,3 +1,4 @@
+import importlib
 import shutil
 import tempfile
 import traceback
@@ -14,7 +15,9 @@ from pyfeyn2.render.latex.latex import LatexRender
 from pyfeyn2.render.latex.tikzfeynman import TikzFeynmanRender
 from pyfeyn2.render.mpl.feynmanrender import FeynmanRender
 from pyfeyn2.render.pyx.pyxrender import PyxRender
+from pyfeyn2.render.text.ascii import ASCIIRender
 from pyfeyn2.render.text.asciipdf import ASCIIPDFRender
+from pyfeyn2.render.text.unicode import UnicodeRender
 from pyfeyn2.render.text.unicodepdf import UnicodePDFRender
 
 renders = {
@@ -26,6 +29,27 @@ renders = {
     "asciipdf": ASCIIPDFRender,
     "unicodepdf": UnicodePDFRender,
 }
+
+
+def class_for_name(module_name, class_name):
+    # load the module, will raise ImportError if module cannot be loaded
+    m = importlib.import_module(module_name)
+    # get the class, will raise AttributeError if class cannot be found
+    c = getattr(m, class_name)
+    return c
+
+
+def renderer_from_string(s):
+    if s is None:
+        return None
+    elif s.lower() == "ascii":
+        return ASCIIRender
+    elif s.lower() == "unicode":
+        return UnicodeRender
+    elif s.lower() in renders:
+        return renders[s.lower()]
+    else:
+        return class_for_name(".".join(s.split(".")[0:-1]), s.split(".")[-1])
 
 
 class AllRender(LatexRender):

@@ -30,6 +30,8 @@ smpl_io = "*"
 smpl_doc = "*"
 smpl_util= "*"
 iminuit = "*"
+colorama = "*"
+termcolor = "*"
 feynml = {version = ">=0.2.10", extras = ["interfaces"]}
 #feynml= {path= "../feynml", develop = true, extras = ["interfaces"]}
 
@@ -49,8 +51,6 @@ sphinx_autobuild = "*"
 sphinx_math_dollar = "*"
 myst-parser  = "*"
 toml = "*"
-colorama = "*"
-termcolor = "*"
 
 [tool.poetry.group.test]
 optional = true

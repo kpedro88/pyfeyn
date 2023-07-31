@@ -159,13 +159,15 @@ def auto_align_legs(fd, incoming=None, outgoing=None):
     """
     Automatically reshuffle the legs of a Feynman diagram.
     """
-    f_min_x, f_min_y, f_max_x, f_max_y = fd.get_bounding_box()
+    set_none_xy_to_zero(fd.legs)
     inc = [l for l in fd.legs if l.is_incoming()]
     outc = [l for l in fd.legs if l.is_outgoing()]
-    if incoming is None:
-        incoming = [[f_min_x, y] for y in np.linspace(f_min_y, f_max_y, len(inc))]
-    if outgoing is None:
-        outgoing = [[f_max_x, y] for y in np.linspace(f_min_y, f_max_y, len(outc))]
+    if incoming is None or outgoing is None:
+        f_min_x, f_min_y, f_max_x, f_max_y = fd.get_bounding_box()
+        if incoming is None:
+            incoming = [[f_min_x, y] for y in np.linspace(f_min_y, f_max_y, len(inc))]
+        if outgoing is None:
+            outgoing = [[f_max_x, y] for y in np.linspace(f_min_y, f_max_y, len(outc))]
     _auto_align(inc, incoming)
     _auto_align(outc, outgoing)
     return fd
