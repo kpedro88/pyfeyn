@@ -301,6 +301,9 @@ def scale_positions(fd, scale):
     for v in fd.vertices:
         v.x *= scale
         v.y *= scale
+    for l in fd.legs:
+        l.x *= scale
+        l.y *= scale
     return fd
 
 
