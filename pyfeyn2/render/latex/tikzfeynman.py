@@ -75,9 +75,9 @@ def stylize_connect(fd: FeynmanDiagram, c: Connector):
         and style.getProperty("momentum-arrow").value == "true"
     ):
         if style.getProperty("momentum-arrow-sense") is not None:
-            if style.getProperty("momentum-arrow-sense").value == -1:
+            if style.getProperty("momentum-arrow-sense").value == "-1":
                 ret += ",momentum'=" + c.momentum.name
-            elif style.getProperty("momentum-arrow-sense").value == 0:
+            elif style.getProperty("momentum-arrow-sense").value == "0":
                 warn(
                     "momentum-arrow=true but momentum-arrow-sense=0, ignoring momentum-arrow"
                 )
