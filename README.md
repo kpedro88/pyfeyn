@@ -6,7 +6,7 @@ PyFeyn is a Python-language based system for drawing Feynman diagrams. It was in
 
 [![PyPI version][pypi image]][pypi link] [![PyPI version][pypi versions]][pypi link]  ![downloads](https://img.shields.io/pypi/dm/pyfeyn2.svg) [![DOI](https://zenodo.org/badge/571974255.svg)](https://zenodo.org/badge/latestdoi/571974255)
 
-[![test][a t image]][a t link]      [![Coverage Status][c t i]][c t l]  [![Codacy Badge][cc c i]][cc c l]   [![Codacy Badge][cc q i]][cc q l]  [![Documentation][rtd t i]][rtd t l]
+[![test][a t image]][a t link]      [![Coverage Status][c t i]][c t l]  [![Codacy Badge][cc c i]][cc c l]   [![Codacy Badge][cc q i]][cc q l]  [![Documentation][rtd t i]][rtd t l] [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/APN-Pucky/pyhep-2023/final)
 
 ## Dependencies
 
